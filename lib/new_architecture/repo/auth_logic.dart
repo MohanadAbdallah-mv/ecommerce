@@ -1,0 +1,93 @@
+import 'dart:developer';
+
+import 'package:either_dart/either.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
+import '../../models/user_model.dart';
+import '../../services/Cache_Helper.dart';
+import 'package:ecommerece/models/userform.dart';
+
+
+// I do the business logic here
+// Represented in storing data locally when there is no internet connection
+// I store data remotely when there is internet connection
+// I need a interface to define my responsibilities
+abstract class AuthHandler {
+  bool isLoggedin;
+  AuthImplement authImplement;
+  CacheData cacheData;
+
+  AuthHandler(
+      {required this.authImplement,
+      required this.cacheData,
+      this.isLoggedin = false});
+
+  Future<Either<String, MyUser>> login(FormUser userForm);
+
+  Future<Either<String, MyUser>> register(FormUser userForm);
+}
+
+class AuthHandlerImplement extends AuthHandler {
+  AuthHandlerImplement(
+      {required super.authImplement, required super.cacheData});
+
+  @override
+  Future<Either<String, MyUser>> login(FormUser userForm) async {
+    // TODO: do some shit once the data is back from repo/cashe maybe
+    try {
+      Either<String, UserCredential> potentialuser =
+          await authImplement.login(userForm);
+      if (potentialuser.isRight) {
+        MyUser user = MyUser(
+            id: potentialuser.right.user!.uid,
+            name: potentialuser.right.user!.displayName!,
+            email: potentialuser.right.user!.email!,
+            phonenumber: potentialuser.right.user!.phoneNumber!, //TODO this will be firestore calling notes from there
+            isLogged: true);
+        CacheData.setData(key: "user", value: user);
+        //TODO :call cache and save here
+        log("'we got user and saved in cashe' auth_repo ");
+        return Right(user);
+      } else {
+        log("'we don't have user' auth_repo");
+        return Left(potentialuser.left);
+      }
+    } catch (e) {
+      log("we fucked up -auth_repo");
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, MyUser>> register(FormUser userForm) async {
+    // TODO: do some shit once the data is back from repo/cashe maybe
+
+    try {
+      Either<String, UserCredential> potentialuser =
+          await authImplement.register(userForm);
+      if (potentialuser.isRight) {
+        log("hi");
+        late MyUser user;
+        user = MyUser(
+            id: potentialuser.right.user!.uid,
+            name: potentialuser.right.user!.displayName!,
+            email: potentialuser.right.user!.email!,
+            phonenumber: potentialuser.right.user!.phoneNumber!,
+            //TODO this will be firestore calling notes from there
+            isLogged: true);
+        //TODO :call cache and save here
+        log("we got user");
+        CacheData.setData(key: "user", value: user);
+        return Right(user);
+      } else {
+        log("we don't have user");
+        return Left(potentialuser.left);
+      }
+    } catch (e) {
+      log(e.toString());
+      return Left("we fucked up");
+    }
+  }
+}
+
+// i send
