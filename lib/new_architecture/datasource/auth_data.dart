@@ -21,6 +21,7 @@ import 'dart:developer';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ecommerece/models/userform.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 abstract class Auth {
   FirebaseAuth firebaseauth;
@@ -65,8 +66,11 @@ class AuthImplement extends Auth {
     }
     //if user is returned from auth we will update his name and phone number
     try {
-      credential.user!.updatePhoneNumber(userForm.phonenumber!);
-      credential.user!.updateDisplayName(userForm.name);
+      //credential.user!.updatePhoneNumber(userForm.phonenumber!);
+      log(userForm.name.toString());
+      // await FirebaseAuth.instance.currentUser!.updateDisplayName(userForm.name.toString());
+      // await FirebaseAuth.instance.currentUser!.reload(); //TODO user set display name not working at the moment
+      //log(credential.user.displayName.toString());
       log("'user have name and phone number now' auth_source");
       return Right(credential);
     }on FirebaseException catch (e) {

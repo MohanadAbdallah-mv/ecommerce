@@ -2,16 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class MyUser {
   late String id;
-  late String name;
+  late String? name;
   late String email;
-  late String phonenumber;
+  late String? phonenumber;
   late bool isLogged;
 
   MyUser(
-      {required this.id,
-      required this.name,
+      {required this.id, this.name,
       required this.email,
-      required this.phonenumber,
+      this.phonenumber,
       required this.isLogged});
 
   MyUser.fromJson(Map<String, dynamic> json) {

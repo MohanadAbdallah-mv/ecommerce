@@ -16,32 +16,48 @@ class AuthController extends ChangeNotifier {
 
   AuthController({required this.cache, required this.repo});
 
-  Future<void> login(String? email, String? password) async {
-    try{
+  Future<Either<String, dynamic>> login(String? email, String? password) async {
+    try {
       FormUser userForm = FormUser(email: email!, password: password!);
-      Either<String,MyUser> res = await repo.login(userForm);
-      if(res.isRight){
+      Either<String, dynamic> res = await repo.login(userForm);
+
+      if (res.isRight) {
         log("finally,logged in");
-        print(res.right);
-      }else{print(res.isLeft);}
-    }catch(e){
+        notifyListeners();
+        return Right(res.right);
+      } else {
+        notifyListeners();
+        return Left(res.left);
+      }
+    } catch (e) {
       log(e.toString());
-      log("failed at controller");}
-    notifyListeners();
+      log("failed at controller");
+      notifyListeners();
+      return Left(e.toString());
+    }
+
   }
 
-  Future<void> register(String? name,PhoneAuthCredential? phone, String? email, String? password) async{
-    //Todo name was not assigned
-    FormUser userForm = FormUser(name: name!,phonenumber:phone! ,email: email!, password: password!);
-    Either<String, MyUser> res = await repo.register(userForm);
+  Future<Either<String, dynamic>> register(String? name, PhoneAuthCredential? phone, String? email,
+      String? password) async {
+
+    FormUser userForm = FormUser(
+        name: name!, phonenumber: phone, email: email!, password: password!);
+    Either<String, dynamic> res = await repo.register(userForm);
     print(MyUser);
     if (res.isRight) {
       log("finally,registered");
-      print(res.right);
-    }else{
+      notifyListeners();
+
+      return Right(res.right);
+    } else {
       log(res.left.toString());
-      log("failed at controller");}
-    notifyListeners();
+
+      log("failed at controller");
+      notifyListeners();
+      return Left(res.left);
+    }
+
   }
 
   void logout() {

@@ -7,7 +7,6 @@ import '../../models/user_model.dart';
 import '../../services/Cache_Helper.dart';
 import 'package:ecommerece/models/userform.dart';
 
-
 // I do the business logic here
 // Represented in storing data locally when there is no internet connection
 // I store data remotely when there is internet connection
@@ -25,6 +24,8 @@ abstract class AuthHandler {
   Future<Either<String, MyUser>> login(FormUser userForm);
 
   Future<Either<String, MyUser>> register(FormUser userForm);
+
+  Future<Either<String, String>> signout(MyUser user);
 }
 
 class AuthHandlerImplement extends AuthHandler {
@@ -40,9 +41,9 @@ class AuthHandlerImplement extends AuthHandler {
       if (potentialuser.isRight) {
         MyUser user = MyUser(
             id: potentialuser.right.user!.uid,
-            name: potentialuser.right.user!.displayName!,
+            name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
-            phonenumber: potentialuser.right.user!.phoneNumber!, //TODO this will be firestore calling notes from there
+            // phonenumber: potentialuser.right.user!.phoneNumber!, //TODO this will be firestore calling notes from there
             isLogged: true);
         CacheData.setData(key: "user", value: user);
         //TODO :call cache and save here
@@ -68,11 +69,12 @@ class AuthHandlerImplement extends AuthHandler {
       if (potentialuser.isRight) {
         log("hi");
         late MyUser user;
+
         user = MyUser(
             id: potentialuser.right.user!.uid,
-            name: potentialuser.right.user!.displayName!,
+            name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
-            phonenumber: potentialuser.right.user!.phoneNumber!,
+            // phonenumber: potentialuser.right.user!.phoneNumber!,
             //TODO this will be firestore calling notes from there
             isLogged: true);
         //TODO :call cache and save here
@@ -86,6 +88,16 @@ class AuthHandlerImplement extends AuthHandler {
     } catch (e) {
       log(e.toString());
       return Left("we fucked up");
+    }
+  }
+
+  @override
+  Future<Either<String, String>> signout(MyUser user) async{
+    if (user != null) {
+      //TODO : tell the repo to delete user from casceh and then navigate user to intro screen
+      return Right("ds");
+    } else {
+      return Left("dsa");
     }
   }
 }
