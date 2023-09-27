@@ -9,6 +9,7 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final Color? borderColor;
   final double height;
+  final double width;
   final Widget child;
   final VoidCallback onpress;
 
@@ -17,7 +18,7 @@ class CustomButton extends StatelessWidget {
       this.gradient = null,
       this.color = buttonColor,
       this.borderColor,
-      this.height = 50,
+      this.height = 50,this.width=double.maxFinite,
       required this.child,
       required this.onpress});
 
@@ -36,7 +37,9 @@ class CustomButton extends StatelessWidget {
             border:
                 borderColor==color? null :Border.all(color: borderColor!)),
         child: Container(
-          constraints: BoxConstraints(minHeight: height),
+          width: width,
+          height: height,
+          constraints: BoxConstraints(minHeight: height,minWidth: width),
           alignment: Alignment.center,
           child: child,
         ),
