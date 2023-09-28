@@ -35,12 +35,10 @@ class AuthController extends ChangeNotifier {
       notifyListeners();
       return Left(e.toString());
     }
-
   }
 
-  Future<Either<String, dynamic>> register(String? name, PhoneAuthCredential? phone, String? email,
-      String? password) async {
-
+  Future<Either<String, dynamic>> register(String? name,
+      PhoneAuthCredential? phone, String? email, String? password) async {
     FormUser userForm = FormUser(
         name: name!, phonenumber: phone, email: email!, password: password!);
     Either<String, dynamic> res = await repo.register(userForm);
@@ -57,12 +55,27 @@ class AuthController extends ChangeNotifier {
       notifyListeners();
       return Left(res.left);
     }
-
   }
 
-  void logout() {
-    notifyListeners();
+  String logout(user) {
+    Either<String, String> res = repo.signout(user);
+    if (res.isRight) {
+      notifyListeners();
+      return "done";
+    } else {
+      notifyListeners();
+      return res.left;
+    }
   }
-// void isLogged(User? user){
-// }
+
+  void isLogged(User? user) {}
+
+  Either<String, MyUser> getCurrentUser() {
+    Either<String, MyUser> user = repo.getCurrentUser();
+    if (user.isRight) {
+      return Right(user.right);
+    } else {
+      return Left(user.left);
+    }
+  }
 }

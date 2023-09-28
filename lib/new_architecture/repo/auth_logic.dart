@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:either_dart/either.dart';
@@ -25,7 +26,7 @@ abstract class AuthHandler {
 
   Future<Either<String, MyUser>> register(FormUser userForm);
 
-  Future<Either<String, String>> signout(MyUser user);
+  Either<String, String> signout(MyUser user);
 }
 
 class AuthHandlerImplement extends AuthHandler {
@@ -45,7 +46,12 @@ class AuthHandlerImplement extends AuthHandler {
             email: potentialuser.right.user!.email!,
             // phonenumber: potentialuser.right.user!.phoneNumber!, //TODO this will be firestore calling notes from there
             isLogged: true);
-        CacheData.setData(key: "user", value: user);
+        //Map<String,dynamic>json=user.toJson();
+
+        CacheData.setData(key: "user", value: jsonEncode(user.toJson()));
+
+        //CacheData.setData(key: "checker", value: "fuck....");
+
         //TODO :call cache and save here
         log("'we got user and saved in cashe' auth_repo ");
         return Right(user);
@@ -92,12 +98,24 @@ class AuthHandlerImplement extends AuthHandler {
   }
 
   @override
-  Future<Either<String, String>> signout(MyUser user) async{
-    if (user != null) {
-      //TODO : tell the repo to delete user from casceh and then navigate user to intro screen
-      return Right("ds");
-    } else {
-      return Left("dsa");
+  Either<String, String> signout(MyUser user) {
+    try {
+      CacheData.deleteItem(key: "user");
+      return Right("done");
+    } catch (e) {
+    return  Left(e.toString());
+    }
+
+  }
+
+  Either<String, MyUser> getCurrentUser() {
+    try {
+      Map<String, dynamic> cashedjsonuser =
+          jsonDecode(CacheData.getData(key: "user"));
+      MyUser user = MyUser.fromJson(cashedjsonuser);
+      return Right(user);
+    } catch (e) {
+      return Left(e.toString());
     }
   }
 }
