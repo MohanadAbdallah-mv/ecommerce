@@ -31,6 +31,7 @@ abstract class Auth {
   Future<Either<String, UserCredential>> login(FormUser userForm);
 
   Future<Either<String, UserCredential>> register(FormUser userForm);
+
 }
 
 class AuthImplement extends Auth {
@@ -57,6 +58,7 @@ class AuthImplement extends Auth {
       credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: userForm.email, password: userForm.password);
       log("auth_data returned successfully");
+
       print(credential);
 
       //return Right(credential);
@@ -77,4 +79,6 @@ class AuthImplement extends Auth {
       return Left(e.code);
     }
   }
+
+
 }
