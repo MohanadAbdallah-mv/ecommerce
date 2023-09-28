@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 
 class MyUser {
   late String id;
@@ -16,8 +15,15 @@ class MyUser {
   MyUser.fromJson(Map<String, dynamic> json) {
     id = json["id"];
     name = json["name"];
-    email = json["notes"];
+    email = json["email"];
     phonenumber = json["phonenumber"];
     isLogged = json["isLogged"];
   }
+  Map<String,dynamic>toJson()=>{
+  "id":id,
+    "name":name,
+    "email":email,
+    "phonenumber":phonenumber,
+    "isLogged":isLogged
+  };
 }

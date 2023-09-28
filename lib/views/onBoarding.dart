@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/views/Login.dart';
@@ -47,16 +46,16 @@ class _IntroState extends State<Intro> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 150),
+                SizedBox(height: 130),
                 CustomText(
                   text: "Welcome!",
                   color: Colors.white,
-                  size: 36,
+                  size: 34,
                   align: Alignment.center,
                   fontWeight: FontWeight.bold,
                   fontfamily: "ReadexPro-Bold",
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 5),
                 Padding(
                   padding: const EdgeInsets.only(left: 12, right: 12),
                   child: CustomText(
@@ -67,7 +66,7 @@ class _IntroState extends State<Intro> {
                     align: Alignment.center,
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 110),
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 16),
                   child: CustomButton(

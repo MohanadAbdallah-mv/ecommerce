@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/views/home.dart';
@@ -20,7 +22,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-  bool isError=false;
+  bool isEmailError=false;
+  bool isPasswordError=false;
   final FocusNode _passwordnode=FocusNode();
   @override
   void initState() {
@@ -73,19 +76,30 @@ class _LoginState extends State<Login> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 56),
-                            child: CustomTextField(isError: isError,
+                            child: CustomTextField(isError: isEmailError,
                               headerText: "Email",
                               hint: "Malikvis@gmail.com",
-                              textEditingController: _email,onEditComplete: (){FocusScope.of(context).requestFocus(_passwordnode);},
+                              textEditingController: _email,onEditComplete: (){
+                             setState(() {
+                               isEmailError=false;
+                               FocusScope.of(context).requestFocus(_passwordnode);
+                             });
+                             },
                             ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          CustomTextField(isError: isError,
+                          CustomTextField(isError: isPasswordError,
                             headerText: "Password",
-                            hint: "************",
-                            textEditingController: _password,focusNode: _passwordnode,
+                            hint: "************",isPassword: true,
+                            textEditingController: _password,focusNode: _passwordnode,onEditComplete: (){
+                             setState(() {
+                               isPasswordError=false;
+                               FocusScope.of(context).unfocus();
+                             });
+
+                            },
                           ),
                           SizedBox(
                             height: 15,
@@ -107,11 +121,15 @@ class _LoginState extends State<Login> {
                         Either<String, dynamic> user =
                             await auth.login(email, password);
                         if (user.isLeft) {
-                          print(user.left);
-                          SnackBar(
-                            content: Text(user.left),
-                          );
-                          isError=true;
+                          log(user.left);
+
+                            if(user.left=="invalid-email"){
+                              log("triggered");
+                              isEmailError=true;
+                            }else{
+                              isPasswordError=true;}
+
+
                         } else {
                           Navigator.push(
                               context,

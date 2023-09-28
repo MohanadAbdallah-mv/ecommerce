@@ -34,12 +34,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
         CustomText(
           text: widget.headerText,
           size: 16,
-          color: widget.isError ? Colors.red : TextFieldColor,
+          color: TextFieldColor,
         ),
         SizedBox(
           height: 4,
         ),
         TextFormField(
+            style:
+                TextStyle(color: widget.isError ? Colors.red : TextFieldColor),
             cursorColor: TextFieldColor,
             obscureText: widget.isPassword,
             autocorrect: !widget.isPassword,
@@ -47,14 +49,26 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 ? TextInputType.visiblePassword
                 : TextInputType.emailAddress,
             decoration: InputDecoration(
-                hintText: widget.hint,
-                hintStyle: TextStyle(
-                  color: widget.isError?Colors.red:TextFieldColor,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(color: TextFieldColor),
-                )),
+              enabledBorder: UnderlineInputBorder(
+                // borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                    color: widget.isError ? Colors.red : TextFieldColor),
+              ),
+              suffixIcon: widget.isError
+                  ? Icon(
+                      Icons.error_outline_sharp,
+                      color: Colors.red,
+                    )
+                  : null,
+              hintText: widget.hint,
+              hintStyle: TextStyle(
+                color: widget.isError ? Colors.red : TextFieldColor,
+              ),
+              focusedBorder: UnderlineInputBorder(
+                // borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(color: TextFieldColor),
+              ),
+            ),
             onEditingComplete: widget.onEditComplete,
             focusNode: widget.focusNode,
             controller: widget.textEditingController,
@@ -62,7 +76,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
               FocusScope.of(context).unfocus();
             }),
             onTap: () {
-              widget.isError = false;
+             setState(() {
+               widget.isError = false;
+             });
+
+
             }),
       ],
     );
