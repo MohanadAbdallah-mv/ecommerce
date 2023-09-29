@@ -40,7 +40,8 @@ class AuthImplement extends Auth {
   @override
   Future<Either<String, UserCredential>> login(FormUser userForm) async {
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+
+      final credential = await firebaseauth.signInWithEmailAndPassword(
           email: userForm.email, password: userForm.password);
       log("'user is back again' auth_source");
       return Right(credential);
@@ -52,10 +53,9 @@ class AuthImplement extends Auth {
 
   @override
   Future<Either<String, UserCredential>> register(FormUser userForm) async {
-    //TODO: implement register
     UserCredential credential;
     try {
-      credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      credential = await firebaseauth.createUserWithEmailAndPassword(
           email: userForm.email, password: userForm.password);
       log("auth_data returned successfully");
 

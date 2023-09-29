@@ -4,6 +4,7 @@ const Color primaryColor=Color(0xff6066FC);
 const Color secondryColor=Color(0xffD9DAFF);
 const Color AppTitleColor=Color(0xff000000);
 const Color TextFieldColor=Color(0xff999896);
+const Color SearchBarColor=Color(0xffABAFB1);
 
 
 

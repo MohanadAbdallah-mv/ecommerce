@@ -35,7 +35,6 @@ class AuthHandlerImplement extends AuthHandler {
 
   @override
   Future<Either<String, MyUser>> login(FormUser userForm) async {
-    // TODO: do some shit once the data is back from repo/cashe maybe
     try {
       Either<String, UserCredential> potentialuser =
           await authImplement.login(userForm);
@@ -44,15 +43,13 @@ class AuthHandlerImplement extends AuthHandler {
             id: potentialuser.right.user!.uid,
             name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
-            // phonenumber: potentialuser.right.user!.phoneNumber!, //TODO this will be firestore calling notes from there
+            // phonenumber: potentialuser.right.user!.phoneNumber!,
             isLogged: true);
         //Map<String,dynamic>json=user.toJson();
-
         CacheData.setData(key: "user", value: jsonEncode(user.toJson()));
 
         //CacheData.setData(key: "checker", value: "fuck....");
 
-        //TODO :call cache and save here
         log("'we got user and saved in cashe' auth_repo ");
         return Right(user);
       } else {
@@ -67,7 +64,6 @@ class AuthHandlerImplement extends AuthHandler {
 
   @override
   Future<Either<String, MyUser>> register(FormUser userForm) async {
-    // TODO: do some shit once the data is back from repo/cashe maybe
 
     try {
       Either<String, UserCredential> potentialuser =
@@ -81,9 +77,7 @@ class AuthHandlerImplement extends AuthHandler {
             name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
             // phonenumber: potentialuser.right.user!.phoneNumber!,
-            //TODO this will be firestore calling notes from there
             isLogged: true);
-        //TODO :call cache and save here
         log("we got user");
         CacheData.setData(key: "user", value: user);
         return Right(user);

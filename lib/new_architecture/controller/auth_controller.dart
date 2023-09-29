@@ -19,6 +19,7 @@ class AuthController extends ChangeNotifier {
   Future<Either<String, dynamic>> login(String? email, String? password) async {
     try {
       FormUser userForm = FormUser(email: email!, password: password!);
+
       Either<String, dynamic> res = await repo.login(userForm);
 
       if (res.isRight) {
