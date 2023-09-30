@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       CustomText(
                         text: "see more",
-                        color: textFieldColor,
+                        color: TypingColor,
                         align: Alignment.bottomCenter,
                         size: 15,
                       ),
@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       CustomText(
                         text: "see more",
-                        color: textFieldColor,
+                        color: TypingColor,
                         align: Alignment.bottomCenter,
                         size: 15,
                       ),
