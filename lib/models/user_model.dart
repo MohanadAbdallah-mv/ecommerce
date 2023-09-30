@@ -7,9 +7,9 @@ class MyUser {
   late bool isLogged;
 
   MyUser(
-      {required this.id, this.name,
+      {required this.id, required this.name,
       required this.email,
-      this.phonenumber,
+      required this.phonenumber,
       required this.isLogged});
 
   MyUser.fromJson(Map<String, dynamic> json) {

@@ -5,7 +5,6 @@ import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/CustomTextField.dart';
 import 'package:either_dart/either.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +22,7 @@ class _SignupState extends State<Signup> {
   late final TextEditingController _password;
   late final TextEditingController _name;
   late final TextEditingController _phonenumber;
-  late final PhoneAuthCredential _phone;
+  late final TextEditingController _phone;
   final FocusNode _phonenumbernode = FocusNode();
   final FocusNode _emailnode = FocusNode();
   final FocusNode _passwordnode = FocusNode();
@@ -33,6 +32,7 @@ class _SignupState extends State<Signup> {
     _email = TextEditingController();
     _password = TextEditingController();
     _name = TextEditingController();
+    _phonenumber=TextEditingController();
 
     super.initState();
   }
@@ -42,6 +42,7 @@ class _SignupState extends State<Signup> {
     _email.dispose();
     _password.dispose();
     _name.dispose();
+    _phonenumber.dispose();
     super.dispose();
   }
 
@@ -140,12 +141,14 @@ class _SignupState extends State<Signup> {
                         String email = _email.text;
                         String password = _password.text;
                         String name = _name.text;
+                        String phone =_phonenumber.text;
                         Either<String, dynamic> user =
-                            await auth.register(name, null, email, password);
+                            await auth.register(name, phone, email, password);
                         if (user.isLeft) {
-                          SnackBar(
+
+                          Scaffold.of(context).showBottomSheet((context) => SnackBar(
                             content: Text(user.left),
-                          );
+                          ));
                         } else {
                           Navigator.push(
                               context,

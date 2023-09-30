@@ -39,7 +39,7 @@ class AuthController extends ChangeNotifier {
   }
 
   Future<Either<String, dynamic>> register(String? name,
-      PhoneAuthCredential? phone, String? email, String? password) async {
+      String? phone, String? email, String? password) async {
     FormUser userForm = FormUser(
         name: name!, phonenumber: phone, email: email!, password: password!);
     Either<String, dynamic> res = await repo.register(userForm);

@@ -43,7 +43,7 @@ class AuthHandlerImplement extends AuthHandler {
             id: potentialuser.right.user!.uid,
             name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
-            // phonenumber: potentialuser.right.user!.phoneNumber!,
+            phonenumber: potentialuser.right.user!.phoneNumber,
             isLogged: true);
         //Map<String,dynamic>json=user.toJson();
         CacheData.setData(key: "user", value: jsonEncode(user.toJson()));
@@ -74,9 +74,9 @@ class AuthHandlerImplement extends AuthHandler {
 
         user = MyUser(
             id: potentialuser.right.user!.uid,
-            name: potentialuser.right.user!.displayName,
+            name: potentialuser.right.user!.displayName!,
             email: potentialuser.right.user!.email!,
-            // phonenumber: potentialuser.right.user!.phoneNumber!,
+            phonenumber: potentialuser.right.user!.phoneNumber!,
             isLogged: true);
         log("we got user");
         CacheData.setData(key: "user", value: user);

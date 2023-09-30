@@ -30,7 +30,7 @@ class _CategoryCardState extends State<CategoryCard> {
       // }else{widget.isSelected=false;}
       return GestureDetector(
         onTap: () {
-          //todo update the whole page content based on this selected category
+          //todo :update the whole page content based on this selected category
           setState(() {
             log('pressed');
 

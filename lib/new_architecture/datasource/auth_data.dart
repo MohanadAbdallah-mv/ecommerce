@@ -69,6 +69,7 @@ class AuthImplement extends Auth {
     //if user is returned from auth we will update his name and phone number
     try {
       //credential.user!.updatePhoneNumber(userForm.phonenumber!);
+
       log(userForm.name.toString());
       // await FirebaseAuth.instance.currentUser!.updateDisplayName(userForm.name.toString());
       // await FirebaseAuth.instance.currentUser!.reload(); //TODO user set display name not working at the moment

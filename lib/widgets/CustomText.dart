@@ -8,14 +8,16 @@ class CustomText extends StatelessWidget {
   final TextAlign textalign;
   final  FontWeight fontWeight;
   final String fontfamily;
-  const CustomText({super.key,this.text='',this.color=Colors.white,this.size=16,this.align=Alignment.topLeft,this.textalign=TextAlign.center,this.fontWeight=FontWeight.normal,this.fontfamily="ReadxPro"});
+  final bool trim;
+  final bool linethrough;
+  const CustomText({super.key,this.text='',this.color=Colors.white,this.size=16,this.align=Alignment.topLeft,this.textalign=TextAlign.center,this.fontWeight=FontWeight.normal,this.fontfamily="ReadxPro",this.trim=false,this.linethrough=false});
 
   @override
   Widget build(BuildContext context) {
     return Container(alignment:align ,
       child: Text(
-        text,
-        style: TextStyle(fontSize: size, color: color,fontWeight: fontWeight,fontFamily:"ReadexPro" ),textAlign: textalign,
+        trim?text.substring(0,20)+"...":text,
+        style: TextStyle(fontSize: size, color: color,fontWeight: fontWeight,fontFamily:"ReadexPro" ,decoration:linethrough?TextDecoration.lineThrough:null ),textAlign: textalign,
       ),
     );
   }

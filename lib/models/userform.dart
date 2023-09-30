@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 
 class FormUser {
   String? name;
-  PhoneAuthCredential? phonenumber;
+  String? phonenumber;
   String email;
   String password;
 
