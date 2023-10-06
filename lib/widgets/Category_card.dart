@@ -9,9 +9,9 @@ class CategoryCard extends StatefulWidget {
   int index;
   String name;
   bool isSelected;
-
+  Future<List<String>> category;
   CategoryCard(
-      {super.key, required this.index, required this.name, this.isSelected = false});
+      {super.key, required this.index, required this.name, this.isSelected = false,required this.category});
 
   @override
   State<CategoryCard> createState() => _CategoryCardState();
@@ -33,9 +33,9 @@ class _CategoryCardState extends State<CategoryCard> {
           //todo :update the whole page content based on this selected category
           setState(() {
             log('pressed');
-
             fire.categorySelectedindex=widget.index;
             widget.isSelected=fire.isSelectedtile(widget.index);
+            widget.category.then((value) => fire.categorySelected=value[widget.index]);
             //widget.isSelected=!widget.isSelected;
           });
           print(widget.index);

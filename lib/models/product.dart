@@ -21,7 +21,7 @@ class Product {
 
   factory Product.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>>document){
     Map<String,dynamic> data=document.data();
-    print(data["Author_name"]);
+    print(data["name"]);
       return Product(
           id: document.id,
           Author_name: data["Author_name"],

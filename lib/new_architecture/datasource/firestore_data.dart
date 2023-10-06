@@ -9,7 +9,7 @@ abstract class Firestore {
 
   Future<Either<String, QuerySnapshot>>
       getCategories(); //i can either return stream or snapshots of document or collection
-  Future<Either<String, QuerySnapshot<Map<String,dynamic>>>> getBestSeller();
+  Future<Either<String, QuerySnapshot<Map<String,dynamic>>>> getBestSeller(String category);
   Future<Either<String, QuerySnapshot<Map<String,dynamic>>>> getDontMiss();
   Future<Either<String, QuerySnapshot<Map<String,dynamic>>>> getSimilarFrom(String subcategory);
 
@@ -30,14 +30,18 @@ class FirestoreImplement extends Firestore {
     }
   }
   @override
-  Future<Either<String, QuerySnapshot<Map<String,dynamic>>>> getBestSeller() async{
+  Future<Either<String, QuerySnapshot<Map<String,dynamic>>>> getBestSeller(String category) async{
     try {
+      log('entering best seller in source');
       CollectionReference<Map<String, dynamic>> ProductsRef =
       firebaseFirestore.collection('product');
-      QuerySnapshot<Map<String,dynamic>> bestSeller =await ProductsRef.where("is_best_seller",isEqualTo: true).get();
+      QuerySnapshot<Map<String,dynamic>> bestSeller =await ProductsRef.where("is_best_seller",isEqualTo: true).where("category",isEqualTo: category).get();
+      log(bestSeller.toString());
       log("best seller is back from source");
       return Right(bestSeller);
     } on FirebaseException catch (e) {
+      log("firebase exception at source");
+      log(e.toString());
       return Left(e.toString());
     }
   }

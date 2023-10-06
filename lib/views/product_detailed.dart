@@ -75,7 +75,7 @@ class _ProductDetailedState extends State<ProductDetailed> {
                   icon: Icon(Icons.person), label: "profile")
             ]),
         body: SingleChildScrollView(
-          child: Padding(
+          child: Container(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
@@ -233,18 +233,18 @@ class _ProductDetailedState extends State<ProductDetailed> {
                 SizedBox(
                   height: 12,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 320),
+                Container(
+                  width: double.maxFinite,
                   child: CustomText(
                     text: "seemore",
-                    color: TypingColor,
+                    color: TypingColor,textalign: TextAlign.right,align: Alignment.centerRight,
                   ),
                 ),
                 SizedBox(
                   height: 8,
                 ),
                 SizedBox(
-                  height: 240,
+                  height: 244,
                   child: FutureBuilder(
                       future: MyFutureSimilar(),
                       builder: (context, snapshot) {
@@ -266,42 +266,46 @@ class _ProductDetailedState extends State<ProductDetailed> {
                 SizedBox(
                   height: 40,
                 ),
-                Row(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [isDiscount?SizedBox(height: 56,
-                    child: Column(
-                      children: [
-                        CustomText(
-                          text: "EGP ${widget.product.discount_price}",
-                          color: AppTitleColor,
-                          fontfamily: "ReadexPro",
-                          fontWeight: FontWeight.w400,size: 22,),SizedBox(height: 4,),
-                        CustomText(
-                          text: "EGP ${widget.product.price}",
-                          color: TypingColor,
-                          fontfamily: "ReadexPro",
-                          fontWeight: FontWeight.w400,size: 16,linethrough: true,)
-                      ],
+                Container(width: double.maxFinite,
+                  child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [isDiscount?SizedBox(height: 56,
+                      child: Column(
+                        children: [
+                          CustomText(
+                            text: "EGP ${widget.product.discount_price}",
+                            color: AppTitleColor,
+                            fontfamily: "ReadexPro",
+                            fontWeight: FontWeight.w400,size: 22,),SizedBox(height: 4,),
+                          CustomText(
+                            text: "EGP ${widget.product.price}",
+                            color: TypingColor,
+                            fontfamily: "ReadexPro",
+                            fontWeight: FontWeight.w400,size: 16,linethrough: true,)
+                        ],
+                      ),
+                    ):CustomText(
+                      text: "EGP ${widget.product.price}",
+                      color: AppTitleColor,
+                      fontfamily: "ReadexPro",
+                      fontWeight: FontWeight.w400,size: 22,),SizedBox(width: 4,),Expanded(
+                        child: CustomButton(
+                        //width: 288,
+                        height: 50,
+                        child: CustomText(
+                          text: "Add to Cart",
+                          size: 12,
+                          color: Colors.white,
+                          align: Alignment.center,
+                        ),
+                        onpress: () {
+                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailed(product: widget.product, user: widget.user)));
+                          //todo : add to cart screen or bottom sheet
+                        },
+                        borderColor: Colors.white,
+                        color: primaryColor,
                     ),
-                  ):CustomText(
-                    text: "EGP ${widget.product.price}",
-                    color: AppTitleColor,
-                    fontfamily: "ReadexPro",
-                    fontWeight: FontWeight.w400,size: 22,),SizedBox(width: 4,),CustomButton(
-                    width: 288,
-                    height: 50,
-                    child: CustomText(
-                      text: "Add to Cart",
-                      size: 12,
-                      color: Colors.white,
-                      align: Alignment.center,
-                    ),
-                    onpress: () {
-                     // Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailed(product: widget.product, user: widget.user)));
-                      //todo : add to cart screen or bottom sheet
-                    },
-                    borderColor: Colors.white,
-                    color: primaryColor,
-                  )],
+                      )],
+                  ),
                 )
               ],
             ),

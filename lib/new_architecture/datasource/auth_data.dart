@@ -55,6 +55,7 @@ class AuthImplement extends Auth {
   Future<Either<String, UserCredential>> register(FormUser userForm) async {
     UserCredential credential;
     try {
+
       credential = await firebaseauth.createUserWithEmailAndPassword(
           email: userForm.email, password: userForm.password);
       log("auth_data returned successfully");

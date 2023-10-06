@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
@@ -16,8 +18,7 @@ import '../widgets/SearchBar.dart';
 
 class HomePage extends StatefulWidget {
   final MyUser user;
-
-  const HomePage({super.key, required this.user});
+  HomePage({super.key, required this.user,});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,33 +27,53 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
 //var myfuture;
+late Future<List<String>> categroyList;
+  late String category;
+  late int categoryindex;
 
   Future<List<String>> MyFutureCategory() async {
     var myfuture =
-        await Provider.of<FireStoreController>(context).getCategory();
+        await Provider.of<FireStoreController>(context,listen: false).getCategory();
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
     return myfuture.right;
   }
 
-  Future<List<Product>> MyFutureBestSeller() async {
+  Future<List<Product>?> MyFutureBestSeller(String category) async {
+    log("entering myfuture best seller");
+    // String category=await Provider.of<FireStoreController>(context).categorySelected;
+    //log(category.toString());
+    log("entering best seller from view");
     var myfuture =
-        await Provider.of<FireStoreController>(context).getBestSeller();
+        await Provider.of<FireStoreController>(context,listen: false).getBestSeller(category);
+
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
 
     return myfuture.right;
   }
+
   Future<List<Product>> MyFutureDontMiss() async {
+    log('fuck');
     var myfuture =
-    await Provider.of<FireStoreController>(context).getDontMiss();
+        await Provider.of<FireStoreController>(context, listen: false)
+            .getDontMiss();
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
 
     return myfuture.right;
+  }
+@override
+  void initState() {
+    categroyList=MyFutureCategory();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     //dynamic user=Provider.of<AuthController>(context).getCurrentUser();
     // print(user);
+    //widget.bestseller=MyFutureBestSeller();
+    categoryindex=Provider.of<FireStoreController>(context).categorySelectedindex;
+    category=Provider.of<FireStoreController>(context).categorySelected;
+    print(categoryindex);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -78,13 +99,15 @@ class _HomePageState extends State<HomePage> {
         ),
         elevation: 0.0,
         backgroundColor: Colors.white,
-      ),bottomNavigationBar: BottomNavigationBar(type:BottomNavigationBarType.fixed,items:[
-      BottomNavigationBarItem(icon: Icon(Icons.home),label: "home"),
-      BottomNavigationBarItem(icon: Icon(Icons.person),label: "profile")
-    ]),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
+      ),
+      bottomNavigationBar:
+          BottomNavigationBar(type: BottomNavigationBarType.fixed, items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+        BottomNavigationBarItem(icon: Icon(Icons.person), label: "profile")
+      ]),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(10),
           child: Column(
             children: [
               SearchBarfor(),
@@ -95,20 +118,24 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 40,
                 child: FutureBuilder(
-                    future: MyFutureCategory(),
+                    future: categroyList,
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
+                        print(snapshot.connectionState);
                         //handle snapshot with loading indicator /not found indicator will be no internet connection
                         return CircularProgressIndicator(); //Text("error");
                       } else {
+                        print(snapshot.connectionState);
+                        //widget.bestseller=MyFutureBestSeller();
                         return ListView.builder(
                             itemCount: snapshot.data!.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => CategoryCard(
                                   index: index,
                                   name: snapshot.data![index],
+                                  category:categroyList,
                                   isSelected:
-                                      Provider.of<FireStoreController>(context)
+                                      Provider.of<FireStoreController>(context,listen: false)
                                                   .categorySelectedindex ==
                                               index
                                           ? true
@@ -128,14 +155,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Column(
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomText(
-                        text: "see more",
-                        color: TypingColor,
-                        align: Alignment.bottomCenter,
-                        size: 15,
+                      Container(
+                        height: 56,
+                        child: CustomText(
+                          text: "see more",
+                          color: TypingColor,
+                          align: Alignment.center,
+                          size: 15,
+                        ),
                       ),
                     ],
                   )
@@ -143,22 +170,30 @@ class _HomePageState extends State<HomePage> {
               ),
               //Best Seller scroll Listview
               SizedBox(
-                height: 240,
+                height: 265,
                 child: FutureBuilder(
-                    future: MyFutureBestSeller(),
+                    future: MyFutureBestSeller(category),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
+
                         //handle snapshot with loading indicator /not found indicator will be no internet connection
                         return CircularProgressIndicator(); //Text("error");
+                      } else if (snapshot.hasError == true) {
+                        log(snapshot.error.toString());
+                        return Text(snapshot.error.toString());
                       } else {
                         return ListView.builder(
                             itemCount: snapshot.data!.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => ProductCard(
-                                index: index, product: snapshot.data![index],user: widget.user,));
+                                  index: index,
+                                  product: snapshot.data![index],
+                                  user: widget.user,
+                                ));
                       }
                     }),
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -169,22 +204,25 @@ class _HomePageState extends State<HomePage> {
                         color: AppTitleColor,
                         fontWeight: FontWeight.w700,
                         size: 28,
-                      ),SvgPicture.asset(
+                      ),
+                      SvgPicture.asset(
                         "assets/svg/sale.svg",
                         fit: BoxFit.values.last,
-                      width:32 ,height: 32,)
+                        width: 32,
+                        height: 32,
+                      )
                     ],
                   ),
                   Column(
                     children: [
-                      SizedBox(
-                        height: 20,
-                      ),
-                      CustomText(
-                        text: "see more",
-                        color: TypingColor,
-                        align: Alignment.bottomCenter,
-                        size: 15,
+                      Container(
+                        height: 56,
+                        child: CustomText(
+                          text: "see more",
+                          color: TypingColor,
+                          align: Alignment.center,
+                          size: 15,
+                        ),
                       ),
                     ],
                   )
@@ -192,7 +230,7 @@ class _HomePageState extends State<HomePage> {
               ),
               //Best Seller scroll Listview
               SizedBox(
-                height: 240,
+                height: 265,
                 child: FutureBuilder(
                     future: MyFutureDontMiss(),
                     builder: (context, snapshot) {
@@ -204,11 +242,14 @@ class _HomePageState extends State<HomePage> {
                             itemCount: snapshot.data!.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) => ProductCard(
-                                index: index, product: snapshot.data![index],isDiscount: true,user: widget.user,));
+                                  index: index,
+                                  product: snapshot.data![index],
+                                  isDiscount: true,
+                                  user: widget.user,
+                                ));
                       }
                     }),
               )
-
             ],
           ),
         ),

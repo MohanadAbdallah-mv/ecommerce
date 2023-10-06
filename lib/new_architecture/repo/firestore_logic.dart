@@ -11,7 +11,7 @@ abstract class Firestorehandler {
   Firestorehandler({required this.firestoreImplement});
 
   Future<Either<String,List>> getCategory();
-  Future<Either<String,List>> getBestSeller();
+  Future<Either<String,List>> getBestSeller(String category);
   Future<Either<String,List>> getDontMiss();
   Future<Either<String,List>> getSimilarFrom(String subcategory);
 
@@ -42,11 +42,12 @@ class FirestorehandlerImplement extends Firestorehandler {
     }
   }
   @override
-  Future<Either<String, List<Product>>> getBestSeller() async{
+  Future<Either<String, List<Product>>> getBestSeller(String category) async{
     try {
       // List<Product>products=[];
+      log('entering best seller in logic');
       Either<String, QuerySnapshot<Map<String,dynamic>>>bestSeller = await firestoreImplement
-          .getBestSeller();
+          .getBestSeller(category);
       if (bestSeller.isRight) {
         log("entering");
           List<QueryDocumentSnapshot<Map<String,dynamic>>> bestref=bestSeller.right.docs;
