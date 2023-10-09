@@ -5,6 +5,7 @@ import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
 import 'package:ecommerece/views/onBoarding.dart';
+import 'package:ecommerece/views/product_list.dart';
 import 'package:ecommerece/widgets/Category_card.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/Product_card.dart';
@@ -18,7 +19,11 @@ import '../widgets/SearchBar.dart';
 
 class HomePage extends StatefulWidget {
   final MyUser user;
-  HomePage({super.key, required this.user,});
+
+  HomePage({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,13 +32,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
 //var myfuture;
-late Future<List<String>> categroyList;
+  late Future<List<String>> categroyList;
   late String category;
   late int categoryindex;
 
   Future<List<String>> MyFutureCategory() async {
     var myfuture =
-        await Provider.of<FireStoreController>(context,listen: false).getCategory();
+        await Provider.of<FireStoreController>(context, listen: false)
+            .getCategory();
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
     return myfuture.right;
   }
@@ -44,7 +50,8 @@ late Future<List<String>> categroyList;
     //log(category.toString());
     log("entering best seller from view");
     var myfuture =
-        await Provider.of<FireStoreController>(context,listen: false).getBestSeller(category);
+        await Provider.of<FireStoreController>(context, listen: false)
+            .getBestSeller(category);
 
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
 
@@ -60,9 +67,10 @@ late Future<List<String>> categroyList;
 
     return myfuture.right;
   }
-@override
+
+  @override
   void initState() {
-    categroyList=MyFutureCategory();
+    categroyList = MyFutureCategory();
     super.initState();
   }
 
@@ -71,8 +79,9 @@ late Future<List<String>> categroyList;
     //dynamic user=Provider.of<AuthController>(context).getCurrentUser();
     // print(user);
     //widget.bestseller=MyFutureBestSeller();
-    categoryindex=Provider.of<FireStoreController>(context).categorySelectedindex;
-    category=Provider.of<FireStoreController>(context).categorySelected;
+    categoryindex =
+        Provider.of<FireStoreController>(context).categorySelectedindex;
+    category = Provider.of<FireStoreController>(context).categorySelected;
     print(categoryindex);
     return Scaffold(
       appBar: AppBar(
@@ -133,13 +142,14 @@ late Future<List<String>> categroyList;
                             itemBuilder: (context, index) => CategoryCard(
                                   index: index,
                                   name: snapshot.data![index],
-                                  category:categroyList,
-                                  isSelected:
-                                      Provider.of<FireStoreController>(context,listen: false)
-                                                  .categorySelectedindex ==
-                                              index
-                                          ? true
-                                          : false,
+                                  category: categroyList,
+                                  isSelected: Provider.of<FireStoreController>(
+                                                  context,
+                                                  listen: false)
+                                              .categorySelectedindex ==
+                                          index
+                                      ? true
+                                      : false,
                                 ));
                       }
                     }),
@@ -157,11 +167,20 @@ late Future<List<String>> categroyList;
                     children: [
                       Container(
                         height: 56,
-                        child: CustomText(
-                          text: "see more",
-                          color: TypingColor,
-                          align: Alignment.center,
-                          size: 15,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,MaterialPageRoute(builder: (context)=>ProductList(
+                              user: widget.user,
+                              title: "BestSeller",
+                              category: category,
+                            )));
+                          },
+                          child: CustomText(
+                            text: "see more",
+                            color: TypingColor,
+                            align: Alignment.center,
+                            size: 15,
+                          ),
                         ),
                       ),
                     ],
@@ -175,7 +194,6 @@ late Future<List<String>> categroyList;
                     future: MyFutureBestSeller(category),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
-
                         //handle snapshot with loading indicator /not found indicator will be no internet connection
                         return CircularProgressIndicator(); //Text("error");
                       } else if (snapshot.hasError == true) {
