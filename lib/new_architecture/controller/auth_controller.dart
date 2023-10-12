@@ -38,10 +38,11 @@ class AuthController extends ChangeNotifier {
     }
   }
 
-  Future<Either<String, dynamic>> register(String? name,
-      String? phone, String? email, String? password) async {
+  Future<Either<String, dynamic>> register(
+      String? name, String? phone, String? email, String? password) async {
     FormUser userForm = FormUser(
         name: name!, phonenumber: phone, email: email!, password: password!);
+    log(userForm.toString());
     Either<String, dynamic> res = await repo.register(userForm);
     print(MyUser);
     if (res.isRight) {
@@ -56,6 +57,19 @@ class AuthController extends ChangeNotifier {
       notifyListeners();
       return Left(res.left);
     }
+  }
+
+  Future<String> resetPassword(String email) async {
+    Either<String, String> response;
+    await repo.requestPasswordReset(email).then((value) {
+      response = value;
+      if (response.isRight) {
+        return response.right;
+      } else {
+        return response.left;
+      }
+    });
+    return"failed";
   }
 
   String logout(user) {

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
+import 'package:ecommerece/views/forgot_password.dart';
 import 'package:ecommerece/views/home.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
@@ -22,9 +23,10 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   late final TextEditingController _email;
   late final TextEditingController _password;
-  bool isEmailError=false;
-  bool isPasswordError=false;
-  final FocusNode _passwordnode=FocusNode();
+  bool isEmailError = false;
+  bool isPasswordError = false;
+  final FocusNode _passwordnode = FocusNode();
+
   @override
   void initState() {
     _email = TextEditingController();
@@ -62,11 +64,12 @@ class _LoginState extends State<Login> {
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left:20,right:50),
+                    padding: const EdgeInsets.only(left: 20, right: 50),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          //Svg pic
                           Container(
                             decoration: BoxDecoration(),
                             child: SvgPicture.asset(
@@ -74,41 +77,59 @@ class _LoginState extends State<Login> {
                               fit: BoxFit.values.last,
                             ),
                           ),
+                          //Email Text Field
                           Padding(
                             padding: const EdgeInsets.only(top: 56),
-                            child: CustomTextField(isError: isEmailError,
+                            child: CustomTextField(
+                              isError: isEmailError,
                               headerText: "Email",
                               hint: "Malikvis@gmail.com",
-                              textEditingController: _email,onEditComplete: (){
-                             setState(() {
-                               isEmailError=false;
-                               FocusScope.of(context).requestFocus(_passwordnode);
-                             });
-                             },
+                              textEditingController: _email,
+                              onEditComplete: () {
+                                setState(() {
+                                  isEmailError = false;
+                                  FocusScope.of(context).requestFocus(
+                                      _passwordnode);
+                                });
+                              },
                             ),
                           ),
                           SizedBox(
                             height: 20,
                           ),
-                          CustomTextField(isError: isPasswordError,
+                          //Password Text Field
+                          CustomTextField(
+                            isError: isPasswordError,
                             headerText: "Password",
-                            hint: "************",isPassword: true,
-                            textEditingController: _password,focusNode: _passwordnode,onEditComplete: (){
-                             setState(() {
-                               isPasswordError=false;
-                               FocusScope.of(context).unfocus();
-                             });
-
+                            hint: "************",
+                            isPassword: true,
+                            textEditingController: _password,
+                            focusNode: _passwordnode,
+                            onEditComplete: () {
+                              setState(() {
+                                isPasswordError = false;
+                                FocusScope.of(context).unfocus();
+                              });
                             },
                           ),
                           SizedBox(
                             height: 15,
                           ),
                         ]),
-                  ),
-                  Padding(//todo: add forget password with it functions/edit error for password field
-                    padding: const EdgeInsets.only(top: 160),
-                    child: CustomButton(width: 160,
+                  ), Padding(padding: EdgeInsets.only(top: 90),
+                    child: GestureDetector(onTap: (){
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>Forgot_Password()));
+                    },
+                      child: CustomText(text: "forgot password?",
+                          underline: true,
+                          color: ErrorMesseageText,
+                          align: Alignment.center),
+                    ),),
+                  Padding( //todo: add forget password with it functions/edit error for password field
+                    padding: const EdgeInsets.only(
+                        top: 30, left: 16, right: 16),
+                    child: CustomButton(
+                      width: double.maxFinite,
                       child: CustomText(
                         text: "Log in",
                         color: Colors.white,
@@ -119,17 +140,16 @@ class _LoginState extends State<Login> {
                         String email = _email.text;
                         String password = _password.text;
                         Either<String, dynamic> user =
-                            await auth.login(email, password);
+                        await auth.login(email, password);
                         if (user.isLeft) {
                           log(user.left);
 
-                            if(user.left=="invalid-email"){
-                              log("triggered");
-                              isEmailError=true;
-                            }else{
-                              isPasswordError=true;}
-
-
+                          if (user.left == "invalid-email") {
+                            log("triggered");
+                            isEmailError = true;
+                          } else {
+                            isPasswordError = true;
+                          }
                         } else {
                           Navigator.push(
                               context,

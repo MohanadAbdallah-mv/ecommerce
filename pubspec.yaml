@@ -31,8 +31,8 @@ dependencies:
   shared_preferences: 2.2.0
   intl: 0.18.1
   provider: 6.0.4
-  firebase_core: 2.15.1
-  firebase_auth: 4.9.0
+  firebase_core: 2.16.0
+  firebase_auth: 4.10.0
   firebase_storage: 11.1.2
   either_dart: 1.0.0
   flutter_svg: 2.0.7

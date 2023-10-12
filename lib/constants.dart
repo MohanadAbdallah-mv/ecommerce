@@ -7,6 +7,7 @@ const Color TextFieldColor=Color(0xff999896);
 const Color SearchBarColor=Color(0xffABAFB1);
 const Color AuthorColor=Color(0xff8A000000);
 const Color TypingColor=Color(0x8A000000);
+const Color ErrorMesseageText=Color(0xB0000000);
 
 
 // const Color titleColor= Color(0xfffcfcfc);

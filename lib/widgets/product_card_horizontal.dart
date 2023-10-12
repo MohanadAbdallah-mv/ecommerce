@@ -41,6 +41,7 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
       child: Row(
         children: [
           Container(
+           //color: Colors.blue,
             width: 150,
             height: 172,
             child: Stack(
@@ -107,6 +108,8 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
             ),
           ),
           Container(
+            height: 172,
+            //color: Colors.red,
             padding: EdgeInsets.only(left: 12, top: 20),
             width: 240,
             child: Column(
@@ -114,11 +117,11 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  height: 44,
+                  height: widget.product.name!.length >= 19 ? 44 : 24,
                   width: 180,
                   text: widget.product.name!,
                   textalign: TextAlign.left,
-                  // trim: widget.product.name!.length >= 20 ? true : false,
+                   trim: widget.product.name!.length >= 40 ? true : false,
                   color: AppTitleColor,
                   fontfamily: "ReadexPro",
                   fontWeight: FontWeight.w400,
@@ -131,6 +134,7 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
                   textalign: TextAlign.left,
                   size: 15,
                 ),
+
                 widget.isDiscount
                     ? Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -167,10 +171,11 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
                 Row(mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
+
                       width: 192,
                       height: 48,
-                      alignment: Alignment.bottomLeft,
-                      padding: EdgeInsets.only(left: 14, bottom: 4),
+                      //alignment: Alignment.bottomLeft,
+                      padding: EdgeInsets.only(left: 14, bottom: 8),
                       child: ListView.builder(
                         reverse: true,
                         scrollDirection: Axis.vertical,
@@ -183,6 +188,7 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
                           fontfamily: "ReadexPro",
                           fontWeight: FontWeight.w400,
                           color: primaryColor,
+                          size: 15,
                         ),
                       ),
                     ),

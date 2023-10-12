@@ -27,6 +27,8 @@ abstract class AuthHandler {
   Future<Either<String, MyUser>> register(FormUser userForm);
 
   Either<String, String> signout(MyUser user);
+
+  Future<Either<String, String>> requestPasswordReset(String email);
 }
 
 class AuthHandlerImplement extends AuthHandler {
@@ -64,7 +66,6 @@ class AuthHandlerImplement extends AuthHandler {
 
   @override
   Future<Either<String, MyUser>> register(FormUser userForm) async {
-
     try {
       Either<String, UserCredential> potentialuser =
           await authImplement.register(userForm);
@@ -74,9 +75,9 @@ class AuthHandlerImplement extends AuthHandler {
 
         user = MyUser(
             id: potentialuser.right.user!.uid,
-            name: potentialuser.right.user!.displayName!,
+            name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
-            phonenumber: potentialuser.right.user!.phoneNumber!,
+            phonenumber: potentialuser.right.user!.phoneNumber,
             isLogged: true);
         log("we got user");
         CacheData.setData(key: "user", value: user);
@@ -97,9 +98,8 @@ class AuthHandlerImplement extends AuthHandler {
       CacheData.deleteItem(key: "user");
       return Right("done");
     } catch (e) {
-    return  Left(e.toString());
+      return Left(e.toString());
     }
-
   }
 
   Either<String, MyUser> getCurrentUser() {
@@ -108,6 +108,16 @@ class AuthHandlerImplement extends AuthHandler {
           jsonDecode(CacheData.getData(key: "user"));
       MyUser user = MyUser.fromJson(cashedjsonuser);
       return Right(user);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, String>> requestPasswordReset(String email) async {
+    try {
+      await authImplement.requestpassword(email);
+      return Right("Success");
     } catch (e) {
       return Left(e.toString());
     }

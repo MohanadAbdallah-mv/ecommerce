@@ -31,6 +31,7 @@ abstract class Auth {
   Future<Either<String, UserCredential>> login(FormUser userForm);
 
   Future<Either<String, UserCredential>> register(FormUser userForm);
+  Future<Either<String, String>> requestpassword(String email);
 
 }
 
@@ -40,6 +41,9 @@ class AuthImplement extends Auth {
   @override
   Future<Either<String, UserCredential>> login(FormUser userForm) async {
     try {
+// firebaseauth.sendPasswordResetEmail(email: email)
+// firebaseauth.confirmPasswordReset(code: code, newPassword: newPassword)
+// firebaseauth.verifyPasswordResetCode(code)
 
       final credential = await firebaseauth.signInWithEmailAndPassword(
           email: userForm.email, password: userForm.password);
@@ -47,6 +51,8 @@ class AuthImplement extends Auth {
       return Right(credential);
     } on FirebaseAuthException catch (e) {
       log("'log in failure' auth_source");
+      log(e.code);
+      log(e.message.toString());
       return Left(e.code);
     }
   }
@@ -80,6 +86,17 @@ class AuthImplement extends Auth {
     }on FirebaseException catch (e) {
       return Left(e.code);
     }
+  }
+  @override
+  Future<Either<String, String>> requestpassword(String email)async {
+try{
+  await firebaseauth.sendPasswordResetEmail(email: email);
+  return Right("Success");
+}on FirebaseAuthException catch(e){
+  log(e.code);
+  log(e.message.toString());
+  return Left(e.code);
+}
   }
 
 
