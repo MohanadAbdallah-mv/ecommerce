@@ -22,16 +22,19 @@ class Forgot_Password extends StatefulWidget {
 
 class _Forgot_PasswordState extends State<Forgot_Password> {
   late final TextEditingController _email;
+
   @override
   void initState() {
     _email = TextEditingController();
     super.initState();
   }
+
   @override
   void dispose() {
     _email.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AuthController>(builder: (context, auth, child) {
@@ -62,7 +65,7 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, right: 50),
                   child: Column(
-                      //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         //Svg pic
@@ -104,8 +107,12 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                           padding: const EdgeInsets.only(top: 20),
                           child: CustomText(
                             text:
-                                "we will send verification code if you did not recieve any, please click ",
-                            color: Colors.black,textalign: TextAlign.left,fontfamily: "ReadexPro",fontWeight: FontWeight.w400,size: 15,
+                            "we will send verification code if you did not recieve any, please click ",
+                            color: Colors.black,
+                            textalign: TextAlign.left,
+                            fontfamily: "ReadexPro",
+                            fontWeight: FontWeight.w400,
+                            size: 15,
                           ),
                         ),
                       ]),
@@ -122,11 +129,14 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                       size: 15,
                     ),
                     onpress: () async {
-                       String email = _email.text;
-                      String response =await auth.resetPassword(email);
+                      String email = _email.text;
+                      String response = await auth.resetPassword(email);
+                      showDialog(context: context, builder: (context) {
+                        return AlertDialog(content: Text(response),);
+                      });
                       print(response);
-                       //Navigator.push(context,MaterialPageRoute(builder: (context)=>OTP_screen(email:email,)));
-                       // Either<String, dynamic> user =
+                      //Navigator.push(context,MaterialPageRoute(builder: (context)=>OTP_screen(email:email,)));
+                      // Either<String, dynamic> user =
                       // await auth.login(email, password);
                       // if (user.isLeft) {
                       //   log(user.left);

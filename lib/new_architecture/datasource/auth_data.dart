@@ -90,7 +90,7 @@ class AuthImplement extends Auth {
   @override
   Future<Either<String, String>> requestpassword(String email)async {
 try{
-  await firebaseauth.sendPasswordResetEmail(email: email);
+  await firebaseauth.sendPasswordResetEmail(email: email.trim() );
   return Right("Success");
 }on FirebaseAuthException catch(e){
   log(e.code);

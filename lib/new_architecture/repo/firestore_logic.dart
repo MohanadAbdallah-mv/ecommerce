@@ -5,6 +5,8 @@ import 'package:ecommerece/models/product.dart';
 import 'package:ecommerece/new_architecture/datasource/firestore_data.dart';
 import 'package:either_dart/either.dart';
 
+import '../../models/user_model.dart';
+
 abstract class Firestorehandler {
   FirestoreImplement firestoreImplement;
 
@@ -12,8 +14,9 @@ abstract class Firestorehandler {
 
   Future<Either<String,List>> getCategory();
   Future<Either<String,List>> getBestSeller(String category);
-  Future<Either<String,List>> getDontMiss();
+  Future<Either<String,List>> getDontMiss(String category);
   Future<Either<String,List>> getSimilarFrom(String subcategory);
+  Future<String> addUser(MyUser user);
 
 }
 
@@ -63,10 +66,10 @@ class FirestorehandlerImplement extends Firestorehandler {
     }
   }
   @override
-  Future<Either<String, List<Product>>> getDontMiss() async{
+  Future<Either<String, List<Product>>> getDontMiss(String category) async{
     try {
       List<Product>products=[];
-      Either<String, QuerySnapshot<Map<String,dynamic>>>dontMiss = await firestoreImplement.getDontMiss();
+      Either<String, QuerySnapshot<Map<String,dynamic>>>dontMiss = await firestoreImplement.getDontMiss(category);
       if (dontMiss.isRight) {
         log("entering");
         try{
@@ -121,5 +124,15 @@ class FirestorehandlerImplement extends Firestorehandler {
       log("logic_error");
       return Left(e.toString());
     }
+  }
+  @override
+  Future<String> addUser(MyUser user) async{
+      try{
+        String res=await firestoreImplement.addUser(user);
+        return res;
+      }catch (e){
+        return e.toString();
+      }
+
   }
 }

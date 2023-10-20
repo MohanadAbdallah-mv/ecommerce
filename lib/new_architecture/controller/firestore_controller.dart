@@ -5,6 +5,8 @@ import 'package:ecommerece/new_architecture/repo/firestore_logic.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../models/user_model.dart';
+
 class FireStoreController extends ChangeNotifier {
   FirestorehandlerImplement firestorehandlerImplement;
   int categorySelectedindex;
@@ -67,10 +69,10 @@ class FireStoreController extends ChangeNotifier {
       return Left(e.toString());
     }
   }
-  Future<Either<String, List<Product>>> getDontMiss() async {
+  Future<Either<String, List<Product>>> getDontMiss(String category) async {
     try {
       Either<String, List<Product>> res =
-      await firestorehandlerImplement.getDontMiss();
+      await firestorehandlerImplement.getDontMiss(category);
       if (res.isRight) {
         print(res.right);
         return Right(res.right);
@@ -93,6 +95,14 @@ class FireStoreController extends ChangeNotifier {
       }
     } catch (e) {
       return Left(e.toString());
+    }
+  }
+  Future<String> addUser(MyUser user) async{
+    try{
+      String res = await firestorehandlerImplement.addUser(user);
+      return res;
+    }catch (e){
+      return e.toString();
     }
   }
 

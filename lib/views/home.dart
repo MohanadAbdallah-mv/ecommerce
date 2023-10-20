@@ -58,11 +58,11 @@ class _HomePageState extends State<HomePage> {
     return myfuture.right;
   }
 
-  Future<List<Product>> MyFutureDontMiss() async {
+  Future<List<Product>> MyFutureDontMiss(String category) async {
     log('fuck');
     var myfuture =
         await Provider.of<FireStoreController>(context, listen: false)
-            .getDontMiss();
+            .getDontMiss(category);
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
 
     return myfuture.right;
@@ -250,7 +250,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 265,
                 child: FutureBuilder(
-                    future: MyFutureDontMiss(),
+                    future: MyFutureDontMiss(category),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
                         //handle snapshot with loading indicator /not found indicator will be no internet connection

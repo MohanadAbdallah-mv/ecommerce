@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:html';
 
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
@@ -36,9 +37,28 @@ class _ProductListState extends State<ProductList> {
 
     return myfuture.right;
   }
+  Future<List<Product>?> MyFutureDontMiss(String category) async {
+    log('fuck');
+    var myfuture =
+    await Provider.of<FireStoreController>(context, listen: false)
+        .getDontMiss(category);
+//todo : implement either left and put it down to show error if it is left,null loading and right is data
+
+    return myfuture.right;
+  }
 @override
   void initState() {
-  products=MyFutureBestSeller(widget.category);
+    switch(widget.title){
+      case "BestSeller":
+        products=MyFutureBestSeller(widget.category);
+        break;
+      case "DontMiss":
+        products=MyFutureDontMiss(widget.category);
+        break;
+      default:
+        //product category in general
+    }
+
     // TODO: implement initState
     super.initState();
   }

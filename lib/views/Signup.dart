@@ -10,6 +10,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../new_architecture/controller/firestore_controller.dart';
+
 class Signup extends StatefulWidget {
   const Signup({super.key});
 
@@ -146,15 +148,25 @@ class _SignupState extends State<Signup> {
                             await auth.register(name, phone, email, password);
                         if (user.isLeft) {
 
-                          Scaffold.of(context).showBottomSheet((context) => SnackBar(
-                            content: Text(user.left),
-                          ));
+                          showDialog(context: context, builder: (context) {
+                            return AlertDialog(content: Text(user.left),);
+                          });
                         } else {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      HomePage(user: user.right)));
+
+                          await Provider.of<FireStoreController>(context).addUser(user.right).then((value) {
+                            if (value=="success"){
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HomePage(user: user.right)));
+                            }else{
+                              showDialog(context: context, builder: (context) {
+                                return AlertDialog(content: Text(value),);
+                              });
+                            }//todo check this one again with error and try catches
+                          });
+
                         }
                       },
                       borderColor: Colors.white,
