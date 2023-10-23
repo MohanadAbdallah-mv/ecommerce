@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ecommerece/constants.dart';
+import 'package:ecommerece/models/bottom_navigation_item.dart';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
@@ -83,6 +84,7 @@ class _HomePageState extends State<HomePage> {
         Provider.of<FireStoreController>(context).categorySelectedindex;
     category = Provider.of<FireStoreController>(context).categorySelected;
     print(categoryindex);
+    print(widget.user);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -109,11 +111,14 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         backgroundColor: Colors.white,
       ),
-      bottomNavigationBar:
-          BottomNavigationBar(type: BottomNavigationBarType.fixed, items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "profile")
-      ]),
+      // bottomNavigationBar: BottomNavigationBar(
+      //     currentIndex: index,
+      //     type: BottomNavigationBarType.fixed,
+      //     items: MenuItemList.map((MenuItem menuItem) =>
+      //         BottomNavigationBarItem(
+      //             icon: Icon(menuItem.iconData),
+      //             label: menuItem.label,
+      //             backgroundColor: primaryColor)).toList()),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(10),
@@ -169,11 +174,14 @@ class _HomePageState extends State<HomePage> {
                         height: 56,
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.push(context,MaterialPageRoute(builder: (context)=>ProductList(
-                              user: widget.user,
-                              title: "BestSeller",
-                              category: category,
-                            )));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductList(
+                                          user: widget.user,
+                                          title: "BestSeller",
+                                          category: category,
+                                        )));
                           },
                           child: CustomText(
                             text: "see more",

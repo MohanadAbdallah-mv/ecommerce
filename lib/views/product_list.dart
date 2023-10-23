@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:html';
 
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
@@ -11,7 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/product.dart';
-import '../widgets/Category_card.dart';
+
 import '../widgets/CustomText.dart';
 
 class ProductList extends StatefulWidget {

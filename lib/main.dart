@@ -4,6 +4,7 @@ import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
 import 'package:ecommerece/new_architecture/repo/auth_logic.dart';
 import 'package:ecommerece/services/Cache_Helper.dart';
+import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/home.dart';
 import 'package:ecommerece/views/onBoarding.dart';
 import 'package:either_dart/either.dart';
@@ -52,6 +53,6 @@ class MyApp extends StatelessWidget {
         Provider.of<AuthController>(context).getCurrentUser();
 
     return MaterialApp(
-        home: user.isRight ? HomePage(user: user.right) : Intro());
+        home: user.isRight ? MainHome(user: user.right) : Intro());
   }
 }

@@ -66,14 +66,14 @@ class _ProductDetailedState extends State<ProductDetailed> {
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
-        bottomNavigationBar: BottomNavigationBar(
-            onTap: (index) {},
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person), label: "profile")
-            ]),
+        // bottomNavigationBar: BottomNavigationBar(
+        //     onTap: (index) {},
+        //     type: BottomNavigationBarType.fixed,
+        //     items: [
+        //       BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.person), label: "profile")
+        //     ]),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(8.0),

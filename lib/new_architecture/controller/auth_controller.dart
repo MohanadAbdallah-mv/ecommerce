@@ -38,8 +38,7 @@ class AuthController extends ChangeNotifier {
     }
   }
 
-  Future<Either<String, dynamic>> register(
-      String? name, String? phone, String? email, String? password) async {
+  Future<Either<String, dynamic>> register(String? name, String? phone, String? email, String? password) async {
     FormUser userForm = FormUser(
         name: name!, phonenumber: phone, email: email!, password: password!);
     log(userForm.toString());

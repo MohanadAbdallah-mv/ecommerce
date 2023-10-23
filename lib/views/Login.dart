@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
+import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/forgot_password.dart';
 import 'package:ecommerece/views/home.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
@@ -155,7 +156,7 @@ class _LoginState extends State<Login> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      HomePage(user: user.right)));
+                                      MainHome(user: user.right)));
                         }
                       },
                       borderColor: Colors.white,

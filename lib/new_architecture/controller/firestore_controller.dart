@@ -100,6 +100,7 @@ class FireStoreController extends ChangeNotifier {
   Future<String> addUser(MyUser user) async{
     try{
       String res = await firestorehandlerImplement.addUser(user);
+
       return res;
     }catch (e){
       return e.toString();

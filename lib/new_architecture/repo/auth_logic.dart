@@ -80,7 +80,7 @@ class AuthHandlerImplement extends AuthHandler {
             phonenumber: potentialuser.right.user!.phoneNumber,
             isLogged: true);
         log("we got user");
-        CacheData.setData(key: "user", value: user);
+        CacheData.setData(key: "user", value: jsonEncode(user.toJson()));
         return Right(user);
       } else {
         log("we don't have user");

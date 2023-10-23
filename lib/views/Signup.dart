@@ -11,6 +11,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../new_architecture/controller/firestore_controller.dart';
+import 'bottom_navigation.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -153,13 +154,14 @@ class _SignupState extends State<Signup> {
                           });
                         } else {
 
-                          await Provider.of<FireStoreController>(context).addUser(user.right).then((value) {
+                          await Provider.of<FireStoreController>(context,listen: false).addUser(user.right).then((value) {
                             if (value=="success"){
+                              print("entering");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          HomePage(user: user.right)));
+                                          MainHome(user: user.right)));
                             }else{
                               showDialog(context: context, builder: (context) {
                                 return AlertDialog(content: Text(value),);
