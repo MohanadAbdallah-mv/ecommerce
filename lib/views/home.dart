@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:ecommerece/constants.dart';
+import 'package:ecommerece/main.dart';
 import 'package:ecommerece/models/bottom_navigation_item.dart';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
@@ -87,14 +88,17 @@ class _HomePageState extends State<HomePage> {
     print(widget.user);
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true
+        ,
         leading: GestureDetector(
             onTap: () {
               Provider.of<AuthController>(context, listen: false)
                   .logout(widget.user);
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => Intro()),
-                  (route) => false);
+                  MaterialPageRoute(builder: (context) => MyApp()),
+                  (route) => false,);
+
             },
             child: Icon(
               Icons.arrow_back_outlined,
@@ -243,11 +247,23 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Container(
                         height: 56,
-                        child: CustomText(
-                          text: "see more",
-                          color: TypingColor,
-                          align: Alignment.center,
-                          size: 15,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductList(
+                                          user: widget.user,
+                                          title: "DontMiss",
+                                          category: category,
+                                        )));
+                          },
+                          child: CustomText(
+                            text: "see more",
+                            color: TypingColor,
+                            align: Alignment.center,
+                            size: 15,
+                          ),
                         ),
                       ),
                     ],

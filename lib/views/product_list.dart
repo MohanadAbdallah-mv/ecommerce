@@ -76,14 +76,7 @@ class _ProductListState extends State<ProductList> {
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
-        bottomNavigationBar:
-            BottomNavigationBar(type: BottomNavigationBarType.fixed, items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "home",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "profile")
-        ]),
+
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(10),

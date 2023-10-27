@@ -24,7 +24,7 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldGlobalBottomNavigation(listOfChild: [
+    return ScaffoldGlobalBottomNavigation(primary: true,listOfChild: [
       Intro(),
       Intro(),
       HomePage(user: widget.user),
@@ -40,8 +40,8 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
       color: Colors.white,
       vSync: this,
     ),BottomNavigationItem(
-      activeIcon: SvgPicture.asset("assets/svg/bottom_navigation_bar/category.svg"),
-      inActiveIcon: SvgPicture.asset("assets/svg/bottom_navigation_bar/category.svg"),
+      activeIcon: SvgPicture.asset("assets/svg/bottom_navigation_bar/Category.svg"),
+      inActiveIcon: SvgPicture.asset("assets/svg/bottom_navigation_bar/Category.svg"),
       title: 'Category',
       color: Colors.white,
       vSync: this,
