@@ -59,16 +59,17 @@ class AuthController extends ChangeNotifier {
   }
 
   Future<String> resetPassword(String email) async {
-    Either<String, String> response;
-    await repo.requestPasswordReset(email).then((value) {
-      response = value;
-      if (response.isRight) {
-        return response.right;
+
+    String response=await repo.requestPasswordReset(email).then((value) {
+      if (value.isRight) {
+        log(value.right);
+        return value.right;
       } else {
-        return response.left;
+        log(value.left);
+        return value.left;
       }
     });
-    return"failed";
+    return response;
   }
 
   String logout(user) {

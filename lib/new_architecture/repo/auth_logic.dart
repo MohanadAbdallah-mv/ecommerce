@@ -67,19 +67,21 @@ class AuthHandlerImplement extends AuthHandler {
   @override
   Future<Either<String, MyUser>> register(FormUser userForm) async {
     try {
-      Either<String, UserCredential> potentialuser =
+      Either<String, User> potentialuser =
           await authImplement.register(userForm);
       if (potentialuser.isRight) {
         log("hi");
-        late MyUser user;
-
+        MyUser user;
+        log(potentialuser.right.displayName.toString());
         user = MyUser(
-            id: potentialuser.right.user!.uid,
-            name: potentialuser.right.user!.displayName,
-            email: potentialuser.right.user!.email!,
-            phonenumber: potentialuser.right.user!.phoneNumber,
+            id: potentialuser.right.uid,
+            name: potentialuser.right.displayName,
+            email: potentialuser.right.email!,
+            phonenumber: potentialuser.right.phoneNumber,
             isLogged: true);
         log("we got user");
+        log(user.name.toString());
+        log(user.id.toString());
         CacheData.setData(key: "user", value: jsonEncode(user.toJson()));
         return Right(user);
       } else {

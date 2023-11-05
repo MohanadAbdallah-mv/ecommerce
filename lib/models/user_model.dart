@@ -6,6 +6,7 @@ class MyUser {
   late String? phonenumber;
   late bool isLogged;
 
+
   MyUser(
       {required this.id, required this.name,
       required this.email,

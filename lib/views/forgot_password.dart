@@ -93,7 +93,7 @@ class _Forgot_PasswordState extends State<Forgot_Password> {
                               size: 16,
                             ),
                             hint: "Malikvis@gmail.com",
-                            // textEditingController: _email,
+                            textEditingController: _email,
                             onEditComplete: () {
                               setState(() {
                                 //                            isEmailError = false;

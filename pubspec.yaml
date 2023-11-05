@@ -38,6 +38,7 @@ dependencies:
   flutter_svg: 2.0.7
   google_fonts: 6.1.0
   flutter_otp_text_field: 1.1.1
+  restart_app: 1.2.1
   global_bottom_navigation_bar:
     path: packages/Global-Bottom-Navigation-Bar-main
   flutter:

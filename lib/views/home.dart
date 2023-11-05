@@ -90,20 +90,18 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true
         ,
-        leading: GestureDetector(
-            onTap: () {
-              Provider.of<AuthController>(context, listen: false)
-                  .logout(widget.user);
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => MyApp()),
-                  (route) => false,);
-
-            },
-            child: Icon(
-              Icons.arrow_back_outlined,
-              color: Colors.black,
-            )),
+        // leading: GestureDetector(
+        //     onTap: () {
+        //       Provider.of<AuthController>(context, listen: false)
+        //           .logout(widget.user);
+        //       Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+        //         MaterialPageRoute(builder: (context) => new MyApp()),
+        //             (route) => false,);
+        //     },
+        //     child: Icon(
+        //       Icons.arrow_back_outlined,
+        //       color: Colors.black,
+        //     )),
         title: Center(
           child: Text(
             "Shoppie",

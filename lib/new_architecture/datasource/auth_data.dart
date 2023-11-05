@@ -30,7 +30,7 @@ abstract class Auth {
 
   Future<Either<String, UserCredential>> login(FormUser userForm);
 
-  Future<Either<String, UserCredential>> register(FormUser userForm);
+  Future<Either<String, User>> register(FormUser userForm);
   Future<Either<String, String>> requestpassword(String email);
 
 }
@@ -58,7 +58,7 @@ class AuthImplement extends Auth {
   }
 
   @override
-  Future<Either<String, UserCredential>> register(FormUser userForm) async {
+  Future<Either<String, User>> register(FormUser userForm) async {
     UserCredential credential;
     try {
 
@@ -78,11 +78,13 @@ class AuthImplement extends Auth {
       //credential.user!.updatePhoneNumber(userForm.phonenumber!);
 
       log(userForm.name.toString());
-      // await FirebaseAuth.instance.currentUser!.updateDisplayName(userForm.name.toString());
-      // await FirebaseAuth.instance.currentUser!.reload(); //TODO user set display name not working at the moment
+      await firebaseauth.currentUser!.updateDisplayName(userForm.name.toString());
+      log(firebaseauth.currentUser.toString());
+      await firebaseauth.currentUser!.reload(); //TODO user set display name not working at the moment
       //log(credential.user.displayName.toString());
+      User user=firebaseauth.currentUser!;
       log("'user have name and phone number now' auth_source");
-      return Right(credential);
+      return Right(user);
     }on FirebaseException catch (e) {
       return Left(e.code);
     }
@@ -90,7 +92,9 @@ class AuthImplement extends Auth {
   @override
   Future<Either<String, String>> requestpassword(String email)async {
 try{
+  log(email);
   await firebaseauth.sendPasswordResetEmail(email: email.trim() );
+  //firebaseauth.sendPasswordResetEmail(email: email);
   return Right("Success");
 }on FirebaseAuthException catch(e){
   log(e.code);
