@@ -1,11 +1,13 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/firebase_options.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
+import 'package:ecommerece/new_architecture/controller/cart_controller.dart';
 import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
 import 'package:ecommerece/new_architecture/repo/auth_logic.dart';
+import 'package:ecommerece/new_architecture/repo/cart_repo.dart';
 import 'package:ecommerece/services/Cache_Helper.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
-import 'package:ecommerece/views/home.dart';
 import 'package:ecommerece/views/onBoarding.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +29,7 @@ Future<void> main() async {
     ChangeNotifierProvider(
         create: (context) => FireStoreController(
             firestorehandlerImplement: FirestorehandlerImplement(
+              cacheData: CacheData(),
                 firestoreImplement: FirestoreImplement(
                     firebaseFirestore: FirebaseFirestore.instance)))),
     ChangeNotifierProvider(
@@ -35,7 +38,9 @@ Future<void> main() async {
             repo: AuthHandlerImplement(
                 authImplement:
                     AuthImplement(firebaseauth: FirebaseAuth.instance),
-                cacheData: CacheData())))
+                cacheData: CacheData()))),
+    ChangeNotifierProvider(
+        create: (context) => CartController(cartRepo: CartRepo()))
   ], child: MyApp()));
 }
 

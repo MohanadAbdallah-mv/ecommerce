@@ -1,4 +1,5 @@
 
+import 'dart:convert';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/models/product.dart';
@@ -6,22 +7,25 @@ import 'package:ecommerece/new_architecture/datasource/firestore_data.dart';
 import 'package:either_dart/either.dart';
 
 import '../../models/user_model.dart';
+import '../../services/Cache_Helper.dart';
 
 abstract class Firestorehandler {
   FirestoreImplement firestoreImplement;
-
-  Firestorehandler({required this.firestoreImplement});
+  CacheData cacheData;
+  Firestorehandler({required this.firestoreImplement,required this.cacheData});
 
   Future<Either<String,List>> getCategory();
   Future<Either<String,List>> getBestSeller(String category);
   Future<Either<String,List>> getDontMiss(String category);
   Future<Either<String,List>> getSimilarFrom(String subcategory);
   Future<String> addUser(MyUser user);
+  Future<Either<String,MyUser>> getUser(MyUser user);
+  Future<String> updateUser(MyUser user);
 
 }
 
 class FirestorehandlerImplement extends Firestorehandler {
-  FirestorehandlerImplement({required super.firestoreImplement});
+  FirestorehandlerImplement({required super.firestoreImplement,required super.cacheData});
 
   @override
   Future<Either<String,List<String>>> getCategory() async {
@@ -133,6 +137,28 @@ class FirestorehandlerImplement extends Firestorehandler {
       }catch (e){
         return e.toString();
       }
+  }
+  @override
+  Future<Either<String,MyUser>> getUser(MyUser user) async{
+    try{
+      Either<String, MyUser> res=await firestoreImplement.getUser(user);
+      if(res.isRight){
+        CacheData.setData(key: "user", value: jsonEncode(user.toJson()));
+        CacheData.setData(key: "cart", value: jsonEncode(user.cart.toJson()));
+        return Right(res.right);
+      }else{return Left(res.left);}
+    }catch (e){
+      return Left(e.toString());
+    }
+  }
+  @override
+  Future<String> updateUser(MyUser user) async{
+    try{
+      String res=await firestoreImplement.updateUser(user);
 
+      return res;
+    }catch (e){
+      return e.toString();
+    }
   }
 }

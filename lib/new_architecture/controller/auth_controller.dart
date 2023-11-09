@@ -11,8 +11,8 @@ import '../../models/user_model.dart';
 class AuthController extends ChangeNotifier {
   // I handle collecting data from the user interface and passing it to the logic layer
   // I also handle the logic layer's response and pass it to the user interface
-  CacheData cache;
-  AuthHandlerImplement repo;
+  final CacheData cache;
+  final AuthHandlerImplement repo;
 
   AuthController({required this.cache, required this.repo});
 

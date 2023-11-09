@@ -6,13 +6,14 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../models/user_model.dart';
+import 'cart_controller.dart';
 
 class FireStoreController extends ChangeNotifier {
   FirestorehandlerImplement firestorehandlerImplement;
   int categorySelectedindex;
   bool isSelected;
   late String categorySelected;
-
+  late CartController _cart;
   FireStoreController(
       {required this.firestorehandlerImplement,
       this.categorySelectedindex = 0,
@@ -105,6 +106,30 @@ class FireStoreController extends ChangeNotifier {
     }catch (e){
       return e.toString();
     }
+  }
+  Future<Either<String,MyUser>>getUser(MyUser user)async{
+    try{
+
+      Either<String,MyUser> res = await firestorehandlerImplement.getUser(user);
+      user=res.right;
+      return Right(user);
+    }catch (e){
+      return Left(e.toString());
+    }
+  }
+  Future<void>updateUser(MyUser user)async{
+      String res = await firestorehandlerImplement.updateUser(user);
+      print(res);
+  }
+
+  void initProduct(CartController cartController){
+    _cart=cartController;
+
+  }
+  void addItem(Product product,MyUser user){
+    _cart.addItem(product,user);
+    updateUser(user);
+//needs to be handled more when to update and when not
   }
 
 

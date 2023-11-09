@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:ecommerece/models/cart.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
@@ -46,7 +47,8 @@ class AuthHandlerImplement extends AuthHandler {
             name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
             phonenumber: potentialuser.right.user!.phoneNumber,
-            isLogged: true);
+            isLogged: true,
+            cart: Cart([], 0));
         //Map<String,dynamic>json=user.toJson();
         CacheData.setData(key: "user", value: jsonEncode(user.toJson()));
 
@@ -78,7 +80,8 @@ class AuthHandlerImplement extends AuthHandler {
             name: potentialuser.right.displayName,
             email: potentialuser.right.email!,
             phonenumber: potentialuser.right.phoneNumber,
-            isLogged: true);
+            isLogged: true
+            ,cart: Cart([], 0));
         log("we got user");
         log(user.name.toString());
         log(user.id.toString());

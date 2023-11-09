@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:ecommerece/constants.dart';
+import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
+import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/forgot_password.dart';
 import 'package:ecommerece/views/home.dart';
@@ -152,11 +154,13 @@ class _LoginState extends State<Login> {
                             isPasswordError = true;
                           }
                         } else {
+                          // need to handle if it didn't return user on right but will leave it for now
+                          Either<String,MyUser>res=await Provider.of<FireStoreController>(context,listen: false).getUser(user.right);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      MainHome(user: user.right)));
+                                      MainHome(user: res.right)));
                         }
                       },
                       borderColor: Colors.white,

@@ -1,3 +1,4 @@
+import 'package:ecommerece/new_architecture/controller/cart_controller.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:either_dart/either.dart';
@@ -9,10 +10,8 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../models/product.dart';
 import '../models/user_model.dart';
-import '../new_architecture/controller/auth_controller.dart';
 import '../new_architecture/controller/firestore_controller.dart';
 import '../widgets/Product_card.dart';
-import 'onBoarding.dart';
 
 class ProductDetailed extends StatefulWidget {
   Product product;
@@ -40,6 +39,7 @@ class _ProductDetailedState extends State<ProductDetailed> {
   @override
   Widget build(BuildContext context) {
     isDiscount=widget.product.discount_price!>0?true:false;
+    Provider.of<FireStoreController>(context).initProduct(Provider.of<CartController>(context));
     return Scaffold(
         appBar: AppBar(
           // leading: GestureDetector(
@@ -300,6 +300,7 @@ class _ProductDetailedState extends State<ProductDetailed> {
                         onpress: () {
                          // Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailed(product: widget.product, user: widget.user)));
                           //todo : add to cart screen or bottom sheet
+                          Provider.of<FireStoreController>(context,listen: false).addItem(widget.product,widget.user);
                         },
                         borderColor: Colors.white,
                         color: primaryColor,
