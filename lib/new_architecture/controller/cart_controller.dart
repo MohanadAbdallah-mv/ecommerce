@@ -19,6 +19,13 @@ class CartController extends ChangeNotifier {
     }
 
     );
-    _items.forEach((key, value) { user.cart.items!.add(value); });
+
+    _items.forEach((key, value) {
+     if(user.cart.items!.contains(value)){}else{user.cart.items!.add(value) ;}
+
+    });//user.cart.items!. (value)
+    print(user.cart);
+    print(user.cart.items);
+
   }
 }

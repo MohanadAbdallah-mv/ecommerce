@@ -155,9 +155,11 @@ class FirestorehandlerImplement extends Firestorehandler {
   Future<String> updateUser(MyUser user) async{
     try{
       String res=await firestoreImplement.updateUser(user);
+      log(res+"from logic");
 
       return res;
     }catch (e){
+      log(e.toString()+"from logic error");
       return e.toString();
     }
   }

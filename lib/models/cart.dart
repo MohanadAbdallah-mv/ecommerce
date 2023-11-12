@@ -8,9 +8,17 @@ class Cart {
 
   Cart.fromJson(Map<String, dynamic> json) {
     //todo : cart item map to json like i did for user mapping in notes
-    items =json["items"];//CartItem.fromJson(json["items"]) ;
+    // final List mapper=jsonDecode(CacheData.getData(key: "notes"));
+    // _noteslist=mapper.map((val)=>Note.fromJson(v
+    print(json["items"]);
+    items =json["items"].map((val)=>CartItem.fromJson(val)).toList();//       CartItem.fromJson(json["items"]) ;
     totalPrice = json["totalPrice"];
   }
 
-  Map<String, dynamic> toJson() => {"items": items, "totalPrice": totalPrice};
-}
+  Map<String, dynamic> toJson() {
+   var cartitemsmap=items!.map((e)=>e.toJson()).toList();
+    return {
+      "items": cartitemsmap,
+    "totalPrice": totalPrice
+  };
+  }}

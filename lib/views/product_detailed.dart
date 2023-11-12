@@ -298,7 +298,6 @@ class _ProductDetailedState extends State<ProductDetailed> {
                           align: Alignment.center,
                         ),
                         onpress: () {
-                         // Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductDetailed(product: widget.product, user: widget.user)));
                           //todo : add to cart screen or bottom sheet
                           Provider.of<FireStoreController>(context,listen: false).addItem(widget.product,widget.user);
                         },

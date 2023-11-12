@@ -156,11 +156,20 @@ class _LoginState extends State<Login> {
                         } else {
                           // need to handle if it didn't return user on right but will leave it for now
                           Either<String,MyUser>res=await Provider.of<FireStoreController>(context,listen: false).getUser(user.right);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      MainHome(user: res.right)));
+                          if(res.isRight){
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        MainHome(user: res.right)));
+                          }else{
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        MainHome(user: user.right)));
+                          }
+
                         }
                       },
                       borderColor: Colors.white,

@@ -96,7 +96,17 @@ class FirestoreImplement extends Firestore {
     try {
       CollectionReference<Map<String, dynamic>> usersref =
           firebaseFirestore.collection('users');
-      await usersref.add(user.toJson());
+      await usersref.doc(user.id).set({
+        "id": user.id,
+        "name": user.name,
+        "email": user.email,
+        "phonenumber": user.phonenumber,
+        "isLogged": user.isLogged,
+        "cart": user.cart.toJson(),
+        "wishList": user.wishList,
+        "orders": user.orders
+      });//.add(user.toJson());
+      //await userdoc.set(data)
       return "success";
     } on FirebaseException catch (e) {
       return e.message.toString();
@@ -122,15 +132,15 @@ class FirestoreImplement extends Firestore {
   @override
   Future<String> updateUser(MyUser user) async {
     try {
-      final usersref = firebaseFirestore
-          .collection('users')
-          .withConverter<MyUser>(
+      final usersref = firebaseFirestore.collection('users').withConverter<MyUser>(
           fromFirestore: (snapshot, _) => MyUser.fromJson(snapshot.data()!),
           toFirestore: (myuser, _) => myuser.toJson());
+      //final docref=firebaseFirestore.doc(documentPath).
       await usersref.doc(user.id).update(user.toJson());
       log("user updates is done");
       return "updated";
     } on FirebaseException catch (e) {
+      log(e.message.toString()+"firestore data");
       return e.message.toString();
     }
   }
