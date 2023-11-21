@@ -132,10 +132,12 @@ class FirestoreImplement extends Firestore {
   @override
   Future<String> updateUser(MyUser user) async {
     try {
+      log("entering");
       final usersref = firebaseFirestore.collection('users').withConverter<MyUser>(
           fromFirestore: (snapshot, _) => MyUser.fromJson(snapshot.data()!),
           toFirestore: (myuser, _) => myuser.toJson());
       //final docref=firebaseFirestore.doc(documentPath).
+      log("entering");
       await usersref.doc(user.id).update(user.toJson());
       log("user updates is done");
       return "updated";

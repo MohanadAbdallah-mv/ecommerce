@@ -37,4 +37,18 @@ class Product {
           stars: data["stars"],
           sub_category: data["sub_category"]);
   }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "Author_name": Author_name,
+    "category": category,
+    "Description": Description,
+    "discount_price": discount_price,
+    "dont_miss": dont_miss,
+    "image": image,
+    "is_best_seller": is_best_seller,
+    "price": price,
+    "Specifications": Specifications,
+    "stars": stars,
+    "sub_category": sub_category
+  };
 }

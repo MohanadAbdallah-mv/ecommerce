@@ -17,6 +17,8 @@ class Cart {
 
   Map<String, dynamic> toJson() {
    var cartitemsmap=items!.map((e)=>e.toJson()).toList();
+   print("cartitemsmap");
+   print(cartitemsmap);
     return {
       "items": cartitemsmap,
     "totalPrice": totalPrice

@@ -128,9 +128,15 @@ class FireStoreController extends ChangeNotifier {
   }
   void addItem(Product product,MyUser user){
     _cart.addItem(product,user);
+    notifyListeners();
     updateUser(user);
-//needs to be handled more when to update and when not
+//needs to be handled more when to update and when not// make get items list so i can notify and change it and call it with provider
   }
-
+  void getItemsList(Product product,MyUser user){
+    _cart.addItem(product,user);
+    notifyListeners();
+    updateUser(user);
+//needs to be handled more when to update and when not// make get items list so i can notify and change it and call it with provider
+  }
 
 }

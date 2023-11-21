@@ -1,17 +1,19 @@
 
+import 'package:ecommerece/models/product.dart';
+
 class CartItem{
-  String? productId;
+  Product? product;
   int? quantity;
   bool? isExist;
-CartItem({this.productId, this.quantity, this.isExist});
+CartItem({this.product, this.quantity, this.isExist});
 
 CartItem.fromJson(Map<String,dynamic>json){
-  productId=json["productId"];
-  quantity=json["productId"];
+  product=json["product"];
+  quantity=json["quantity"];
   isExist=json["isExist"];
 }
   Map<String,dynamic>toJson()=>{
-    "productId":productId,
+    "product":product!.toJson(),
     "quantity":quantity,
     "isExist":isExist,
   };
