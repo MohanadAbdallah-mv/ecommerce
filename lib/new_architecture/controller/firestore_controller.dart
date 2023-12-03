@@ -1,10 +1,12 @@
 import 'dart:developer';
 
+import 'package:ecommerece/models/cart_item.dart';
 import 'package:ecommerece/models/product.dart';
 import 'package:ecommerece/new_architecture/repo/firestore_logic.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../models/cart.dart';
 import '../../models/user_model.dart';
 import 'cart_controller.dart';
 
@@ -13,6 +15,7 @@ class FireStoreController extends ChangeNotifier {
   int categorySelectedindex;
   bool isSelected;
   late String categorySelected;
+  List<CartItem> cartItems=[];
   late CartController _cart;
   FireStoreController(
       {required this.firestorehandlerImplement,
@@ -124,6 +127,7 @@ class FireStoreController extends ChangeNotifier {
 
   void initProduct(CartController cartController){
     _cart=cartController;
+    //getItemsList(user);
 
   }
   void addItem(Product product,MyUser user){
@@ -132,10 +136,23 @@ class FireStoreController extends ChangeNotifier {
     updateUser(user);
 //needs to be handled more when to update and when not// make get items list so i can notify and change it and call it with provider
   }
-  void getItemsList(Product product,MyUser user){
-    _cart.addItem(product,user);
+  void updateItemsList(MyUser user) async{
+    //todo cartItems = await _cart.getItemList(user);
     notifyListeners();
-    updateUser(user);
+  }
+  Future<Either<String,List<CartItem>>> getItemsList(MyUser user)async{
+
+    Either<String,Cart> cart=await _cart.getCart(user);
+    if(cart.isRight){
+      if(cart.right.items==null){
+        cartItems=cart.right.items!;
+        print("this is cart items"+cartItems.toString());
+      return Right(cartItems);
+      }else{return Left("there's no items yet");}
+    }else{
+      print("firestore controller cart error");
+      return Left(cart.left);
+    }
 //needs to be handled more when to update and when not// make get items list so i can notify and change it and call it with provider
   }
 

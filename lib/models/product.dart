@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Product {
@@ -51,4 +53,19 @@ class Product {
     "stars": stars,
     "sub_category": sub_category
   };
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+    id: json["id"],
+    Author_name: json["Author_name"],
+    name: json["name"],
+    category: json["category"],
+    Description: json["Description"],
+    discount_price: json["discount_price"],
+    dont_miss: json["dont_miss"],
+    image: json["image"],
+    is_best_seller: json["is_best_seller"],
+    price: json["price"],
+    Specifications: json["Specifications"],
+    stars: json["stars"],
+    sub_category: json["sub_category"],
+  );
 }

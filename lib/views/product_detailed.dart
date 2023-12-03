@@ -39,7 +39,6 @@ class _ProductDetailedState extends State<ProductDetailed> {
   @override
   Widget build(BuildContext context) {
     isDiscount=widget.product.discount_price!>0?true:false;
-    Provider.of<FireStoreController>(context).initProduct(Provider.of<CartController>(context));
     return Scaffold(
         appBar: AppBar(
           // leading: GestureDetector(

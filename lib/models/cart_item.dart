@@ -8,7 +8,7 @@ class CartItem{
 CartItem({this.product, this.quantity, this.isExist});
 
 CartItem.fromJson(Map<String,dynamic>json){
-  product=json["product"];
+  product= Product.fromJson(json["product"]) ;
   quantity=json["quantity"];
   isExist=json["isExist"];
 }

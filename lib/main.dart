@@ -1,9 +1,9 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/firebase_options.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/controller/cart_controller.dart';
 import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
+import 'package:ecommerece/new_architecture/datasource/cart_data.dart';
 import 'package:ecommerece/new_architecture/repo/auth_logic.dart';
 import 'package:ecommerece/new_architecture/repo/cart_repo.dart';
 import 'package:ecommerece/services/Cache_Helper.dart';
@@ -29,18 +29,21 @@ Future<void> main() async {
     ChangeNotifierProvider(
         create: (context) => FireStoreController(
             firestorehandlerImplement: FirestorehandlerImplement(
-              cacheData: CacheData(),
+                cacheData: CacheData(),
                 firestoreImplement: FirestoreImplement(
                     firebaseFirestore: FirebaseFirestore.instance)))),
     ChangeNotifierProvider(
         create: (context) => AuthController(
-            cache: CacheData(),
             repo: AuthHandlerImplement(
                 authImplement:
                     AuthImplement(firebaseauth: FirebaseAuth.instance),
                 cacheData: CacheData()))),
     ChangeNotifierProvider(
-        create: (context) => CartController(cartRepo: CartRepo()))
+        create: (context) => CartController(
+            cartRepo: CartRepo(
+                cacheData: CacheData(),
+                cartStore:
+                    CartSource(firebaseFirestore: FirebaseFirestore.instance))))
   ], child: MyApp()));
 }
 
@@ -56,7 +59,12 @@ class MyApp extends StatelessWidget {
     //print(user);
     Either<String, MyUser> user =
         Provider.of<AuthController>(context).getCurrentUser();
-
+    Provider.of<FireStoreController>(context, listen: false)
+        .initProduct(Provider.of<CartController>(context));
+    user.isRight
+        ? Provider.of<FireStoreController>(context, listen: false)
+            .updateItemsList(user.right)
+        : null;
     return MaterialApp(
         home: user.isRight ? MainHome(user: user.right) : Intro());
   }

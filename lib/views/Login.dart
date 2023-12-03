@@ -16,6 +16,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../new_architecture/controller/cart_controller.dart';
+
 class Login extends StatefulWidget {
   const Login({super.key});
 
@@ -146,7 +148,9 @@ class _LoginState extends State<Login> {
                         await auth.login(email, password);
                         if (user.isLeft) {
                           log(user.left);
-
+                          showDialog(context: context, builder: (context) {
+                            return AlertDialog(content: Text(user.left),);
+                          });
                           if (user.left == "invalid-email") {
                             log("triggered");
                             isEmailError = true;
@@ -157,6 +161,7 @@ class _LoginState extends State<Login> {
                           // need to handle if it didn't return user on right but will leave it for now
                           Either<String,MyUser>res=await Provider.of<FireStoreController>(context,listen: false).getUser(user.right);
                           if(res.isRight){
+
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
