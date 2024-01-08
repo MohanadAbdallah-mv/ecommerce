@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:ecommerece/models/cart_item.dart';
+import 'package:ecommerece/models/product.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
+import 'package:ecommerece/widgets/Cart_Item.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,18 +25,14 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  late Future<Either<String, List<CartItem>>> cartItemsList;
+  late Future<List<CartItem>> cartItemsList;
 
-  Future<Either<String, List<CartItem>>> MyFutureCartItems() async {
-    Either<String, List<CartItem>> myfuture =
+  Future<List<CartItem>> MyFutureCartItems() async {
+    List<CartItem> myfuture =
         await Provider.of<FireStoreController>(context, listen: false)
             .getItemsList(widget.user);
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
-    if (myfuture.isRight) {
-      return Right(myfuture.right);
-    } else {
-      return Left(myfuture.left);
-    }
+    return myfuture;
   }
 
   @override
@@ -81,36 +79,50 @@ class _CartPageState extends State<CartPage> {
                 Padding(
                   padding: EdgeInsets.only(top: 12),
                   child: FutureBuilder(
-                      future: cartItemsList,
-                      builder: (context, snapshot) {
-                        if (snapshot.data == null) {
-                          //handle snapshot with loading indicator /not found indicator will be no internet connection
-                          return CircularProgressIndicator(); //Text("error");
-                        } else if (snapshot.hasError == true) {
-                          log(snapshot.error.toString());
-                          return Text(snapshot.error.toString());
-                        } else {
-                          if (snapshot.data!.isLeft) {
-                            print(snapshot.data!.left);
-                            return CustomText(
-                              text: snapshot.data!.left,
-                              color: Colors.black,
-                            );
-                          } else {
-                            return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.right.length,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) =>
-                                    ProductCardHorizontal(
-                                        index: index,
-                                        product: snapshot
-                                            .data!.right[index].product!,
-                                        user: widget.user)
-                            );
-                          }
-                        }
-                      }),
+                    future: cartItemsList,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        log("snapshot has error" + snapshot.error.toString());
+                        return CustomText(
+                          text: snapshot.error.toString(),
+                          color: Colors.black,
+                        );
+                      } else if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.data!.isEmpty) {
+                        print("no items");
+                        print(snapshot.data);
+                        return CustomText(
+                          text: "no items",
+                          color: Colors.black,
+                        );
+                      } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                        print("snapshot.hasData");
+                        print(snapshot.data!.length);
+                        print(widget.user.cart.items);
+                        print(snapshot.data![0].product!.name);
+
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            if (index >= snapshot.data!.length) {
+                              // Handle the case where the index is out of range
+                              return Container();
+                            } else {
+                              return CartItemCard(
+                                index: index,
+                                product: snapshot.data![index].product!,
+                                user: widget.user,
+                              );
+                            }
+                          },
+                        );
+                      }
+                      return CircularProgressIndicator();
+                    },
+                  ),
                 )
               ],
             ),
@@ -118,6 +130,12 @@ class _CartPageState extends State<CartPage> {
         ));
   }
 }
+// ProductCardHorizontal(
+// index: index,
+// product: snapshot
+//     .data!.right[index].product!,
+// user: widget.user)
+
 // Builder(
 // builder: (context) {
 // if (cart != null ? true : false) {

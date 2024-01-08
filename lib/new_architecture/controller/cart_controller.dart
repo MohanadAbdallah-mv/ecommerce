@@ -15,23 +15,27 @@ class CartController extends ChangeNotifier {
 
   Map<String, CartItem> _items = {};
   late Cart _cart;
- Future<Either<String,Cart>> getCart(MyUser user) async {
+
+  Future<Either<String,Cart>> getCart(MyUser user) async {
    try {
      Either<String, Cart> res = await cartRepo.getCart(user);
      if (res.isRight) {
-       print(res.right);
+       log('cart is returning');
+      // log(res.right.items![0].product!.id.toString());
        _cart= res.right;
+       notifyListeners();
        return Right(res.right);
      } else {
-       print("cart controller cart error");
+       log("cart controller cart error");
        return Left(res.left);
      }
    } catch (e) {
-     print("error at cart controller"+e.toString());
+     log("error at cart controller"+e.toString());
      return Left(e.toString());
    }
  }
-  void addItem(Product product, MyUser user) {
+
+ void addItem(Product product, MyUser user) {
     _items.putIfAbsent(product.id!, () {
       print("adding item to cart" + product.name!);
       return CartItem(product: product, quantity: 1, isExist: true);
@@ -44,6 +48,7 @@ class CartController extends ChangeNotifier {
         user.cart.items!.add(value);
       }
     }); //user.cart.items!. (value)
+
     print(user.cart);
     print(user.cart.items);
     notifyListeners();

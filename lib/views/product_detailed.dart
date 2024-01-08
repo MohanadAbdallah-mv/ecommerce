@@ -1,4 +1,6 @@
 import 'package:ecommerece/new_architecture/controller/cart_controller.dart';
+import 'package:ecommerece/views/bottom_navigation.dart';
+import 'package:ecommerece/views/cart.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:either_dart/either.dart';
@@ -299,6 +301,11 @@ class _ProductDetailedState extends State<ProductDetailed> {
                         onpress: () {
                           //todo : add to cart screen or bottom sheet
                           Provider.of<FireStoreController>(context,listen: false).addItem(widget.product,widget.user);
+                          Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
+                          
+                          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (context) => new MainHome(user: widget.user)),
+                                (route) => false,);
                         },
                         borderColor: Colors.white,
                         color: primaryColor,

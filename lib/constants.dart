@@ -13,6 +13,7 @@ const Color SearchBarColor = Color(0xffABAFB1);
 const Color AuthorColor = Color(0xff8A000000);
 const Color TypingColor = Color(0x8A000000);
 const Color ErrorMesseageText = Color(0xB0000000);
+const Color CartItemCounterColor = Color(0xff313144);
 
 const List<MenuItem> MenuItemList = [
   MenuItem(svgPath: "assets/svg/bottom_navigation_bar/User.svg", label: "Profile"),

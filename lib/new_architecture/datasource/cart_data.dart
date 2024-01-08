@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/models/cart.dart';
 import 'package:ecommerece/models/cart_item.dart';
 import 'package:either_dart/either.dart';
-
+import 'dart:developer';
 import '../../models/user_model.dart';
 
 abstract class CartStore {
@@ -23,10 +23,10 @@ class CartSource extends CartStore {
           fromFirestore: (snapshot, _) => MyUser.fromJson(snapshot.data()!),
           toFirestore: (myuser,_)=>myuser.toJson());
       user= await userref.doc(user.id).get().then((value) => value.data()!);
-      print(user.cart.toString());
+      log(user.cart.toString()+" cart_data");
       return Right(user.cart);
     } on FirebaseException catch (e) {
-      print("cart source error"+e.message.toString());
+      log("cart source error"+e.message.toString());
       return Left(e.message.toString());
     }
   }

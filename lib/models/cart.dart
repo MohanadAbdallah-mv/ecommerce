@@ -9,7 +9,8 @@ class Cart {
   Cart.fromJson(Map<String, dynamic> json) {
     //todo : cart item map to json like i did for user mapping in notes
     print(json["items"]);
-    items = json["items"].map((val) => CartItem.fromJson(val)).toList();//      CartItem.fromJson(json["items"]) ;
+    items =List<CartItem>.from(json["items"].map((val) => CartItem.fromJson(val)));
+    //json["items"].map((val) => CartItem.fromJson(val)).toList() as List<CartItem>?  ;//      CartItem.fromJson(json["items"]) ;
     totalPrice = json["totalPrice"];
   }
 

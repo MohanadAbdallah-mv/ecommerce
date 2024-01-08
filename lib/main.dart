@@ -57,14 +57,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //MyUser? user=Provider.of<AuthController>(context).getCurrentUser();
     //print(user);
-    Either<String, MyUser> user =
-        Provider.of<AuthController>(context).getCurrentUser();
+    Either<String, MyUser> user = Provider.of<AuthController>(context).getCurrentUser();
     Provider.of<FireStoreController>(context, listen: false)
         .initProduct(Provider.of<CartController>(context));
-    user.isRight
-        ? Provider.of<FireStoreController>(context, listen: false)
-            .updateItemsList(user.right)
-        : null;
+    // user.isRight
+    //     ? Provider.of<FireStoreController>(context, listen: false)
+    //         .updateItemsList(user.right)
+    //     : null;
     return MaterialApp(
         home: user.isRight ? MainHome(user: user.right) : Intro());
   }

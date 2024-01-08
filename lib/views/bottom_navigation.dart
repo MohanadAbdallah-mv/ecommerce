@@ -30,10 +30,10 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero,(){
-      Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
-    });
-    Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
+    // Future.delayed(Duration.zero,(){
+    //   Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
+    // });
+    // Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
 
     return ScaffoldGlobalBottomNavigation(primary: true,listOfChild: [
       Profile(user: widget.user),
