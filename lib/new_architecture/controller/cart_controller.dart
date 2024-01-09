@@ -56,9 +56,13 @@ class CartController extends ChangeNotifier {
 
   void removeItem(Product product, MyUser user) {
     _items.removeWhere((key, value) {
-      value.product == product;
-      user.cart.items!.remove(value);
-      return true;
+      if(key==product.id){
+        log("removing item ${value.product!.name}");
+        user.cart.items!.remove(value);
+        notifyListeners();
+        return true;
+      }
+      return false;
     });
     print(user.cart);
     print(user.cart.items);
