@@ -89,8 +89,7 @@ class FireStoreController extends ChangeNotifier {
     }
   }
 
-  Future<Either<String, List<Product>>> getSimilarFrom(
-      String subcategory) async {
+  Future<Either<String, List<Product>>> getSimilarFrom(String subcategory) async {
     try {
       Either<String, List<Product>> res =
       await firestorehandlerImplement.getSimilarFrom(subcategory);

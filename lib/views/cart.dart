@@ -27,6 +27,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   late Future<List<CartItem>> cartItemsList;
 
+  // late List<CartItem> cart;
   Future<List<CartItem>> MyFutureCartItems() async {
     List<CartItem> myfuture =
         await Provider.of<FireStoreController>(context, listen: false)
@@ -38,6 +39,7 @@ class _CartPageState extends State<CartPage> {
   @override
   void initState() {
     cartItemsList = MyFutureCartItems();
+    // cart=Provider.of<FireStoreController>(context,listen: false).cartItems;
     super.initState();
   }
 
@@ -78,49 +80,34 @@ class _CartPageState extends State<CartPage> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 12),
-                  child: FutureBuilder(
-                    future: cartItemsList,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        log("snapshot has error" + snapshot.error.toString());
-                        return CustomText(
-                          text: snapshot.error.toString(),
-                          color: Colors.black,
-                        );
-                      } else if (snapshot.connectionState == ConnectionState.waiting) {
-                        return CircularProgressIndicator();
-                      } else if (snapshot.data!.isEmpty) {
-                        print("no items");
-                        print(snapshot.data);
+                  child: Consumer<FireStoreController>(
+                    builder: (context, firestore, child) {
+                      if(firestore.cartItems.isEmpty){
                         return CustomText(
                           text: "no items",
                           color: Colors.black,
                         );
-                      } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                        print("snapshot.hasData");
-                        print(snapshot.data!.length);
-                        print(widget.user.cart.items);
-                        print(snapshot.data![0].product!.name);
+                      }else{return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: firestore.cartItems.length,
+                        scrollDirection: Axis.vertical,
+                        itemBuilder: (context, index) {
+                          if (index >= firestore.cartItems.length) {
+                            // Handle the case where the index is out of range
+                            return CustomText(
+                              text: "no items",
+                              color: Colors.black,
+                            );
+                          } else {
+                            return CartItemCard(
+                              index: index,
+                              product: firestore.cartItems[index].product!,
+                              user: widget.user,
+                            );
+                          }
+                        },
+                      );}
 
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          scrollDirection: Axis.vertical,
-                          itemBuilder: (context, index) {
-                            if (index >= snapshot.data!.length) {
-                              // Handle the case where the index is out of range
-                              return Container();
-                            } else {
-                              return CartItemCard(
-                                index: index,
-                                product: snapshot.data![index].product!,
-                                user: widget.user,
-                              );
-                            }
-                          },
-                        );
-                      }
-                      return CircularProgressIndicator();
                     },
                   ),
                 )
@@ -130,23 +117,52 @@ class _CartPageState extends State<CartPage> {
         ));
   }
 }
-// ProductCardHorizontal(
-// index: index,
-// product: snapshot
-//     .data!.right[index].product!,
-// user: widget.user)
 
-// Builder(
-// builder: (context) {
-// if (cart != null ? true : false) {
-// return ;
+// Padding(
+// padding: EdgeInsets.only(top: 12),
+// child: FutureBuilder(
+// future: cartItemsList,
+// builder: (context, snapshot) {
+// if (snapshot.hasError) {
+// log("snapshot has error" + snapshot.error.toString());
+// return CustomText(
+// text: snapshot.error.toString(),
+// color: Colors.black,
+// );
+// } else if (snapshot.connectionState == ConnectionState.waiting) {
+// return CircularProgressIndicator();
+// } else if (snapshot.data!.isEmpty) {
+// print("no items");
+// print(snapshot.data);
+// return CustomText(
+// text: "no items",
+// color: Colors.black,
+// );
+// } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+// print("snapshot.hasData");
+// print(snapshot.data!.length);
+// print(widget.user.cart.items);
+// print(snapshot.data![0].product!.name);
+// //  print(cart);
+// return ListView.builder(
+// shrinkWrap: true,
+// itemCount: snapshot.data!.length,
+// scrollDirection: Axis.vertical,
+// itemBuilder: (context, index) {
+// if (index >= snapshot.data!.length) {
+// // Handle the case where the index is out of range
+// return Container();
 // } else {
-// Provider.of<FireStoreController>(context, listen: false)
-//     .getItemsList(widget.user);
-// return Text(
-// "data",
-// style: TextStyle(color: Colors.black),
+// return CartItemCard(
+// index: index,
+// product: snapshot.data![index].product!,
+// user: widget.user,
 // );
 // }
 // },
-// )
+// );
+// }
+// return CircularProgressIndicator();
+// },
+// ),
+// ),
