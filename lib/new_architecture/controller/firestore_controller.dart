@@ -132,13 +132,14 @@ class FireStoreController extends ChangeNotifier {
 
   void initProduct(CartController cartController) {
     _cart = cartController;
+
     //getItemsList(user);
 
   }
 
   void addItem(Product product, MyUser user) {
     _cart.addItem(product, user);
-    updateUser(user);
+    //updateUser(user);
     cartItems = user.cart.items!;
 
     notifyListeners();
@@ -146,14 +147,35 @@ class FireStoreController extends ChangeNotifier {
 
 //needs to be handled more when to update and when not// make get items list so i can notify and change it and call it with provider
   }
-  void deleteItem(Product product,MyUser user){
-    _cart.removeItem(product,user);
+  void deleteItem(Product product,MyUser user,int index){
+    _cart.removeItem(product,user,index);
 
     cartItems=user.cart.items!;
     notifyListeners();
     updateUser(user);
   }
-
+  void setQuantity(Product product ,MyUser user,int index,bool increment){
+    if(increment==true){
+      //user.cart.items!.where((element) => element.product==product).single.quantity!
+      if(user.cart.items![index].quantity!<10){
+        log("increasing quantity");
+        user.cart.items![index].quantity=user.cart.items![index].quantity! +1;
+        user.cart.totalPrice=user.cart.totalPrice! +(product.discount_price!=0?product.discount_price:product.price)!.toInt();
+        cartItems=user.cart.items!;
+      notifyListeners();
+      updateUser(user);
+      }
+    }else{
+      if(user.cart.items![index].quantity!>1)
+      {
+        log("decreasing quantity");
+        user.cart.items![index].quantity=user.cart.items![index].quantity! -1;
+        user.cart.totalPrice=user.cart.totalPrice! -(product.discount_price!=0?product.discount_price:product.price)!.toInt();
+        cartItems=user.cart.items!;
+        notifyListeners();
+        updateUser(user);}
+    }
+  }
   void updateItemsList(MyUser user) async {
     //todo cartItems = await _cart.getItemList(user);
     await getItemsList(user).then((value) {

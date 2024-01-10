@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/views/cart.dart';
 import 'package:ecommerece/views/home.dart';
@@ -27,7 +28,14 @@ class MainHome extends StatefulWidget {
 class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   @override
   int index = 2;
+@override
+  void initState() {
 
+  log("should print cart items here \\\\\\\\\\${Provider.of<FireStoreController>(context,listen: false).cartItems.toString()}");
+    // TODO: implement initState
+  Provider.of<FireStoreController>(context,listen: false).cartItems=widget.user.cart.items!;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     // Future.delayed(Duration.zero,(){

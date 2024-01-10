@@ -23,6 +23,8 @@ class CartController extends ChangeNotifier {
        log('cart is returning');
       // log(res.right.items![0].product!.id.toString());
        _cart= res.right;
+       _cart.items!.forEach((element) {_items.putIfAbsent(element.product!.id!, () =>
+           CartItem(product: element.product, quantity: element.quantity, isExist: true));});
        notifyListeners();
        return Right(res.right);
      } else {
@@ -38,6 +40,11 @@ class CartController extends ChangeNotifier {
  void addItem(Product product, MyUser user) {
     _items.putIfAbsent(product.id!, () {
       print("adding item to cart" + product.name!);
+      if(product.discount_price! >0){
+        user.cart.totalPrice =user.cart.totalPrice! + product.discount_price! ;
+      }else{
+        user.cart.totalPrice =user.cart.totalPrice! + product.price!  ;
+      }
       return CartItem(product: product, quantity: 1, isExist: true);
     });
 
@@ -54,10 +61,15 @@ class CartController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(Product product, MyUser user) {
+  void removeItem(Product product, MyUser user,int index) {
     _items.removeWhere((key, value) {
       if(key==product.id){
-        log("removing item ${value.product!.name}");
+        log("removing item /////////////////////////////////////////////////////// ${value.product!.name}");
+        if(value.product!.discount_price! >0){
+          user.cart.totalPrice=user.cart.totalPrice! - (user.cart.items![index].quantity! * value.product!.discount_price!);
+        }else{
+          user.cart.totalPrice=user.cart.totalPrice! - (user.cart.items![index].quantity!* value.product!.price! );
+        }
         user.cart.items!.remove(value);
         notifyListeners();
         return true;

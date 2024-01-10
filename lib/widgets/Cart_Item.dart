@@ -187,18 +187,18 @@ class _CartItemCardState extends State<CartItemCard> {
                           RoundIconButton(
                             svgPath: "assets/svg/minus.svg",
                             onPress: () {
-                              // Provider.of<FireStoreController>(context, listen: false)
-                              //     .getItemsList(widget.user);
+                              Provider.of<FireStoreController>(context, listen: false).setQuantity(widget.product, widget.user,widget.index, false);
                             },
                           ),
                           Text(
-                            widget.user.cart.items![widget.index].quantity
-                                .toString(),
+                            Provider.of<FireStoreController>(context, listen: false).cartItems[widget.index].quantity.toString(),
                             style: GoogleFonts.poppins(fontSize: 20,fontWeight: FontWeight.w500,color: CartItemCounterColor),
                           ),
                           RoundIconButton(
                             svgPath: "assets/svg/plus.svg",
-                            onPress: () {},
+                            onPress: () {
+                              Provider.of<FireStoreController>(context, listen: false).setQuantity(widget.product, widget.user,widget.index, true);
+                            },
                           )
                         ],
                       ),
@@ -206,7 +206,7 @@ class _CartItemCardState extends State<CartItemCard> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          Provider.of<FireStoreController>(context, listen: false).deleteItem(widget.product,widget.user);
+                          Provider.of<FireStoreController>(context, listen: false).deleteItem(widget.product,widget.user,widget.index);
                         });
                         },
                       child: Padding(
