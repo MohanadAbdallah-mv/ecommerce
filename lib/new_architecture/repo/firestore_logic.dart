@@ -37,11 +37,11 @@ class FirestorehandlerImplement extends Firestorehandler {
         categories.right.docs.forEach((element) {
           categoryList.add(element.get("name"));
         });
-        log("should be done-firestorelogic");
+       // log("should be done-firestorelogic");
         return Right(categoryList);
         //Future<QuerySnapshot<Map<String,dynamic>>> categories=categories.right.get();
       }else{
-        log("wtf");
+      //  log("wtf");
         return Left(categories.left);}
     } on FirebaseException catch (e) {
       log("logic_error");
@@ -52,17 +52,17 @@ class FirestorehandlerImplement extends Firestorehandler {
   Future<Either<String, List<Product>>> getBestSeller(String category) async{
     try {
       // List<Product>products=[];
-      log('entering best seller in logic');
+      //log('entering best seller in logic');
       Either<String, QuerySnapshot<Map<String,dynamic>>>bestSeller = await firestoreImplement
           .getBestSeller(category);
       if (bestSeller.isRight) {
-        log("entering");
+       // log("entering");
           List<QueryDocumentSnapshot<Map<String,dynamic>>> bestref=bestSeller.right.docs;
          final products =bestref.map((e) => Product.fromSnapshot(e)).toList();
-        log("should be done and we have best seller now-firestorelogic");
+       // log("should be done and we have best seller now-firestorelogic");
         return Right(products);
       }else{
-        log("wtf");
+       // log("wtf");
         return Left(bestSeller.left);}
     } on FirebaseException catch (e) {
       log("logic_error");
@@ -75,7 +75,7 @@ class FirestorehandlerImplement extends Firestorehandler {
       List<Product>products=[];
       Either<String, QuerySnapshot<Map<String,dynamic>>>dontMiss = await firestoreImplement.getDontMiss(category);
       if (dontMiss.isRight) {
-        log("entering");
+       // log("entering");
         try{
 
           List<QueryDocumentSnapshot<Map<String, dynamic>>> dontMissref =
@@ -86,13 +86,13 @@ class FirestorehandlerImplement extends Firestorehandler {
           return Right(products);
         }catch(e){log(e.toString());}
         //bestSeller.right.docs.
-        log("should be done and we have Dont Miss now-firestorelogic");
-        log(products.length.toString());
-        log(products.toString());
+        //log("should be done and we have Dont Miss now-firestorelogic");
+       // log(products.length.toString());
+        //log(products.toString());
         return Right(products);
         //Future<QuerySnapshot<Map<String,dynamic>>> categories=categories.right.get();
       }else{
-        log("wtf");
+      //  log("wtf");
         return Left(dontMiss.left);}
     } on FirebaseException catch (e) {
       log("logic_error");
@@ -105,7 +105,7 @@ class FirestorehandlerImplement extends Firestorehandler {
       List<Product>products=[];
       Either<String, QuerySnapshot<Map<String,dynamic>>>similarFrom = await firestoreImplement.getSimilarFrom(subcategory);
       if (similarFrom.isRight) {
-        log("entering");
+       // log("entering");
         try{
 
           List<QueryDocumentSnapshot<Map<String, dynamic>>> similarFromRef =
@@ -116,13 +116,13 @@ class FirestorehandlerImplement extends Firestorehandler {
           return Right(products);
         }catch(e){log(e.toString());}
         //bestSeller.right.docs.
-        log("should be done and we have Dont Miss now-firestorelogic");
-        log(products.length.toString());
-        log(products.toString());
+       // log("should be done and we have Dont Miss now-firestorelogic");
+        //log(products.length.toString());
+        //log(products.toString());
         return Right(products);
         //Future<QuerySnapshot<Map<String,dynamic>>> categories=categories.right.get();
       }else{
-        log("wtf");
+       // log("wtf");
         return Left(similarFrom.left);}
     } on FirebaseException catch (e) {
       log("logic_error");
@@ -155,7 +155,7 @@ class FirestorehandlerImplement extends Firestorehandler {
   Future<String> updateUser(MyUser user) async{
     try{
       String res=await firestoreImplement.updateUser(user);
-      log(res+"from logic");
+     // log(res+"from logic");
 
       return res;
     }catch (e){

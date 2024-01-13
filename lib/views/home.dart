@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List<Product>> MyFutureDontMiss(String category) async {
-    log('fuck');
+   // log('fuck');
     var myfuture =
         await Provider.of<FireStoreController>(context, listen: false)
             .getDontMiss(category);

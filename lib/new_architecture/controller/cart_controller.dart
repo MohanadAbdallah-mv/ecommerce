@@ -20,12 +20,17 @@ class CartController extends ChangeNotifier {
    try {
      Either<String, Cart> res = await cartRepo.getCart(user);
      if (res.isRight) {
+       //_items={};
        log('cart is returning');
       // log(res.right.items![0].product!.id.toString());
        _cart= res.right;
-       _cart.items!.forEach((element) {_items.putIfAbsent(element.product!.id!, () =>
-           CartItem(product: element.product, quantity: element.quantity, isExist: true));});
-       notifyListeners();
+       _cart.items!.forEach((element) {
+       _items.addAll({element.product!.id!:CartItem(product: element.product, quantity: element.quantity, isExist: true)});
+       });
+      log("hello");
+      log(_items.values.toString());
+       log(" should be added from cart . . items${_items[0]!.product}");
+       //notifyListeners();
        return Right(res.right);
      } else {
        log("cart controller cart error");
@@ -39,43 +44,36 @@ class CartController extends ChangeNotifier {
 
  void addItem(Product product, MyUser user) {
     _items.putIfAbsent(product.id!, () {
-      print("adding item to cart" + product.name!);
+      log("adding item to cart" + product.name!);
       if(product.discount_price! >0){
         user.cart.totalPrice =user.cart.totalPrice! + product.discount_price! ;
+      user.cart.items!.add(CartItem(product: product, quantity: 1, isExist: true));
       }else{
         user.cart.totalPrice =user.cart.totalPrice! + product.price!  ;
+        user.cart.items!.add(CartItem(product: product, quantity: 1, isExist: true));
       }
       return CartItem(product: product, quantity: 1, isExist: true);
     });
-
-    _items.forEach((key, value) {
-      if (user.cart.items!.contains(value)) {
-        log(value.toString() + "alread exists");
-      } else {
-        user.cart.items!.add(value);
-      }
-    }); //user.cart.items!. (value)
-
-    print(user.cart);
-    print(user.cart.items);
     notifyListeners();
   }
 
   void removeItem(Product product, MyUser user,int index) {
-    _items.removeWhere((key, value) {
-      if(key==product.id){
-        log("removing item /////////////////////////////////////////////////////// ${value.product!.name}");
-        if(value.product!.discount_price! >0){
-          user.cart.totalPrice=user.cart.totalPrice! - (user.cart.items![index].quantity! * value.product!.discount_price!);
-        }else{
-          user.cart.totalPrice=user.cart.totalPrice! - (user.cart.items![index].quantity!* value.product!.price! );
+    if(_items.containsKey(product.id)){
+      _items.removeWhere((key, value) {
+        if (key == product.id) {
+          if (value.product!.discount_price! > 0) {
+            user.cart.totalPrice = user.cart.totalPrice! - (user.cart.items![index].quantity! * value.product!.discount_price!);
+          } else {
+            user.cart.totalPrice = user.cart.totalPrice! - (user.cart.items![index].quantity! * value.product!.price!);
+          }
+          user.cart.items!.removeWhere((element) { if(element.product!.id==key){return true;}else{return false;}});
+          notifyListeners();
+          return true;
         }
-        user.cart.items!.remove(value);
-        notifyListeners();
-        return true;
-      }
-      return false;
-    });
+        print("couldn't delete item $index");
+        return false;
+      });
+    }else{print("id doesn't exist///////////////////////");}
     print(user.cart);
     print(user.cart.items);
     notifyListeners();

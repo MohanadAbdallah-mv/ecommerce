@@ -205,10 +205,10 @@ class _CartItemCardState extends State<CartItemCard> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        setState(() {
-                          Provider.of<FireStoreController>(context, listen: false).deleteItem(widget.product,widget.user,widget.index);
-                        });
-                        },
+                         setState(() {
+                           Provider.of<FireStoreController>(context, listen: false).deleteItem(widget.product,widget.user,widget.index);
+                         });
+                          },
                       child: Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: SvgPicture.asset(

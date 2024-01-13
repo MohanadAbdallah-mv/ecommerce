@@ -47,10 +47,10 @@ class AuthImplement extends Auth {
 
       final credential = await firebaseauth.signInWithEmailAndPassword(
           email: userForm.email, password: userForm.password);
-      log("'user is back again' auth_source");
+     // log("'user is back again' auth_source");
       return Right(credential);
     } on FirebaseAuthException catch (e) {
-      log("'log in failure' auth_source");
+    //  log("'log in failure' auth_source");
       log(e.code);
       log(e.message.toString());
       return Left(e.code);
@@ -64,7 +64,7 @@ class AuthImplement extends Auth {
 
       credential = await firebaseauth.createUserWithEmailAndPassword(
           email: userForm.email, password: userForm.password);
-      log("auth_data returned successfully");
+      //log("auth_data returned successfully");
 
       print(credential);
 
@@ -77,13 +77,13 @@ class AuthImplement extends Auth {
     try {
       //credential.user!.updatePhoneNumber(userForm.phonenumber!);
 
-      log(userForm.name.toString());
+     // log(userForm.name.toString());
       await firebaseauth.currentUser!.updateDisplayName(userForm.name.toString());
-      log(firebaseauth.currentUser.toString());
+      //log(firebaseauth.currentUser.toString());
       await firebaseauth.currentUser!.reload(); //TODO user set display name not working at the moment
       //log(credential.user.displayName.toString());
       User user=firebaseauth.currentUser!;
-      log("'user have name and phone number now' auth_source");
+     // log("'user have name and phone number now' auth_source");
       return Right(user);
     }on FirebaseException catch (e) {
       return Left(e.code);
@@ -92,7 +92,7 @@ class AuthImplement extends Auth {
   @override
   Future<Either<String, String>> requestpassword(String email)async {
 try{
-  log(email);
+ // log(email);
   await firebaseauth.sendPasswordResetEmail(email: email.trim() );
   //firebaseauth.sendPasswordResetEmail(email: email);
   return Right("Success");

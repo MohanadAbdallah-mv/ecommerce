@@ -41,15 +41,15 @@ class FirestoreImplement extends Firestore {
   Future<Either<String, QuerySnapshot<Map<String, dynamic>>>> getBestSeller(
       String category) async {
     try {
-      log('entering best seller in source');
+     // log('entering best seller in source');
       CollectionReference<Map<String, dynamic>> ProductsRef =
           firebaseFirestore.collection('product');
       QuerySnapshot<Map<String, dynamic>> bestSeller =
           await ProductsRef.where("is_best_seller", isEqualTo: true)
               .where("category", isEqualTo: category)
               .get();
-      log(bestSeller.toString());
-      log("best seller is back from source");
+      //log(bestSeller.toString());
+     // log("best seller is back from source");
       return Right(bestSeller);
     } on FirebaseException catch (e) {
       log("firebase exception at source");
@@ -68,7 +68,7 @@ class FirestoreImplement extends Firestore {
           await ProductsRef.where("dont_miss", isEqualTo: true)
               .where("category", isEqualTo: category)
               .get();
-      log("Dont Miss is back from source");
+     // log("Dont Miss is back from source");
       return Right(dontMiss);
     } on FirebaseException catch (e) {
       return Left(e.toString());
@@ -84,7 +84,7 @@ class FirestoreImplement extends Firestore {
       QuerySnapshot<Map<String, dynamic>> similarFrom =
           await ProductsRef.where("sub_category", arrayContains: subcategory)
               .get();
-      log("SimilarFrom is back from source");
+      //log("SimilarFrom is back from source");
       return Right(similarFrom);
     } on FirebaseException catch (e) {
       return Left(e.toString());
@@ -123,7 +123,7 @@ class FirestoreImplement extends Firestore {
               toFirestore: (myuser, _) => myuser.toJson());
       MyUser userUpdates =
           await usersref.doc(user.id).get().then((value) => value.data()!);
-      log("user updates is back from source");
+      //log("user updates is back from source");
       return Right(userUpdates);
     } on FirebaseException catch (e) {
       return Left(e.message.toString());

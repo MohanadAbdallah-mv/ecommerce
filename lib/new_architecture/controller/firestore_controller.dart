@@ -16,6 +16,7 @@ class FireStoreController extends ChangeNotifier {
   bool isSelected;
   late String categorySelected;
   List<CartItem> cartItems = [];
+  List<String> likedList = [];
   late CartController _cart;
 
   FireStoreController({required this.firestorehandlerImplement,
@@ -148,11 +149,16 @@ class FireStoreController extends ChangeNotifier {
 //needs to be handled more when to update and when not// make get items list so i can notify and change it and call it with provider
   }
   void deleteItem(Product product,MyUser user,int index){
+    print("cart items before delete $index :$cartItems");
+    print("user.cart.items! before delete $index :${user.cart.items!}");
     _cart.removeItem(product,user,index);
-
+    getUser(user);
     cartItems=user.cart.items!;
-    notifyListeners();
+    print("cart items after delete $index :$cartItems");
+    print("user.cart.items! before delete $index :${user.cart.items!}");
     updateUser(user);
+    notifyListeners();
+
   }
   void setQuantity(Product product ,MyUser user,int index,bool increment){
     if(increment==true){
@@ -187,6 +193,9 @@ class FireStoreController extends ChangeNotifier {
     print(cartItems);
     notifyListeners();
   }
+  void likeItem(Product product,MyUser user){
+
+  }
 
   Future<List<CartItem>> getItemsList(MyUser user) async {
     Either<String, Cart> cart = await _cart.getCart(user);
@@ -194,6 +203,7 @@ class FireStoreController extends ChangeNotifier {
       if (cart.right.items != null) {
         cartItems = cart.right.items!;
         log("this is cart items" + cartItems.toString());
+        log(cartItems[0].toString());
         notifyListeners();
         return cartItems;
       } else {

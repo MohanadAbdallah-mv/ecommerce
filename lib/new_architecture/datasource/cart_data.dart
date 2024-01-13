@@ -11,6 +11,7 @@ abstract class CartStore {
   CartStore({required this.firebaseFirestore});
 
   Future<Either<String, Cart>> getCart(MyUser user);
+
 }
 
 class CartSource extends CartStore {
@@ -30,4 +31,5 @@ class CartSource extends CartStore {
       return Left(e.message.toString());
     }
   }
+
 }

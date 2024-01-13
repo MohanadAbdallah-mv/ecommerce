@@ -29,6 +29,7 @@ class CartRepo extends CartRepoHandler {
     if (cart.isRight) {
       //Cart cartdecoded=Cart.fromJson(cart.right);
       CacheData.setData(key: "cart", value: jsonEncode(user.cart.toJson()));
+      log("cart repo , cart right is : ${cart.right}");
       return Right(cart.right);
     } else {
       log("cart error at repo"+cart.left);
