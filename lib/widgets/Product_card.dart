@@ -34,6 +34,9 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
+    if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+      widget.isLiked=true;
+    };
     widget.isDiscount = widget.product.discount_price! > 0 ? true : false;
     print(
         "${widget.product.name} and discount price is ${widget.product.discount_price} and for the widget${widget.isDiscount}");
@@ -74,7 +77,10 @@ class _ProductCardState extends State<ProductCard> {
                             onTap: () {
                               setState(() {
                                 widget.isLiked = !widget.isLiked;
-                                //todo : create global is Liked for that user with product controller
+                                Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
+                                if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+                                  widget.isLiked=true;
+                                };
                               });
                             },
                             child: SvgPicture.asset(

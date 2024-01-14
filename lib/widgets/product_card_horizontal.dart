@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../constants.dart';
 import '../models/product.dart';
 import '../models/user_model.dart';
+import '../new_architecture/controller/firestore_controller.dart';
 import '../views/product_detailed.dart';
 import 'CustomButton.dart';
 import 'CustomText.dart';
@@ -31,7 +33,9 @@ class ProductCardHorizontal extends StatefulWidget {
 class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
   @override
   Widget build(BuildContext context) {
-    print(widget.product.sub_category);
+    if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+      widget.isLiked=true;
+    };
     widget.isDiscount = widget.product.discount_price! > 0 ? true : false;
     return Container(
       margin: EdgeInsets.only(top: 0),
@@ -65,7 +69,10 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
                       onTap: () {
                         setState(() {
                           widget.isLiked = !widget.isLiked;
-                          //todo : create global is Liked for that user with product controller
+                          Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
+                          if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+                            widget.isLiked=true;
+                          };
                         });
                       },
                       child: SvgPicture.asset(

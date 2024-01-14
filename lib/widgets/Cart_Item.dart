@@ -12,6 +12,7 @@ import '../views/product_detailed.dart';
 import 'CustomButton.dart';
 import 'CustomText.dart';
 import 'RoundIconButton.dart';
+import 'dart:developer';
 
 class CartItemCard extends StatefulWidget {
   int index;
@@ -34,9 +35,13 @@ class CartItemCard extends StatefulWidget {
 }
 
 class _CartItemCardState extends State<CartItemCard> {
+
+
   @override
   Widget build(BuildContext context) {
-    print(widget.product.sub_category);
+    if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+      widget.isLiked=true;
+    };
     widget.isDiscount = widget.product.discount_price! > 0 ? true : false;
     return Container(
       margin: EdgeInsets.only(top: 0),
@@ -70,7 +75,10 @@ class _CartItemCardState extends State<CartItemCard> {
                       onTap: () {
                         setState(() {
                           widget.isLiked = !widget.isLiked;
-                          //todo : create global is Liked for that user with product controller
+                          Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
+                          if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+                            widget.isLiked=true;
+                          };
                         });
                       },
                       child: SvgPicture.asset(

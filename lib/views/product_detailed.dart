@@ -37,9 +37,16 @@ class _ProductDetailedState extends State<ProductDetailed> {
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
     return myfuture.right;
   }
-
+// @override
+//   void didChangeDependencies() {
+//     // TODO: implement didChangeDependencies
+//     super.didChangeDependencies();
+//   }
   @override
   Widget build(BuildContext context) {
+    if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+      widget.isLiked=true;
+    };
     isDiscount=widget.product.discount_price!>0?true:false;
     return Scaffold(
         appBar: AppBar(
@@ -109,7 +116,10 @@ class _ProductDetailedState extends State<ProductDetailed> {
                               onTap: () {
                                 setState(() {
                                   widget.isLiked = !widget.isLiked;
-                                });
+                                  Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
+                                  if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+                                    widget.isLiked=true;
+                                  }else{widget.isLiked=false;};                                });
                               },
                               child: SvgPicture.asset(
                                 widget.isLiked
