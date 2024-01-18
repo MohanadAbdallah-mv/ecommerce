@@ -18,6 +18,7 @@ class FireStoreController extends ChangeNotifier {
   List<CartItem> cartItems = [];
   List<String> likedList = [];
   late CartController _cart;
+  Stream<List<Product>>? productStream;
 
   FireStoreController({required this.firestorehandlerImplement,
     this.categorySelectedindex = 0,
@@ -102,6 +103,20 @@ class FireStoreController extends ChangeNotifier {
       }
     } catch (e) {
       return Left(e.toString());
+    }
+  }
+  Future<Either<String,Product>> getItemById (String id) async {
+    //todo : do repo and source handling to get id/ maybe later will make wish list id and cart id which contatins a list of product ids for data integrity
+    try{
+      Either<String,Product> res = await firestorehandlerImplement.getItemById(id);
+      if (res.isRight) {
+        print(res.right);
+        return Right(res.right);
+      } else {
+        return Left(res.left);
+      }
+    }catch(e){
+      throw "error at controller getting product ${e.toString()}";
     }
   }
 
@@ -228,5 +243,9 @@ class FireStoreController extends ChangeNotifier {
     } else {
       return cartItems;
     }
+  }
+  void getLikedProductStream() {
+    productStream = firestorehandlerImplement.getProductStream(likedList);
+    notifyListeners();
   }
 }

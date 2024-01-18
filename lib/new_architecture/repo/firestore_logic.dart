@@ -20,6 +20,8 @@ abstract class Firestorehandler {
   Future<Either<String,List>> getSimilarFrom(String subcategory);
   Future<String> addUser(MyUser user);
   Future<Either<String,MyUser>> getUser(MyUser user);
+  Future<Either<String,Product>> getItemById(String id);
+  Stream<List<Product>> getProductStream(List<String> productIds);
   Future<String> updateUser(MyUser user);
 
 }
@@ -150,6 +152,21 @@ class FirestorehandlerImplement extends Firestorehandler {
     }catch (e){
       return Left(e.toString());
     }
+  }
+  @override
+  Future<Either<String, Product>> getItemById(String id) async{
+    try{
+      Either<String, Product> res=await firestoreImplement.getItemById(id);
+      if(res.isRight){
+        return Right(res.right);
+      }else{return Left(res.left);}
+    }catch (e){
+      return Left(e.toString());
+    }
+  }
+  @override
+  Stream<List<Product>> getProductStream(List<String> productIds){
+    return firestoreImplement.getProductStream(productIds);
   }
   @override
   Future<String> updateUser(MyUser user) async{

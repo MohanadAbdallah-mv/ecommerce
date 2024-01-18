@@ -1,4 +1,9 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerece/models/product.dart';
 import 'package:ecommerece/views/home.dart';
+import 'package:ecommerece/widgets/wish_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -8,17 +13,38 @@ import '../models/user_model.dart';
 import '../new_architecture/controller/firestore_controller.dart';
 import '../widgets/CustomText.dart';
 import '../widgets/product_card_horizontal.dart';
+
 class WishList extends StatefulWidget {
   MyUser user;
-  WishList({super.key,required this.user});
+
+  WishList({super.key, required this.user});
 
   @override
   State<WishList> createState() => _WishListState();
 }
 
 class _WishListState extends State<WishList> {
+  //Stream? dataList;
+  @override
+  void initState() {
+    // TODO: implement initState
+    // List<String> productIds = Provider
+    //     .of<FireStoreController>(context, listen: false)
+    //     .likedList;
+    // dataList = FirebaseFirestore.instance.collection('product')
+    //     .where(FieldPath.documentId, whereIn: productIds)
+    //     .snapshots()
+    //     .map((querySnapshot) =>
+    //     querySnapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
+        super.initState();
+    Provider.of<FireStoreController>(context, listen: false)
+        .getLikedProductStream();
+        //Provider.of<FireStoreController>(context).likedList.listen();
+
+  }
   @override
   Widget build(BuildContext context) {
+    //Provider.of<FireStoreController>(context,listen: false).getLikedProductStream();
     return Scaffold(
 
         appBar: AppBar(
@@ -56,33 +82,49 @@ class _WishListState extends State<WishList> {
                   padding: EdgeInsets.only(top: 12),
                   child: Consumer<FireStoreController>(
                     builder: (context, firestore, child) {
-                      if(firestore.likedList.isEmpty){
-                        return CustomText(
-                          text: "no items",
-                          color: Colors.black,
-                        );
-                      }else{return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: firestore.likedList.length,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          if (index >= firestore.likedList.length) {
-                            // Handle the case where the index is out of range
-                            return CustomText(
-                              text: "no items",
-                              color: Colors.black,
-                            );
-                          } else {return Container(color: Colors.black,width: 100,height: 100,);
-                          //   return ProductCardHorizontal(
-                          //       index: index,
-                          //       product: firestore.likedList[index].product!,
-                          //       user: widget.user);
-                           }
-                        },
-                      );}
+                      var stream=firestore.productStream;
+
+                      // if(firestore.likedList.isEmpty){
+                      //   return CustomText(
+                      //     text: "no items",
+                      //     color: Colors.black,
+                      //   );
+                      // }else{
+                        if(stream !=null){
+                          log("entered stream");
+                          return StreamBuilder(
+                              stream:stream,
+                              builder: (context,snapshot){
+                                if(snapshot.hasData){
+                                  log("stream has data");
+                                  log(snapshot.data.toString());
+                                  //List<Product> products=snapshot.data!;
+                                  return ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: snapshot.data!.length,
+                                    scrollDirection: Axis.vertical,
+                                    itemBuilder: (context, index) {
+                                      return ProductCardHorizontal(index: index, product: snapshot.data![index], user: widget.user);
+                                    },
+                                  );
+                                }else if(snapshot.hasError){
+                                  return Text('Error: ${snapshot.error}');
+                                }else{
+                                  return CircularProgressIndicator();
+                                }
+                              });
+                        }else{
+                          return CustomText(
+                            text: "no items after checking stream",
+                            color: Colors.black,
+                          );
+                        }
+
+                      //}
 
                     },
-                  ),
+                  )
+                 ,
                 ),
 
               ],
@@ -91,3 +133,62 @@ class _WishListState extends State<WishList> {
         ));
   }
 }
+
+
+
+
+//
+// child: StreamBuilder(
+// stream: dataList,
+// builder: (context, asyncSnapshot) {
+// if (asyncSnapshot.hasError) {
+// return Text('Error: ${asyncSnapshot.error}');
+// }
+// else {
+// switch (asyncSnapshot.connectionState) {
+// case ConnectionState.none:
+// return Text('No data');
+// case ConnectionState.waiting:
+// return Text('Awaiting...');
+// case ConnectionState.active:
+// print(ConnectionState.active);
+// return ListView.builder(
+// shrinkWrap: true,
+// itemCount: Provider
+//     .of<FireStoreController>(
+// context, listen: false)
+//     .likedList
+//     .length,
+// scrollDirection: Axis.vertical,
+// itemBuilder: (context, index) {
+// if (index >= Provider
+//     .of<FireStoreController>(
+// context, listen: false)
+//     .likedList
+//     .length) {
+// // Handle the case where the index is out of range
+// log("inside list view builder");
+// return CustomText(
+// text: "no items inside stream",
+// color: Colors.black,
+// );
+// } else { //return Container(color: Colors.black,width: 100,height: 100,);
+// log(asyncSnapshot.hasData.toString());
+// return ProductCardHorizontal(index: index,
+// product: Product.fromJson(
+// asyncSnapshot.data),
+// user: widget.user);
+// }
+// },
+// );
+// case ConnectionState.done:
+// print(ConnectionState.done);
+// return ListView(
+// children: asyncSnapshot.data.data().map((
+// document) => Text(document.toString())),
+// );
+// }
+// // return null;
+//
+// }
+// })
