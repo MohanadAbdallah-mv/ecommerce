@@ -16,9 +16,9 @@ class FireStoreController extends ChangeNotifier {
   bool isSelected;
   late String categorySelected;
   List<CartItem> cartItems = [];
-  List<String> likedList = [];
+  List<String> likedListIds = [];
   late CartController _cart;
-  Stream<List<Product>>? productStream;
+  List<Product> likedList=[];
 
   FireStoreController({required this.firestorehandlerImplement,
     this.categorySelectedindex = 0,
@@ -135,6 +135,7 @@ class FireStoreController extends ChangeNotifier {
       Either<String, MyUser> res = await firestorehandlerImplement.getUser(
           user);
       user = res.right;
+      log("${user.wishList} at getuser in firestore controller");
       return Right(user);
     } catch (e) {
       return Left(e.toString());
@@ -208,24 +209,6 @@ class FireStoreController extends ChangeNotifier {
     print(cartItems);
     notifyListeners();
   }
-  void likeItem(Product product,MyUser user)async{
-    if(user.wishList==null){
-      user.wishList=[];
-    }
-    if(user.wishList!.contains(product.id)){
-      user.wishList!.remove(product.id);
-      log("removed item from like list and updating");
-      await updateUser(user);
-      likedList.remove(product.id!);
-      notifyListeners();
-    }else{
-      user.wishList!.add(product.id!);
-      log("adding item to like list and updating");
-      await updateUser(user);
-      likedList.add(product.id!);
-      notifyListeners();
-    }
-  }
 
   Future<List<CartItem>> getItemsList(MyUser user) async {
     Either<String, Cart> cart = await _cart.getCart(user);
@@ -244,8 +227,44 @@ class FireStoreController extends ChangeNotifier {
       return cartItems;
     }
   }
-  void getLikedProductStream() {
-    productStream = firestorehandlerImplement.getProductStream(likedList);
+  Future<void> likeItem(Product product,MyUser user)async{
+
+    if(user.wishList.contains(product.id)){
+      user.wishList.remove(product.id);
+      log("removed item from like list and updating");
+      await updateUser(user);
+      likedListIds.remove(product.id!);
+      log("removing id and the list is${likedListIds}");
+      await updateWishList();
+      notifyListeners();
+    }else{
+      user.wishList.add(product.id!);
+      log("adding item to like list and updating");
+      await updateUser(user);
+      likedListIds.add(product.id!);
+      log("adding id and the list is${likedListIds}");
+      await updateWishList();
+      notifyListeners();
+    }
+
+  }
+
+  Future<List<Product>> updateWishList() async{
+    if(likedListIds.isNotEmpty) {
+      likedList =
+      await firestorehandlerImplement.getProductStream(likedListIds);
+      log("get liked products in controller ${likedList}");
+      notifyListeners();
+      return likedList;
+    }else{
+      likedList=[];
+      return likedList;
+    }
+  }
+  Future<List<Product>>myLikedItems()async{
+    List<Product> items=await updateWishList();
+    log("message items in liked list");
     notifyListeners();
+    return items;
   }
 }

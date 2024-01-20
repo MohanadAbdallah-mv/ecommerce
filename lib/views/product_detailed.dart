@@ -44,7 +44,7 @@ class _ProductDetailedState extends State<ProductDetailed> {
 //   }
   @override
   Widget build(BuildContext context) {
-    if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+    if(Provider.of<FireStoreController>(context, listen: false).likedListIds.contains(widget.product.id)){
       widget.isLiked=true;
     };
     isDiscount=widget.product.discount_price!>0?true:false;
@@ -113,13 +113,14 @@ class _ProductDetailedState extends State<ProductDetailed> {
                         Positioned(
                             right: 1,
                             child: GestureDetector(
-                              onTap: () {
+                              onTap: () async{
+                                await Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
                                 setState(() {
                                   widget.isLiked = !widget.isLiked;
-                                  Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
-                                  if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+                                  if(Provider.of<FireStoreController>(context, listen: false).likedListIds.contains(widget.product.id)){
                                     widget.isLiked=true;
-                                  }else{widget.isLiked=false;};                                });
+                                  };
+                                });
                               },
                               child: SvgPicture.asset(
                                 widget.isLiked

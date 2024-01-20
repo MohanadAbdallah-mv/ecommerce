@@ -25,28 +25,23 @@ class WishList extends StatefulWidget {
 
 class _WishListState extends State<WishList> {
   //Stream? dataList;
-  @override
-  void initState() {
-    // TODO: implement initState
-    // List<String> productIds = Provider
-    //     .of<FireStoreController>(context, listen: false)
-    //     .likedList;
-    // dataList = FirebaseFirestore.instance.collection('product')
-    //     .where(FieldPath.documentId, whereIn: productIds)
-    //     .snapshots()
-    //     .map((querySnapshot) =>
-    //     querySnapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
-        super.initState();
-    Provider.of<FireStoreController>(context, listen: false)
-        .getLikedProductStream();
-        //Provider.of<FireStoreController>(context).likedList.listen();
-
+  late Future<List<Product>> likedItemsFuture;
+  Future<List<Product>> MyFutureLikedItems() async {
+    List<Product> myfuture =
+    await Provider.of<FireStoreController>(context, listen: false)
+        .myLikedItems();
+    return myfuture;
   }
   @override
-  Widget build(BuildContext context) {
-    //Provider.of<FireStoreController>(context,listen: false).getLikedProductStream();
-    return Scaffold(
+  void initState() {
+    likedItemsFuture = MyFutureLikedItems(); // TODO: implement initState
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
         appBar: AppBar(
           title: Center(
             child: Text(
@@ -62,13 +57,13 @@ class _WishListState extends State<WishList> {
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(10),
-            child: Column(mainAxisSize: MainAxisSize.min,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 16),
                   child: Row(
                     children: [
-
                       CustomText(
                         text: "Your WishList",
                         color: AppTitleColor,
@@ -82,60 +77,41 @@ class _WishListState extends State<WishList> {
                   padding: EdgeInsets.only(top: 12),
                   child: Consumer<FireStoreController>(
                     builder: (context, firestore, child) {
-                      var stream=firestore.productStream;
-
-                      // if(firestore.likedList.isEmpty){
-                      //   return CustomText(
-                      //     text: "no items",
-                      //     color: Colors.black,
-                      //   );
-                      // }else{
-                        if(stream !=null){
-                          log("entered stream");
-                          return StreamBuilder(
-                              stream:stream,
-                              builder: (context,snapshot){
-                                if(snapshot.hasData){
-                                  log("stream has data");
-                                  log(snapshot.data.toString());
-                                  //List<Product> products=snapshot.data!;
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: snapshot.data!.length,
-                                    scrollDirection: Axis.vertical,
-                                    itemBuilder: (context, index) {
-                                      return ProductCardHorizontal(index: index, product: snapshot.data![index], user: widget.user);
-                                    },
-                                  );
-                                }else if(snapshot.hasError){
-                                  return Text('Error: ${snapshot.error}');
-                                }else{
-                                  return CircularProgressIndicator();
-                                }
-                              });
-                        }else{
+                        if (firestore.likedList.isEmpty){
                           return CustomText(
-                            text: "no items after checking stream",
+                            text: "no items",
                             color: Colors.black,
                           );
+                        } else  {
+                          log("entering listview builder in wish list ${firestore.likedList}");
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: firestore.likedList.length,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              if(index >= firestore.likedList.length){
+                                return CustomText(
+                                text: "no items",
+                                color: Colors.black,
+                              );}
+                              else{
+
+                                return ProductCardHorizontal(
+                                  index: index,
+                                  product: firestore.likedList[index],
+                                  user: widget.user);}
+                            },
+                          );
                         }
-
-                      //}
-
                     },
-                  )
-                 ,
+                  ),
                 ),
-
               ],
             ),
           ),
         ));
   }
 }
-
-
-
 
 //
 // child: StreamBuilder(

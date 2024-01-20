@@ -6,7 +6,7 @@ class MyUser {
   late String email;
   late String? phonenumber;
   late bool isLogged;
-  List<String>? wishList;
+  late List<String> wishList;
   late Cart cart;
   late List<Cart>? orders;
 
@@ -17,7 +17,7 @@ class MyUser {
       required this.phonenumber,
       required this.isLogged,
       required this.cart,
-      this.wishList,
+      required this.wishList,
       this.orders});
 
   MyUser.fromJson(Map<String, dynamic> json) {

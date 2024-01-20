@@ -34,14 +34,16 @@ class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   log("should print cart items here \\\\\\\\\\${Provider.of<FireStoreController>(context,listen: false).cartItems.toString()}");
     // TODO: implement initState
   Provider.of<FireStoreController>(context,listen: false).cartItems=widget.user.cart.items!;
-    super.initState();
+  Provider.of<FireStoreController>(context,listen: false).likedListIds=widget.user.wishList;
+  Provider.of<FireStoreController>(context,listen: false).updateWishList();
+  log("bottom navigation bar likedlistids${Provider.of<FireStoreController>(context,listen: false).likedListIds}");
+  log("bottom navigation bar likedlistids${widget.user.wishList}");
+
+
+  super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    // Future.delayed(Duration.zero,(){
-    //   Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
-    // });
-    // Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
 
     return ScaffoldGlobalBottomNavigation(primary: true,listOfChild: [
       Profile(user: widget.user),

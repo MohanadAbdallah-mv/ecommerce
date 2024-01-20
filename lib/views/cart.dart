@@ -32,7 +32,6 @@ class _CartPageState extends State<CartPage> {
     List<CartItem> myfuture =
         await Provider.of<FireStoreController>(context, listen: false)
             .getItemsList(widget.user);
-//todo : implement either left and put it down to show error if it is left,null loading and right is data
     return myfuture;
   }
 
@@ -93,7 +92,6 @@ class _CartPageState extends State<CartPage> {
                         scrollDirection: Axis.vertical,
                         itemBuilder: (context, index) {
                           if (index >= firestore.cartItems.length) {
-                            // Handle the case where the index is out of range
                             return CustomText(
                               text: "no items",
                               color: Colors.black,

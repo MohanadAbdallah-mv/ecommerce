@@ -21,7 +21,7 @@ abstract class Firestorehandler {
   Future<String> addUser(MyUser user);
   Future<Either<String,MyUser>> getUser(MyUser user);
   Future<Either<String,Product>> getItemById(String id);
-  Stream<List<Product>> getProductStream(List<String> productIds);
+  Future<List<Product>> getProductStream(List<String> productIds);
   Future<String> updateUser(MyUser user);
 
 }
@@ -165,8 +165,8 @@ class FirestorehandlerImplement extends Firestorehandler {
     }
   }
   @override
-  Stream<List<Product>> getProductStream(List<String> productIds){
-    return firestoreImplement.getProductStream(productIds);
+  Future<List<Product>> getProductStream(List<String> productIds) async{
+    return await firestoreImplement.getProductStream(productIds);
   }
   @override
   Future<String> updateUser(MyUser user) async{

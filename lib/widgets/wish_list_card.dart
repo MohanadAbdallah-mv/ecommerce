@@ -47,7 +47,7 @@ void initState() async{
   }
   @override
   Widget build(BuildContext context) {
-    if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(product.id)){
+    if(Provider.of<FireStoreController>(context, listen: false).likedListIds.contains(product.id)){
       widget.isLiked=true;
     };
     widget.isDiscount = product.discount_price! > 0 ? true : false;
@@ -80,11 +80,11 @@ void initState() async{
                     right: 8,
                     top: 12,
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async{
+                        await Provider.of<FireStoreController>(context, listen: false).likeItem(product, widget.user);
                         setState(() {
                           widget.isLiked = !widget.isLiked;
-                          Provider.of<FireStoreController>(context, listen: false).likeItem(product, widget.user);
-                          if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(product.id)){
+                          if(Provider.of<FireStoreController>(context, listen: false).likedListIds.contains(product.id)){
                             widget.isLiked=true;
                           };
                         });

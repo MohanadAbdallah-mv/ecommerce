@@ -33,7 +33,7 @@ class ProductCardHorizontal extends StatefulWidget {
 class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
   @override
   Widget build(BuildContext context) {
-    if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+    if(Provider.of<FireStoreController>(context, listen: false).likedListIds.contains(widget.product.id)){
       widget.isLiked=true;
     };
     widget.isDiscount = widget.product.discount_price! > 0 ? true : false;
@@ -66,11 +66,12 @@ class _ProductCardHorizontalState extends State<ProductCardHorizontal> {
                     right: 8,
                     top: 12,
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async{
+                        await Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
+
                         setState(() {
                           widget.isLiked = !widget.isLiked;
-                          Provider.of<FireStoreController>(context, listen: false).likeItem(widget.product, widget.user);
-                          if(Provider.of<FireStoreController>(context, listen: false).likedList.contains(widget.product.id)){
+                          if(Provider.of<FireStoreController>(context, listen: false).likedListIds.contains(widget.product.id)){
                             widget.isLiked=true;
                           };
                         });

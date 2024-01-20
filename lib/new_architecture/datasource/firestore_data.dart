@@ -24,7 +24,7 @@ abstract class Firestore {
 
   Future<Either<String, Product>> getItemById(String id);
 
-  Stream<List<Product>> getProductStream(List<String> productIds);
+  Future<List<Product>> getProductStream(List<String> productIds);
 
   Future<Either<String, MyUser>> getUser(MyUser user);
 
@@ -134,7 +134,7 @@ class FirestoreImplement extends Firestore {
           toFirestore: (myuser, _) => myuser.toJson());
       MyUser userUpdates =
       await usersRef.doc(user.id).get().then((value) => value.data()!);
-      //log("user updates is back from source");
+      log("user updates is back from data source at getuser  ${userUpdates.name} +${userUpdates.cart.items} +${userUpdates.cart.totalPrice} + ${userUpdates.wishList}}");
       return Right(userUpdates);
     } on FirebaseException catch (e) {
       return Left(e.message.toString());
@@ -157,22 +157,12 @@ class FirestoreImplement extends Firestore {
   }
 
   @override
-  Stream<List<Product>> getProductStream(List<String> productIds) {
-    // StreamController<List<Product>> streamController = StreamController();
-    // void updateStream() {
-    //   if (productIds.isEmpty) {
-    //     streamController.add([]);
-    //   } else {
-    //
-    //   }
-    // }
-    //updateStream();
-//    return streamController.stream;
-  return firebaseFirestore.collection('product')
-      .where(FieldPath.documentId, whereIn: productIds)
-      .snapshots()
-      .map((querySnapshot) =>
-      querySnapshot.docs.map((doc) => Product.fromSnapshot(doc)).toList());
+  Future<List<Product>> getProductStream(List<String> productIds) async{
+
+  List<Product> likedProducts=await firebaseFirestore.collection('product')
+      .where(FieldPath.documentId, whereIn: productIds).get().then((value) => value.docs.map((doc) => Product.fromSnapshot(doc)).toList());
+  log("liked products  ${likedProducts}");
+  return likedProducts;
   }
 
   @override

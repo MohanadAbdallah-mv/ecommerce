@@ -168,6 +168,7 @@ class _LoginState extends State<Login> {
                                     builder: (context) =>
                                         MainHome(user: res.right)));
                           }else{
+                            //todo : shouldn't return user.right here cuz that's mean we didn't get the user from firestore
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
