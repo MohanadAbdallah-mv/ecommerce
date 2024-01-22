@@ -20,7 +20,7 @@ class CartController extends ChangeNotifier {
    try {
      Either<String, Cart> res = await cartRepo.getCart(user);
      if (res.isRight) {
-       //_items={};
+       _items={};
        log('cart is returning');
       // log(res.right.items![0].product!.id.toString());
        _cart= res.right;
@@ -29,7 +29,7 @@ class CartController extends ChangeNotifier {
        });
       log("hello");
       log(_items.values.toString());
-       log(" should be added from cart . . items${_items[0]!.product}");
+      // log(" should be added from cart . . items${_items[0]!.product}");
        //notifyListeners();
        return Right(res.right);
      } else {

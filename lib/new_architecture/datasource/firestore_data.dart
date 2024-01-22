@@ -127,16 +127,19 @@ class FirestoreImplement extends Firestore {
   @override
   Future<Either<String, MyUser>> getUser(MyUser user) async {
     try {
+      log("entering getuser at firestore data");
       final usersRef = firebaseFirestore
           .collection('users')
           .withConverter<MyUser>(
           fromFirestore: (snapshot, _) => MyUser.fromJson(snapshot.data()!),
           toFirestore: (myuser, _) => myuser.toJson());
-      MyUser userUpdates =
-      await usersRef.doc(user.id).get().then((value) => value.data()!);
+      log("${user.id}");
+      //log("${usersRef.doc(user.id).get().}");
+      MyUser userUpdates = await usersRef.doc(user.id).get().then((value) => value.data()!).catchError((error)=>log("failed to get user${error}"));
       log("user updates is back from data source at getuser  ${userUpdates.name} +${userUpdates.cart.items} +${userUpdates.cart.totalPrice} + ${userUpdates.wishList}}");
       return Right(userUpdates);
     } on FirebaseException catch (e) {
+      log("error  getuser at firestore data ${e.message}");
       return Left(e.message.toString());
     }
   }

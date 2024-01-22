@@ -27,7 +27,7 @@ class MyUser {
     phonenumber = json["phonenumber"];
     isLogged = json["isLogged"];
     cart = Cart.fromJson(json["cart"]);
-    wishList = json["wishList"];
+    wishList = List<String>.from(json["wishList"]) ;
     orders = json["orders"];
   }
 

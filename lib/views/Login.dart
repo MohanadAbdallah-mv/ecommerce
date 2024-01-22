@@ -158,17 +158,19 @@ class _LoginState extends State<Login> {
                             isPasswordError = true;
                           }
                         } else {
-                          // need to handle if it didn't return user on right but will leave it for now
+                          // todo:need to handle if it didn't return user on right but will leave it for now
+                          log("entering get user");
                           Either<String,MyUser>res=await Provider.of<FireStoreController>(context,listen: false).getUser(user.right);
+                          log("exiting get user");
                           if(res.isRight){
-
+                            log("entering res right and getting wishlist: ${res.right.wishList}");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         MainHome(user: res.right)));
                           }else{
-                            //todo : shouldn't return user.right here cuz that's mean we didn't get the user from firestore
+                            log("entering here because get user didn't work as expected");//todo : shouldn't return user.right here cuz that's mean we didn't get the user from firestore
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
