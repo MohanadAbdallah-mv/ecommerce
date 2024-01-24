@@ -163,7 +163,7 @@ class _LoginState extends State<Login> {
                           Either<String,MyUser>res=await Provider.of<FireStoreController>(context,listen: false).getUser(user.right);
                           log("exiting get user");
                           if(res.isRight){
-                            log("entering res right and getting wishlist: ${res.right.wishList}");
+                            log("entering res right after getting user successfully and getting wishlist: ${res.right.wishList}");
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

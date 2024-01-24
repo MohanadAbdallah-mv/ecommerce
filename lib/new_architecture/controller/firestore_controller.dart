@@ -231,18 +231,13 @@ class FireStoreController extends ChangeNotifier {
 
     if(user.wishList.contains(product.id)){
       user.wishList.remove(product.id);
-      log("removed item from like list and updating");
       await updateUser(user);
-      likedListIds.remove(product.id!);
-      log("removing id and the list is${likedListIds}");
       await updateWishList();
       notifyListeners();
     }else{
       user.wishList.add(product.id!);
-      log("adding item to like list and updating");
+     // likedListIds.add(product.id!);
       await updateUser(user);
-      likedListIds.add(product.id!);
-      log("adding id and the list is${likedListIds}");
       await updateWishList();
       notifyListeners();
     }

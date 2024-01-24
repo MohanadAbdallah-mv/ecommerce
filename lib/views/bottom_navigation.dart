@@ -28,18 +28,19 @@ class MainHome extends StatefulWidget {
 class _MainHomeState extends State<MainHome> with TickerProviderStateMixin {
   @override
   int index = 2;
-@override
+Future<void>prepareUser()async{
+  Provider.of<FireStoreController>(context,listen: false).cartItems=widget.user.cart.items!;
+  Provider.of<FireStoreController>(context,listen: false).likedListIds=widget.user.wishList;
+  await Provider.of<FireStoreController>(context,listen: false).updateWishList();
+  log("bottom navigation bar likedlistids${Provider.of<FireStoreController>(context,listen: false).likedListIds}");
+  log("bottom navigation bar likedlistids${widget.user.wishList}");
+}
+  @override
   void initState() {
 
   log("should print cart items here \\\\\\\\\\${Provider.of<FireStoreController>(context,listen: false).cartItems.toString()}");
     // TODO: implement initState
-  Provider.of<FireStoreController>(context,listen: false).cartItems=widget.user.cart.items!;
-  Provider.of<FireStoreController>(context,listen: false).likedListIds=widget.user.wishList;
-  Provider.of<FireStoreController>(context,listen: false).updateWishList();
-  log("bottom navigation bar likedlistids${Provider.of<FireStoreController>(context,listen: false).likedListIds}");
-  log("bottom navigation bar likedlistids${widget.user.wishList}");
-
-
+  prepareUser();
   super.initState();
   }
   @override
