@@ -26,7 +26,7 @@ class _ProfileState extends State<Profile> {
               "Shoppie",
               style: GoogleFonts.sarina(
                   textStyle: TextStyle(
-                      color: AppTitleColor, fontWeight: FontWeight.w400)),
+                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 30)),
             ),
           ),
           elevation: 0.0,

@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../models/user_model.dart';
 import '../new_architecture/controller/cart_controller.dart';
+import '../widgets/CustomButton.dart';
 import '../widgets/CustomText.dart';
 import '../widgets/product_card_horizontal.dart';
 
@@ -26,6 +27,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   late Future<List<CartItem>> cartItemsList;
+  bool checkoutButton =false;
 
   // late List<CartItem> cart;
   Future<List<CartItem>> MyFutureCartItems() async {
@@ -52,7 +54,7 @@ class _CartPageState extends State<CartPage> {
               "Shoppie",
               style: GoogleFonts.sarina(
                   textStyle: TextStyle(
-                      color: AppTitleColor, fontWeight: FontWeight.w400)),
+                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 30)),
             ),
           ),
           elevation: 0.0,
@@ -60,7 +62,7 @@ class _CartPageState extends State<CartPage> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(right: 10,left: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -71,8 +73,8 @@ class _CartPageState extends State<CartPage> {
                       CustomText(
                         text: "Your Cart Items",
                         color: AppTitleColor,
-                        fontWeight: FontWeight.w700,
-                        size: 28,
+                        fontWeight: FontWeight.w400,
+                        size: 24,
                       ),
                     ],
                   ),
@@ -81,35 +83,68 @@ class _CartPageState extends State<CartPage> {
                   padding: EdgeInsets.only(top: 12),
                   child: Consumer<FireStoreController>(
                     builder: (context, firestore, child) {
-                      if(firestore.cartItems.isEmpty){
+                      if (firestore.cartItems.isEmpty) {
+                        checkoutButton=false;
                         return CustomText(
                           text: "no items",
                           color: Colors.black,
                         );
-                      }else{return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: firestore.cartItems.length,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (context, index) {
-                          if (index >= firestore.cartItems.length) {
-                            return CustomText(
-                              text: "no items",
-                              color: Colors.black,
-                            );
-                          } else {
-                            return CartItemCard(
-                              index: index,
-                              product: firestore.cartItems[index].product!,
-                              user: widget.user,
-                            );
-                          }
-                        },
-                      );}
+                      } else {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: firestore.cartItems.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (context, index) {
+                            if (index >= firestore.cartItems.length) {
+                              checkoutButton=false;
+                              return CustomText(
+                                text: "no items ",
+                                color: Colors.black,
+                              );
 
+                            } else {
+
+                              checkoutButton=true;
+                              return CartItemCard(
+                                index: index,
+                                product:
+                                firestore.cartItems[index].product!,
+                                user: widget.user,
+                              );
+                            }
+                          },
+                        );
+                      }
                     },
                   ),
                 )
               ],
+            ),
+          ),
+        ),
+        bottomNavigationBar: SizedBox(
+          height: 70,
+          child: Container(
+            padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+            color: Colors.white,
+            child: CustomButton(
+              child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CustomText(
+                    text: "CheckOut",
+                    size: 15,
+                    color: Colors.white,
+                    align: Alignment.center,
+                    fontfamily: "ReadexPro",
+                    fontWeight: FontWeight.w500,
+                  ),Icon(Icons.arrow_forward_rounded,color: Colors.white,)
+                ],
+              ),
+              onpress: () {},
+              height: 50,
+
+              borderColor: Colors.white,
+              color: primaryColor,
             ),
           ),
         ));

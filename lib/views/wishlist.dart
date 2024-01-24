@@ -48,7 +48,7 @@ class _WishListState extends State<WishList> {
               "Shoppie",
               style: GoogleFonts.sarina(
                   textStyle: TextStyle(
-                      color: AppTitleColor, fontWeight: FontWeight.w400)),
+                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 30)),
             ),
           ),
           elevation: 0.0,
@@ -56,7 +56,7 @@ class _WishListState extends State<WishList> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.only(right: 10,left: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -67,8 +67,8 @@ class _WishListState extends State<WishList> {
                       CustomText(
                         text: "Your WishList",
                         color: AppTitleColor,
-                        fontWeight: FontWeight.w700,
-                        size: 28,
+                        fontWeight: FontWeight.w400,
+                        size: 24,
                       ),
                     ],
                   ),
@@ -106,6 +106,7 @@ class _WishListState extends State<WishList> {
                     },
                   ),
                 ),
+
               ],
             ),
           ),
