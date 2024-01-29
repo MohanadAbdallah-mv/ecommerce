@@ -7,6 +7,7 @@ class CustomButton extends StatelessWidget {
   final Gradient? gradient;
   final Color color;
   final Color? borderColor;
+  final double borderRadius;
   final double height;
   final double width;
   final Widget child;
@@ -17,7 +18,7 @@ class CustomButton extends StatelessWidget {
       this.gradient = null,
       this.color = buttonColor,
       this.borderColor,
-      this.height = 50,this.width=double.maxFinite,
+      this.height = 50,this.width=double.maxFinite,this.borderRadius=50,
       required this.child,
       required this.onpress});
 
@@ -32,7 +33,7 @@ class CustomButton extends StatelessWidget {
         decoration: BoxDecoration(
             gradient: gradient,
             color: color,
-            borderRadius: BorderRadius.all(Radius.circular(50)),
+            borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
             border:
                 borderColor==color? null :Border.all(color: borderColor!)),
         child: Container(

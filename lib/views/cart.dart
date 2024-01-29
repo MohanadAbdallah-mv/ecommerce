@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:ecommerece/models/cart_item.dart';
 import 'package:ecommerece/models/product.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
+import 'package:ecommerece/views/map_page.dart';
 import 'package:ecommerece/widgets/Cart_Item.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class CartPage extends StatefulWidget {
 
 class _CartPageState extends State<CartPage> {
   late Future<List<CartItem>> cartItemsList;
-  bool checkoutButton =false;
+  bool checkoutButton = false;
 
   // late List<CartItem> cart;
   Future<List<CartItem>> MyFutureCartItems() async {
@@ -54,7 +55,9 @@ class _CartPageState extends State<CartPage> {
               "Shoppie",
               style: GoogleFonts.sarina(
                   textStyle: TextStyle(
-                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 30)),
+                      color: AppTitleColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 30)),
             ),
           ),
           elevation: 0.0,
@@ -62,7 +65,7 @@ class _CartPageState extends State<CartPage> {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.only(right: 10,left: 10),
+            padding: EdgeInsets.only(right: 10, left: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -84,7 +87,7 @@ class _CartPageState extends State<CartPage> {
                   child: Consumer<FireStoreController>(
                     builder: (context, firestore, child) {
                       if (firestore.cartItems.isEmpty) {
-                        checkoutButton=false;
+                        checkoutButton = false;
                         return CustomText(
                           text: "no items",
                           color: Colors.black,
@@ -96,19 +99,16 @@ class _CartPageState extends State<CartPage> {
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, index) {
                             if (index >= firestore.cartItems.length) {
-                              checkoutButton=false;
+                              checkoutButton = false;
                               return CustomText(
                                 text: "no items ",
                                 color: Colors.black,
                               );
-
                             } else {
-
-                              checkoutButton=true;
+                              checkoutButton = true;
                               return CartItemCard(
                                 index: index,
-                                product:
-                                firestore.cartItems[index].product!,
+                                product: firestore.cartItems[index].product!,
                                 user: widget.user,
                               );
                             }
@@ -117,7 +117,7 @@ class _CartPageState extends State<CartPage> {
                       }
                     },
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -125,10 +125,12 @@ class _CartPageState extends State<CartPage> {
         bottomNavigationBar: SizedBox(
           height: 70,
           child: Container(
-            padding: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+            padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
             color: Colors.white,
             child: CustomButton(
-              child: Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   CustomText(
                     text: "CheckOut",
@@ -137,12 +139,23 @@ class _CartPageState extends State<CartPage> {
                     align: Alignment.center,
                     fontfamily: "ReadexPro",
                     fontWeight: FontWeight.w500,
-                  ),Icon(Icons.arrow_forward_rounded,color: Colors.white,)
+                  ),
+                  Icon(
+                    Icons.arrow_forward_rounded,
+                    color: Colors.white,
+                  )
                 ],
               ),
-              onpress: () {},
+              onpress: () {
+                if (Provider.of<FireStoreController>(context,listen: false)
+                    .cartItems
+                    .isEmpty) {
+                } else {
+                  Navigator.of(context, rootNavigator: true).push(
+                      MaterialPageRoute(builder: (context) =>  MapPage()));
+                }
+              },
               height: 50,
-
               borderColor: Colors.white,
               color: primaryColor,
             ),
