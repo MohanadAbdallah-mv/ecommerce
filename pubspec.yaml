@@ -41,6 +41,8 @@ dependencies:
   #restart_app: 1.2.1
   google_maps_flutter: 2.5.3
   location: 5.0.3
+  flutter_stripe: 9.3.0
+  dio: 5.4.0
   global_bottom_navigation_bar:
     path: packages/Global-Bottom-Navigation-Bar-main
   flutter:
