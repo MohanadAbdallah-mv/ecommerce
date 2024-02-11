@@ -1,12 +1,8 @@
 import 'dart:developer';
 
 import 'package:ecommerece/constants.dart';
-import 'package:ecommerece/main.dart';
-import 'package:ecommerece/models/bottom_navigation_item.dart';
 import 'package:ecommerece/models/user_model.dart';
-import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
-import 'package:ecommerece/views/onBoarding.dart';
 import 'package:ecommerece/views/product_list.dart';
 import 'package:ecommerece/widgets/Category_card.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
@@ -16,7 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../models/product.dart';
+import 'package:ecommerece/models/product.dart';
 import '../widgets/SearchBar.dart';
 
 class HomePage extends StatefulWidget {

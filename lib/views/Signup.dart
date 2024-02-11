@@ -1,6 +1,5 @@
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
-import 'package:ecommerece/views/home.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/CustomTextField.dart';

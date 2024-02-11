@@ -1,10 +1,5 @@
-import 'dart:developer';
-
-import 'package:ecommerece/views/OTP.dart';
-import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';

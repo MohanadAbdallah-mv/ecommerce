@@ -1,6 +1,4 @@
-import 'package:ecommerece/new_architecture/controller/cart_controller.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
-import 'package:ecommerece/views/cart.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:either_dart/either.dart';
@@ -10,11 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
-import '../models/product.dart';
-import '../models/user_model.dart';
+import 'package:ecommerece/models/product.dart';
+import 'package:ecommerece/models/user_model.dart';
 import '../new_architecture/controller/firestore_controller.dart';
-import '../widgets/Product_card.dart';
 
+import 'package:ecommerece/widgets/Product_card.dart';
 class ProductDetailed extends StatefulWidget {
   Product product;
   MyUser user;

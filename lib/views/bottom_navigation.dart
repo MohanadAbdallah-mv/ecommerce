@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/views/cart.dart';
 import 'package:ecommerece/views/home.dart';
@@ -8,12 +9,8 @@ import 'package:ecommerece/views/wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:global_bottom_navigation_bar/global_bottom_navigation_bar.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import '../constants.dart';
-import '../models/bottom_navigation_item.dart';
-import '../new_architecture/controller/cart_controller.dart';
 import '../new_architecture/controller/firestore_controller.dart';
 
 class MainHome extends StatefulWidget {

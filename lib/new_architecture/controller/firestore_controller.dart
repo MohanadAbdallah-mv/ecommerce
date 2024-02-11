@@ -1,13 +1,13 @@
 import 'dart:developer';
 
 import 'package:ecommerece/models/cart_item.dart';
+import 'package:ecommerece/models/order.dart';
 import 'package:ecommerece/models/product.dart';
 import 'package:ecommerece/new_architecture/repo/firestore_logic.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/foundation.dart';
-
-import '../../models/cart.dart';
-import '../../models/user_model.dart';
+import 'package:ecommerece/models/cart.dart';
+import 'package:ecommerece/models/user_model.dart';
 import 'cart_controller.dart';
 
 class FireStoreController extends ChangeNotifier {
@@ -247,7 +247,7 @@ class FireStoreController extends ChangeNotifier {
   Future<List<Product>> updateWishList() async{
     if(likedListIds.isNotEmpty) {
       likedList =
-      await firestorehandlerImplement.getProductStream(likedListIds);
+      await firestorehandlerImplement.getLikedProducts(likedListIds);
       log("get liked products in controller ${likedList}");
       notifyListeners();
       return likedList;
@@ -262,4 +262,24 @@ class FireStoreController extends ChangeNotifier {
     notifyListeners();
     return items;
   }
+  Future<void> finishPayment(MyOrder order,MyUser user)async{
+    try{
+      await firestorehandlerImplement.makeOrder(order).then((value) {
+        log("$value");
+        if(value=="success"){
+          log("made order and will deletesoon");
+          _cart.checkOut();
+          user.cart.items!.clear();
+          user.cart.totalPrice = 0;
+          user.orders!.add(order);
+          cartItems.clear();
+          //user.cart
+        };});
+      await updateUser(user);
+
+    }catch(e){
+      log("error at finishing payment${e.toString()}");
+    }
+  }
+  
 }

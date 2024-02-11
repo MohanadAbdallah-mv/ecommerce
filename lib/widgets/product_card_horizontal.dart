@@ -3,11 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
-import '../models/product.dart';
-import '../models/user_model.dart';
+import 'package:ecommerece/models/product.dart';
+import 'package:ecommerece/models/user_model.dart';
 import '../new_architecture/controller/firestore_controller.dart';
 import '../views/product_detailed.dart';
-import 'CustomButton.dart';
 import 'CustomText.dart';
 
 class ProductCardHorizontal extends StatefulWidget {

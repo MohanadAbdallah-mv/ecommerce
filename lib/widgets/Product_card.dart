@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../models/product.dart';
+import 'package:ecommerece/models/product.dart';
 import '../new_architecture/controller/firestore_controller.dart';
 
 class ProductCard extends StatefulWidget {
@@ -106,7 +106,7 @@ class _ProductCardState extends State<ProductCard> {
                 Container(
                   padding: EdgeInsets.only(left: 8, right: 4),
                   width: double.maxFinite,
-                  height: 60,
+                  height: 63,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -131,7 +131,7 @@ class _ProductCardState extends State<ProductCard> {
                 ),
                 //price and stars
                 Container(padding: EdgeInsets.only(left: 8,right: 4),
-                  height: 40,
+                  height: 45,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -9,3 +9,16 @@ localPropertiesFile.withReader("UTF-8") { reader -> properties.load(reader) }
 def flutterSdkPath = properties.getProperty("flutter.sdk")
 assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
 apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gradle"
+//added this build cache section in addition to gradle.properties enable cache
+//https://discuss.gradle.org/t/how-to-change-the-default-gradle-local-directory-user-home-gradle-to-other-directory-like-d-gradle/3946
+//check gitignore in this https://circleci.com/blog/turbocharging-your-android-gradle-builds-using-build-cache/
+buildCache {
+    local {
+        enabled = true
+        directory = new File("E:\\projects and courses\\mobile\\buildCacheforEcommerece", 'build-cache-ecommerece')
+        removeUnusedEntriesAfterDays = 90
+    }
+    remote(HttpBuildCache) {
+        enabled = false
+    }
+}

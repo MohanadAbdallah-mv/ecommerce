@@ -1,18 +1,20 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/views/payment_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+
 import '../constants.dart';
 import '../widgets/CustomButton.dart';
 import '../widgets/CustomText.dart';
 
 class MapPage extends StatefulWidget {
-  const MapPage({super.key});
+  MyUser user;
+  MapPage({super.key,required this.user});
 
   @override
   State<MapPage> createState() => _MapPageState();
@@ -33,6 +35,7 @@ class _MapPageState extends State<MapPage> {
     super.initState();
     getLocationUpdates();
   }
+
   @override
   void dispose() {
     _locationSubscription?.cancel(); // Cancel the location updates
@@ -54,7 +57,7 @@ class _MapPageState extends State<MapPage> {
           ),
         ),
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white,automaticallyImplyLeading: false,
       ),
       body: _currentPostion==null?Center(child: CircularProgressIndicator()):Stack(
         children: [
@@ -138,8 +141,16 @@ class _MapPageState extends State<MapPage> {
             fontWeight: FontWeight.w500,
           ),
           onpress: () {
-            Navigator.of(context, rootNavigator: true).push(
-                MaterialPageRoute(builder: (context) =>  payment_Page(pos: _markers.first.position)));
+            //todo close map stream when done
+            if(_locationSubscription !=null){
+              setState(() {
+                _locationSubscription!.cancel();
+                //_locationController.onLocationChanged.listen((event) { })
+              });
+              // Navigator.of(context, rootNavigator: true).push(
+              //     MaterialPageRoute(builder: (context) =>  paymentPage(pos: _markers.first.position,user: widget.user,)));
+              Navigator.pop(context,_markers.first.position);
+            }
           },
           height: 50,
           borderColor: Colors.white,

@@ -2,11 +2,11 @@ import 'dart:developer';
 
 import 'package:ecommerece/models/userform.dart';
 import 'package:ecommerece/new_architecture/repo/auth_logic.dart';
-import 'package:ecommerece/services/Cache_Helper.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import '../../models/user_model.dart';
+
+import 'package:ecommerece/models/user_model.dart';
 
 class AuthController extends ChangeNotifier {
   // I handle collecting data from the user interface and passing it to the logic layer

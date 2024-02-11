@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:global_bottom_navigation_bar/widgets/bottom_navigation_item.dart';
 
 import 'models/bottom_navigation_item.dart';
 

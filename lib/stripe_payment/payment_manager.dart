@@ -1,14 +1,22 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:ecommerece/Stripe_Payment/stripe_keys.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
 abstract class PaymentManager {
-  static Future<void> makePayment(int amount, String currency) async {
+  static Future<String> makePayment(int amount, String currency) async {
     try {
+      print("$amount");
       String clientSecret = await _getClientSecret((amount * 100).toString(), currency);
           await _initializePaymentSheet(clientSecret);
           await Stripe.instance.presentPaymentSheet();
+          log("success payment");//await Stripe.instance.confirmPaymentSheetPayment();//testing what does this function do
+          return "success payment";
     } catch (e) {
+
+      log("failed payment");
+      return "failed payment";
       throw Exception(e.toString());
     }
   }

@@ -4,23 +4,22 @@ import 'package:ecommerece/firebase_options.dart';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/controller/cart_controller.dart';
+import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
 import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
 import 'package:ecommerece/new_architecture/datasource/cart_data.dart';
+import 'package:ecommerece/new_architecture/datasource/firestore_data.dart';
 import 'package:ecommerece/new_architecture/repo/auth_logic.dart';
 import 'package:ecommerece/new_architecture/repo/cart_repo.dart';
+import 'package:ecommerece/new_architecture/repo/firestore_logic.dart';
 import 'package:ecommerece/services/Cache_Helper.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/onBoarding.dart';
 import 'package:either_dart/either.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
-import 'package:ecommerece/new_architecture/repo/firestore_logic.dart';
-import 'package:ecommerece/new_architecture/datasource/firestore_data.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,9 +1,10 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/models/cart.dart';
-import 'package:ecommerece/models/cart_item.dart';
 import 'package:either_dart/either.dart';
-import 'dart:developer';
-import '../../models/user_model.dart';
+
+import 'package:ecommerece/models/user_model.dart';
 
 abstract class CartStore {
   FirebaseFirestore firebaseFirestore;

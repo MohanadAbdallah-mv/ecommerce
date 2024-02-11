@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:ecommerece/models/order.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
-
+import 'package:ecommerece/models/user_model.dart';
 import '../../models/product.dart';
-import '../../models/user_model.dart';
 
 abstract class Firestore {
   FirebaseFirestore firebaseFirestore;
@@ -24,7 +24,8 @@ abstract class Firestore {
 
   Future<Either<String, Product>> getItemById(String id);
 
-  Future<List<Product>> getProductStream(List<String> productIds);
+  Future<List<Product>> getLikedProducts(List<String> productIds);
+  Future<String> makeOrder(MyOrder order);
 
   Future<Either<String, MyUser>> getUser(MyUser user);
 
@@ -160,14 +161,27 @@ class FirestoreImplement extends Firestore {
   }
 
   @override
-  Future<List<Product>> getProductStream(List<String> productIds) async{
+  Future<List<Product>> getLikedProducts(List<String> productIds) async{
 
   List<Product> likedProducts=await firebaseFirestore.collection('product')
       .where(FieldPath.documentId, whereIn: productIds).get().then((value) => value.docs.map((doc) => Product.fromSnapshot(doc)).toList());
   log("liked products  ${likedProducts}");
   return likedProducts;
   }
+@override
+  Future<String> makeOrder(MyOrder order) async{
 
+//    await firebaseFirestore.collection("orders");
+    try {
+      CollectionReference<Map<String, dynamic>> ordersRef =
+      firebaseFirestore.collection("orders");
+      await ordersRef.doc(order.id).set(order.toJson());
+      return "success";
+    } on FirebaseException catch (e) {
+      return e.message.toString();
+    }
+    
+  }
   @override
   Future<String> updateUser(MyUser user) async {
     try {

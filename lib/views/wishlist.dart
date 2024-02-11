@@ -1,15 +1,12 @@
 import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/models/product.dart';
-import 'package:ecommerece/views/home.dart';
-import 'package:ecommerece/widgets/wish_list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
-import '../models/user_model.dart';
+import 'package:ecommerece/models/user_model.dart';
 import '../new_architecture/controller/firestore_controller.dart';
 import '../widgets/CustomText.dart';
 import '../widgets/product_card_horizontal.dart';

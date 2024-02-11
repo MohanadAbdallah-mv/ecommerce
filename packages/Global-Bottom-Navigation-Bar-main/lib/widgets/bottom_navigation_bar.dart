@@ -1,7 +1,8 @@
 import 'package:ecommerece/constants.dart';
 import 'package:flutter/material.dart';
-import 'tab_item.dart';
+
 import 'bottom_navigation_item.dart';
+import 'tab_item.dart';
 
 class GlobalBottomNavigationBar extends StatefulWidget {
   const GlobalBottomNavigationBar({

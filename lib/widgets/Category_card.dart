@@ -1,7 +1,9 @@
 import 'dart:developer';
+
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../constants.dart';
 
 class CategoryCard extends StatefulWidget {

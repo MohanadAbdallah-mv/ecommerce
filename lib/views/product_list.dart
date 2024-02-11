@@ -9,7 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
-import '../models/product.dart';
+import 'package:ecommerece/models/product.dart';
 
 import '../widgets/CustomText.dart';
 

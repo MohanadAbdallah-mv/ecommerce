@@ -1,3 +1,5 @@
+import 'package:ecommerece/models/order.dart';
+
 import 'cart.dart';
 
 class MyUser {
@@ -8,7 +10,7 @@ class MyUser {
   late bool isLogged;
   late List<String> wishList;
   late Cart cart;
-  late List<Cart>? orders;
+  late List<MyOrder>? orders;
 
   MyUser(
       {required this.id,
@@ -28,10 +30,12 @@ class MyUser {
     isLogged = json["isLogged"];
     cart = Cart.fromJson(json["cart"]);
     wishList = List<String>.from(json["wishList"]) ;
-    orders = json["orders"];
+    orders = List<MyOrder>.from(json["orders"].map((val)=>MyOrder.fromJson(val)));//   Order.fromJson();
   }
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() {
+    var ordersMap=orders!.map((e)=>e.toJson()).toList();
+    return{
         "id": id,
         "name": name,
         "email": email,
@@ -39,6 +43,6 @@ class MyUser {
         "isLogged": isLogged,
         "cart": cart.toJson(),
         "wishList": wishList,
-        "orders": orders
-      };
+        "orders": ordersMap
+      };}
 }

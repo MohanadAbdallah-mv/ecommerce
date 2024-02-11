@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:ecommerece/models/cart.dart';
-import 'package:ecommerece/models/cart_item.dart';
-import 'package:ecommerece/models/user_model.dart';
 import 'package:either_dart/either.dart';
 
+import 'package:ecommerece/models/user_model.dart';
 import '../../services/Cache_Helper.dart';
 import '../datasource/cart_data.dart';
 

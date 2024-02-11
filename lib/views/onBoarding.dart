@@ -3,8 +3,8 @@ import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/views/Login.dart';
 import 'package:ecommerece/views/Signup.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
-import 'package:flutter/material.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -31,10 +31,10 @@ class _IntroState extends State<Intro> {
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(scrollDirection: Axis.vertical,
-        child: Container(height: 755,
+        child: Container(height: 758,
           child: Stack(children: [
             Positioned(
-              top: 250,
+              top: 245,
               right: 0,
               left: 0,
               bottom: 0,
@@ -68,7 +68,7 @@ class _IntroState extends State<Intro> {
                         align: Alignment.center,
                       ),
                     ),
-                    SizedBox(height: 110),
+                    SizedBox(height: 100),
                     Padding(
                       padding: const EdgeInsets.only(left: 16, right: 16),
                       child: CustomButton(
@@ -119,7 +119,7 @@ class _IntroState extends State<Intro> {
             Positioned(
               left: 0,
               right: 0,
-              top: 77,
+              top: 72,
               child: Container(
                 child: SvgPicture.asset("assets/svg/st_l_app.svg"),
               ),

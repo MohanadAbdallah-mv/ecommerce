@@ -6,7 +6,6 @@ import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/forgot_password.dart';
-import 'package:ecommerece/views/home.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/CustomTextField.dart';
@@ -15,8 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
-import '../new_architecture/controller/cart_controller.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:ecommerece/constants.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'CustomText.dart';

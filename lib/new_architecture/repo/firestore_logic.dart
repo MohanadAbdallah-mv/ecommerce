@@ -1,12 +1,14 @@
 
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecommerece/models/order.dart';
 import 'package:ecommerece/models/product.dart';
 import 'package:ecommerece/new_architecture/datasource/firestore_data.dart';
 import 'package:either_dart/either.dart';
 
-import '../../models/user_model.dart';
+import 'package:ecommerece/models/user_model.dart';
 import '../../services/Cache_Helper.dart';
 
 abstract class Firestorehandler {
@@ -19,9 +21,10 @@ abstract class Firestorehandler {
   Future<Either<String,List>> getDontMiss(String category);
   Future<Either<String,List>> getSimilarFrom(String subcategory);
   Future<String> addUser(MyUser user);
+  Future<String> makeOrder(MyOrder order);
   Future<Either<String,MyUser>> getUser(MyUser user);
   Future<Either<String,Product>> getItemById(String id);
-  Future<List<Product>> getProductStream(List<String> productIds);
+  Future<List<Product>> getLikedProducts(List<String> productIds);
   Future<String> updateUser(MyUser user);
 
 }
@@ -165,8 +168,17 @@ class FirestorehandlerImplement extends Firestorehandler {
     }
   }
   @override
-  Future<List<Product>> getProductStream(List<String> productIds) async{
-    return await firestoreImplement.getProductStream(productIds);
+  Future<List<Product>> getLikedProducts(List<String> productIds) async{
+    return await firestoreImplement.getLikedProducts(productIds);
+  }
+  @override
+  Future<String> makeOrder(MyOrder order) async{
+    try{
+      String res=await firestoreImplement.makeOrder(order);
+      return res;
+    }catch (e){
+      return e.toString();
+    }
   }
   @override
   Future<String> updateUser(MyUser user) async{

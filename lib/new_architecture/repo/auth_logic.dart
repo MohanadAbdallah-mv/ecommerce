@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:ecommerece/models/cart.dart';
+import 'package:ecommerece/models/userform.dart';
+import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ecommerece/new_architecture/datasource/auth_data.dart';
-import '../../models/user_model.dart';
+
+import 'package:ecommerece/models/user_model.dart';
 import '../../services/Cache_Helper.dart';
-import 'package:ecommerece/models/userform.dart';
 
 // I do the business logic here
 // Represented in storing data locally when there is no internet connection
@@ -47,6 +48,7 @@ class AuthHandlerImplement extends AuthHandler {
             name: potentialuser.right.user!.displayName,
             email: potentialuser.right.user!.email!,
             wishList: [],
+            orders: [],
             phonenumber: potentialuser.right.user!.phoneNumber,
             isLogged: true,
             cart: Cart([], 0));
@@ -82,6 +84,7 @@ class AuthHandlerImplement extends AuthHandler {
             email: potentialuser.right.email!,
             phonenumber: potentialuser.right.phoneNumber,
             wishList: [],
+            orders: [],
             isLogged: true
             ,cart: Cart([], 0));
         log("we got user");
