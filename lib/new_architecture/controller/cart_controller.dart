@@ -42,19 +42,26 @@ class CartController extends ChangeNotifier {
    }
  }
 
- void addItem(Product product, MyUser user) {
-    _items.putIfAbsent(product.id!, () {
-      log("adding item to cart" + product.name!);
-      if(product.discount_price! >0){
-        user.cart.totalPrice =user.cart.totalPrice! + product.discount_price! ;
-      user.cart.items!.add(CartItem(product: product, quantity: 1, isExist: true));
-      }else{
-        user.cart.totalPrice =user.cart.totalPrice! + product.price!  ;
-        user.cart.items!.add(CartItem(product: product, quantity: 1, isExist: true));
-      }
-      return CartItem(product: product, quantity: 1, isExist: true);
-    });
-    notifyListeners();
+ String addItem(Product product, MyUser user) {
+   if(_items.containsKey(product.id!)) {
+     return "failed";
+    }else{
+     _items.putIfAbsent(product.id!, () {
+       log("adding item to cart" + product.name!);
+       if (product.discount_price! > 0) {
+         user.cart.totalPrice =
+             user.cart.totalPrice! + product.discount_price!;
+         user.cart.items!
+             .add(CartItem(product: product, quantity: 1, isExist: true));
+       } else {
+         user.cart.totalPrice = user.cart.totalPrice! + product.price!;
+         user.cart.items!
+             .add(CartItem(product: product, quantity: 1, isExist: true));
+       }
+       return CartItem(product: product, quantity: 1, isExist: true);
+     });
+     notifyListeners();
+     return "success";}
   }
 
   void removeItem(Product product, MyUser user,int index) {

@@ -44,6 +44,7 @@ dependencies:
   geocoding: 2.1.1
   flutter_stripe: 10.0.0
   fluttertoast: 8.2.4
+  toast: 0.3.0
   #stripe_platform_interface: 10.0.0
   #meta: 1.10.0
   dio: 5.4.0

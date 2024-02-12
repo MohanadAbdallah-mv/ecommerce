@@ -154,24 +154,22 @@ class FireStoreController extends ChangeNotifier {
 
   }
 
-  void addItem(Product product, MyUser user) async{
-    _cart.addItem(product, user);
+  Future<String> addItem(Product product, MyUser user) async{
+    String res=_cart.addItem(product, user);
     //updateUser(user);
     cartItems = user.cart.items!;
 
     notifyListeners();
     await updateUser(user);
+    updateItemsList(user);
+    return res;
 
 //needs to be handled more when to update and when not// make get items list so i can notify and change it and call it with provider
   }
   void deleteItem(Product product,MyUser user,int index){
-    print("cart items before delete $index :$cartItems");
-    print("user.cart.items! before delete $index :${user.cart.items!}");
     _cart.removeItem(product,user,index);
     getUser(user);
     cartItems=user.cart.items!;
-    print("cart items after delete $index :$cartItems");
-    print("user.cart.items! before delete $index :${user.cart.items!}");
     updateUser(user);
     notifyListeners();
 
@@ -271,7 +269,7 @@ class FireStoreController extends ChangeNotifier {
           _cart.checkOut();
           user.cart.items!.clear();
           user.cart.totalPrice = 0;
-          user.orders!.add(order);
+          user.orders.add(order.id);
           cartItems.clear();
           //user.cart
         };});

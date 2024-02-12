@@ -6,9 +6,9 @@ class MyOrder {
   late String userId;
   late LatLng pos;
   late String dateTime;
-  String? id;
+  late String id;
 
-  MyOrder(this.cart, this.userId, this.pos, this.dateTime);
+  MyOrder(this.cart, this.userId, this.pos, this.dateTime,this.id);
 
   MyOrder.fromJson(Map<String, dynamic> json) {
     cart = Cart.fromJson(json["cart"]);
@@ -24,7 +24,7 @@ class MyOrder {
       "userid": userId,
       "pos": pos.toJson(),
       "datetime": dateTime,
-      "id": "$userId+$dateTime"
+      "id": id
     };
   }
 }

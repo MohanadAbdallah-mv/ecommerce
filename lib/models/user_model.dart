@@ -10,7 +10,7 @@ class MyUser {
   late bool isLogged;
   late List<String> wishList;
   late Cart cart;
-  late List<MyOrder>? orders;
+  late List<String> orders;
 
   MyUser(
       {required this.id,
@@ -20,7 +20,7 @@ class MyUser {
       required this.isLogged,
       required this.cart,
       required this.wishList,
-      this.orders});
+      required this.orders});
 
   MyUser.fromJson(Map<String, dynamic> json) {
     id = json["id"];
@@ -30,11 +30,11 @@ class MyUser {
     isLogged = json["isLogged"];
     cart = Cart.fromJson(json["cart"]);
     wishList = List<String>.from(json["wishList"]) ;
-    orders = List<MyOrder>.from(json["orders"].map((val)=>MyOrder.fromJson(val)));//   Order.fromJson();
+    orders = List<String>.from(json["orders"]);//List<MyOrder>.from(json["orders"].map((val)=>MyOrder.fromJson(val)));//   Order.fromJson();
   }
 
   Map<String, dynamic> toJson() {
-    var ordersMap=orders!.map((e)=>e.toJson()).toList();
+    //var ordersMap=orders!.map((e)=>e.toJson()).toList();
     return{
         "id": id,
         "name": name,
@@ -43,6 +43,6 @@ class MyUser {
         "isLogged": isLogged,
         "cart": cart.toJson(),
         "wishList": wishList,
-        "orders": ordersMap
+        "orders": orders
       };}
 }

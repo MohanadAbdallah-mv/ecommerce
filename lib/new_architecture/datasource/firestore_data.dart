@@ -175,7 +175,9 @@ class FirestoreImplement extends Firestore {
     try {
       CollectionReference<Map<String, dynamic>> ordersRef =
       firebaseFirestore.collection("orders");
-      await ordersRef.doc(order.id).set(order.toJson());
+      log("${order.id}");
+      print(order.toJson());
+      await ordersRef.doc("${order.id}").set(order.toJson());
       return "success";
     } on FirebaseException catch (e) {
       return e.message.toString();

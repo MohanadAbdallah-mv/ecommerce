@@ -1,13 +1,16 @@
 import 'dart:developer';
 
 import 'package:ecommerece/constants.dart';
+import 'package:ecommerece/models/cart.dart';
 import 'package:ecommerece/models/order.dart';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
+import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/map_page.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -130,17 +133,40 @@ class _paymentPageState extends State<paymentPage> {
               onpress: () async {
                 log("cart total price${widget.user.cart.totalPrice
                     .toString()}");
-                var res = await PaymentManager.makePayment(
-                    widget.user.cart.totalPrice!, 'USD');
-                if (res == "success payment") {
-                  //make firebase payment and store data
-                  var now = DateTime.now();
-                  var formatter = DateFormat.yMd().add_jm();
-                  String formattedDate = formatter.format(now);
-                  await Provider.of<FireStoreController>(context,listen: false).finishPayment(
-                      MyOrder(widget.user.cart, widget.user.id, widget.pos!,
-                          formattedDate), widget.user).then((value) =>
-                      Navigator.pop(context));//todo need to set state of the outter cart page once return
+                if(_address.length>2){
+                  var res = await PaymentManager.makePayment(
+                      widget.user.cart.totalPrice!, 'USD');
+                  if (res == "success payment") {
+                    //make firebase payment and store data
+                    var now = DateTime.now();
+                    var formatter = DateFormat('yyyy-MM-dd – hh:mm-aa');
+                    String formattedDate = formatter.format(now);
+                    Cart ordercart=widget.user.cart;
+                    String id="${widget.user.id}+$formattedDate";//todo get the actual id from order ,figure it out
+                    await Provider.of<FireStoreController>(context,
+                            listen: false)
+                        .finishPayment(
+                            MyOrder(ordercart, widget.user.id,
+                                widget.pos!, formattedDate,id),
+                            widget.user)
+                        .then((value) {
+                      Fluttertoast.showToast(
+                          msg:
+                              "Successful Payment,Your Order Should Be Delivered Soon",
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                          timeInSecForIosWeb: 5,toastLength: Toast.LENGTH_LONG);
+                      Navigator.pop(context);
+                    }); //                      Navigator.of(context,rootNavigator: true).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => MainHome(user: widget.user))));
+                  }
+                }else{
+                  log("toast failed");
+                  Fluttertoast.showToast(
+                      msg:
+                      "Please Select drop off location",
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      timeInSecForIosWeb: 5);
                 }
               },
               height: 50,

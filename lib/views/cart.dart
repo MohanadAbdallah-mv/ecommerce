@@ -148,9 +148,8 @@ class _CartPageState extends State<CartPage> {
                           .cartItems
                           .isEmpty) {
                       } else {
-                        Navigator.of(context, rootNavigator: true).push(
-                            MaterialPageRoute(builder: (context) =>  paymentPage(user: widget.user)));
-
+                        Navigator.of(context,rootNavigator: true).push(
+                            MaterialPageRoute(builder: (context) =>  paymentPage(user: widget.user))).then((value) {setState(() {});});
                       }
                     },
                     height: 50,

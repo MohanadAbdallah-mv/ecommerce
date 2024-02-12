@@ -4,6 +4,7 @@ import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -307,14 +308,25 @@ class _ProductDetailedState extends State<ProductDetailed> {
                           color: Colors.white,
                           align: Alignment.center,
                         ),
-                        onpress: () {
-                          //todo : add to cart screen or bottom sheet
-                          Provider.of<FireStoreController>(context,listen: false).addItem(widget.product,widget.user);
-                          Provider.of<FireStoreController>(context,listen: false).updateItemsList(widget.user);
-                          
-                          Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+                        onpress: () async{
+                          String res=await Provider.of<FireStoreController>(context,listen: false).addItem(widget.product,widget.user);
+                          if(res=="success"){
+                            Fluttertoast.showToast(
+                                msg:
+                                "Item added to Cart",
+                                backgroundColor: Colors.green,
+                                textColor: Colors.white,
+                                timeInSecForIosWeb: 5);
+                            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
                             MaterialPageRoute(builder: (context) => new MainHome(user: widget.user)),
                                 (route) => false,);
+                          }
+                          else{Fluttertoast.showToast(
+                              msg:
+                              "Item already exist,Check your Cart",
+                              backgroundColor: Colors.red,
+                              textColor: Colors.white,
+                              timeInSecForIosWeb: 5);}
                         },
                         borderColor: Colors.white,
                         color: primaryColor,
