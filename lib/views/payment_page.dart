@@ -142,7 +142,7 @@ class _paymentPageState extends State<paymentPage> {
                     var formatter = DateFormat('yyyy-MM-dd – hh:mm-aa');
                     String formattedDate = formatter.format(now);
                     Cart ordercart=widget.user.cart;
-                    String id="${widget.user.id}+$formattedDate";//todo get the actual id from order ,figure it out
+                    String id="${widget.user.id}+$formattedDate";
                     await Provider.of<FireStoreController>(context,
                             listen: false)
                         .finishPayment(

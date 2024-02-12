@@ -265,13 +265,11 @@ class FireStoreController extends ChangeNotifier {
       await firestorehandlerImplement.makeOrder(order).then((value) {
         log("$value");
         if(value=="success"){
-          log("made order and will deletesoon");
           _cart.checkOut();
           user.cart.items!.clear();
           user.cart.totalPrice = 0;
           user.orders.add(order.id);
           cartItems.clear();
-          //user.cart
         };});
       await updateUser(user);
 

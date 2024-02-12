@@ -12,6 +12,8 @@ import 'package:ecommerece/new_architecture/repo/auth_logic.dart';
 import 'package:ecommerece/new_architecture/repo/cart_repo.dart';
 import 'package:ecommerece/new_architecture/repo/firestore_logic.dart';
 import 'package:ecommerece/services/Cache_Helper.dart';
+import 'package:ecommerece/views/admin_loadingCheck.dart';
+import 'package:ecommerece/views/admin_page.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/onBoarding.dart';
 import 'package:either_dart/either.dart';
@@ -27,25 +29,28 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  Stripe.publishableKey=ApiKeys.publishableKey;
+  Stripe.publishableKey = ApiKeys.publishableKey;
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
-        create: (context) => FireStoreController(
-            firestorehandlerImplement: FirestorehandlerImplement(
-                cacheData: CacheData(),
-                firestoreImplement: FirestoreImplement(
-                    firebaseFirestore: FirebaseFirestore.instance)))),
+        create: (context) =>
+            FireStoreController(
+                firestorehandlerImplement: FirestorehandlerImplement(
+                    cacheData: CacheData(),
+                    firestoreImplement: FirestoreImplement(
+                        firebaseFirestore: FirebaseFirestore.instance)))),
     ChangeNotifierProvider(
-        create: (context) => AuthController(
-            repo: AuthHandlerImplement(
-                authImplement:
+        create: (context) =>
+            AuthController(
+                repo: AuthHandlerImplement(
+                    authImplement:
                     AuthImplement(firebaseauth: FirebaseAuth.instance),
-                cacheData: CacheData()))),
+                    cacheData: CacheData()))),
     ChangeNotifierProvider(
-        create: (context) => CartController(
-            cartRepo: CartRepo(
-                cacheData: CacheData(),
-                cartStore:
+        create: (context) =>
+            CartController(
+                cartRepo: CartRepo(
+                    cacheData: CacheData(),
+                    cartStore:
                     CartSource(firebaseFirestore: FirebaseFirestore.instance))))
   ], child: MyApp()));
 }
@@ -60,14 +65,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //MyUser? user=Provider.of<AuthController>(context).getCurrentUser();
     //print(user);
-    Either<String, MyUser> user = Provider.of<AuthController>(context).getCurrentUser();
+    Either<String, MyUser> user = Provider.of<AuthController>(context)
+        .getCurrentUser();
     Provider.of<FireStoreController>(context, listen: false)
         .initProduct(Provider.of<CartController>(context));
     // user.isRight
     //     ? Provider.of<FireStoreController>(context, listen: false)
     //         .updateItemsList(user.right)
     //     : null;
+    //print("//////////////////////////////////////////////////"+user.right.role);
     return MaterialApp(
-        home: user.isRight ? MainHome(user: user.right) : Intro());
+        home: user.isRight? AdminCheckPage(user: user.right): Intro()
+
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
 import 'package:ecommerece/new_architecture/controller/firestore_controller.dart';
+import 'package:ecommerece/views/admin_loadingCheck.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/views/forgot_password.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
@@ -161,18 +162,18 @@ class _LoginState extends State<Login> {
                           log("exiting get user");
                           if(res.isRight){
                             log("entering res right after getting user successfully and getting wishlist: ${res.right.wishList}");
-                            Navigator.push(
+                            Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(
+                                MaterialPageRoute<dynamic>(
                                     builder: (context) =>
-                                        MainHome(user: res.right)));
+                                        AdminCheckPage(user: res.right)),(route) =>false);
                           }else{
                             log("entering here because get user didn't work as expected");//todo : shouldn't return user.right here cuz that's mean we didn't get the user from firestore
-                            Navigator.push(
+                            Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(
+                                MaterialPageRoute<dynamic>(
                                     builder: (context) =>
-                                        MainHome(user: user.right)));
+                                        AdminCheckPage(user: user.right)),(route) =>false);
                           }
 
                         }

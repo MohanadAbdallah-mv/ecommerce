@@ -11,6 +11,7 @@ class MyUser {
   late List<String> wishList;
   late Cart cart;
   late List<String> orders;
+  String role="user";
 
   MyUser(
       {required this.id,
@@ -31,6 +32,8 @@ class MyUser {
     cart = Cart.fromJson(json["cart"]);
     wishList = List<String>.from(json["wishList"]) ;
     orders = List<String>.from(json["orders"]);//List<MyOrder>.from(json["orders"].map((val)=>MyOrder.fromJson(val)));//   Order.fromJson();
+    role =json["role"];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +46,7 @@ class MyUser {
         "isLogged": isLogged,
         "cart": cart.toJson(),
         "wishList": wishList,
-        "orders": orders
+        "orders": orders,
+        "":role
       };}
 }

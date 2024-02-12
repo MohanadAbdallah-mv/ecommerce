@@ -116,7 +116,8 @@ class FirestoreImplement extends Firestore {
         "isLogged": user.isLogged,
         "cart": user.cart.toJson(),
         "wishList": user.wishList,
-        "orders": user.orders
+        "orders": user.orders,
+        "role":user.role
       }); //.add(user.toJson());
       //await userdoc.set(data)
       return "success";
@@ -175,8 +176,6 @@ class FirestoreImplement extends Firestore {
     try {
       CollectionReference<Map<String, dynamic>> ordersRef =
       firebaseFirestore.collection("orders");
-      log("${order.id}");
-      print(order.toJson());
       await ordersRef.doc("${order.id}").set(order.toJson());
       return "success";
     } on FirebaseException catch (e) {

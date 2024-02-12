@@ -156,11 +156,11 @@ class _SignupState extends State<Signup> {
                           await Provider.of<FireStoreController>(context,listen: false).addUser(user.right).then((value) {
                             if (value=="success"){
                               print("entering");
-                              Navigator.push(
+                              Navigator.pushAndRemoveUntil(
                                   context,
-                                  MaterialPageRoute(
+                                  MaterialPageRoute<dynamic>(
                                       builder: (context) =>
-                                          MainHome(user: user.right)));
+                                          MainHome(user: user.right)),(route) =>false);
                             }else{
                               showDialog(context: context, builder: (context) {
                                 return AlertDialog(content: Text(value),);
