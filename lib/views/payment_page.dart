@@ -1,5 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
+import 'package:ecommerece/stripe_payment/stripe_keys.dart';
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/models/cart.dart';
 import 'package:ecommerece/models/order.dart';
@@ -65,6 +68,41 @@ class _paymentPageState extends State<paymentPage> {
     // TODO: implement initState
     super.initState();
 //_getResultFromMapScreen(context);
+  }
+  void sendPushMessage(String token, String body, String title) async {
+    Dio dio = Dio();
+    try{
+      await dio.post(
+        'https://fcm.googleapis.com/v1/projects/ecommerece-c1601/messages:send',
+        options: Options(
+          headers: <String, String>{
+            "Authorization": "Bearer ${ApiKeys.fcmServerKey}",
+            "Content-Type": "application/json"
+          },
+        ),
+        data: jsonEncode(
+          <String, dynamic>{
+            "priority": "high",
+            "data": <String, dynamic>{
+              "click_action": "FLUTTER_NOTIFICATION_CLICK",
+              "status": "done",
+              "body": body,
+              "title": title,
+            },
+            "message":{
+              "token": token,
+              "notification": <String, dynamic>{
+                "title": title,
+                "body": body,
+                "android_channel_id": "Shoppie"
+              }
+            },
+          },
+        ),
+      );
+    }catch(e){
+      log(e.toString());
+    }
   }
 
   @override
@@ -137,6 +175,7 @@ class _paymentPageState extends State<paymentPage> {
                   var res = await PaymentManager.makePayment(
                       widget.user.cart.totalPrice!, 'USD');
                   if (res == "success payment") {
+                    //todo Note:in case of failure in registering the order, a support should contact or refund can be made depending on business needs and if it can handle it or not
                     //make firebase payment and store data
                     var now = DateTime.now();
                     var formatter = DateFormat('yyyy-MM-dd – hh:mm-aa');
@@ -149,7 +188,8 @@ class _paymentPageState extends State<paymentPage> {
                             MyOrder(ordercart, widget.user.id,
                                 widget.pos!, formattedDate,id),
                             widget.user)
-                        .then((value) {
+                        .then((token) {
+                          sendPushMessage(token,"user ${widget.user.name} made his order and waiting for his delivery soon", "New Order");
                       Fluttertoast.showToast(
                           msg:
                               "Successful Payment,Your Order Should Be Delivered Soon",

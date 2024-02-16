@@ -47,6 +47,6 @@ class MyUser {
         "cart": cart.toJson(),
         "wishList": wishList,
         "orders": orders,
-        "":role
+        "role":role
       };}
 }

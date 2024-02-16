@@ -17,7 +17,6 @@ class MainHome extends StatefulWidget {
   MainHome({super.key, required this.user});
 
   MyUser user;
-
   @override
   State<MainHome> createState() => _MainHomeState();
 }

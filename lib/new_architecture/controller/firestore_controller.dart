@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerece/models/cart_item.dart';
 import 'package:ecommerece/models/order.dart';
 import 'package:ecommerece/models/product.dart';
@@ -260,7 +261,7 @@ class FireStoreController extends ChangeNotifier {
     notifyListeners();
     return items;
   }
-  Future<void> finishPayment(MyOrder order,MyUser user)async{
+  Future<String> finishPayment(MyOrder order,MyUser user)async{
     try{
       await firestorehandlerImplement.makeOrder(order).then((value) {
         log("$value");
@@ -272,10 +273,18 @@ class FireStoreController extends ChangeNotifier {
           cartItems.clear();
         };});
       await updateUser(user);
-
+      String token=await getAdminToken();
+      return token;
     }catch(e){
       log("error at finishing payment${e.toString()}");
+      return e.toString();
     }
+  }
+  Future<String>getAdminToken()async{
+    String token="";
+    await FirebaseFirestore.instance.collection("UserToken").doc("admin").get().then((value) => token=value.data()!["token"]);
+    print(token);
+    return token;
   }
   
 }

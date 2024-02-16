@@ -1,5 +1,6 @@
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/new_architecture/controller/auth_controller.dart';
+import 'package:ecommerece/views/admin_loadingCheck.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/CustomTextField.dart';
@@ -160,7 +161,7 @@ class _SignupState extends State<Signup> {
                                   context,
                                   MaterialPageRoute<dynamic>(
                                       builder: (context) =>
-                                          MainHome(user: user.right)),(route) =>false);
+                                          AdminCheckPage(user: user.right)),(route) =>false);
                             }else{
                               showDialog(context: context, builder: (context) {
                                 return AlertDialog(content: Text(value),);
