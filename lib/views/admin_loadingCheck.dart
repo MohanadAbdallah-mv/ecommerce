@@ -26,7 +26,7 @@ class _AdminCheckPageState extends State<AdminCheckPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 2)).then((value) {
+    Future.delayed(Duration(seconds: 5)).then((value) {
       log("${widget.user.role}");
       //todo initmessage here
       requestPermission();

@@ -138,7 +138,7 @@ class FirestoreImplement extends Firestore {
       log("${user.id}");
       //log("${usersRef.doc(user.id).get().}");
       MyUser userUpdates = await usersRef.doc(user.id).get().then((value) => value.data()!).catchError((error)=>log("failed to get user${error}"));
-      log("user updates is back from data source at getuser  ${userUpdates.name} +${userUpdates.cart.items} +${userUpdates.cart.totalPrice} + ${userUpdates.wishList}}");
+      log("user updates is back from data source at getuser  ${userUpdates.name} +${userUpdates.role}+${userUpdates.cart.items} +${userUpdates.cart.totalPrice} + ${userUpdates.wishList}}");
       return Right(userUpdates);
     } on FirebaseException catch (e) {
       log("error  getuser at firestore data ${e.message}");

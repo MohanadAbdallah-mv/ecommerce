@@ -21,7 +21,8 @@ class MyUser {
       required this.isLogged,
       required this.cart,
       required this.wishList,
-      required this.orders});
+      required this.orders,
+      required this.role});
 
   MyUser.fromJson(Map<String, dynamic> json) {
     id = json["id"];

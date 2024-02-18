@@ -28,9 +28,12 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> {
   void sendPushMessage(String token, String body, String title) async {
     Dio dio = Dio();
+    print(token);
+    print(body);
+    print(title);
     try {
-      await dio.post(
-          'https://fcm.googleapis.com/v1/projects/ecommerece-c1601/messages:send',
+      Response response= await dio.post(
+          'https://fcm.googleapis.com/v1/projects/ecommerece-c1601/messages:send',//https://fcm.googleapis.com/fcm/send
           options: Options(
             headers: {
               "Authorization": "Bearer ${ApiKeys.fcmServerKey}",
@@ -62,8 +65,11 @@ class _AdminPageState extends State<AdminPage> {
               }
             }
           });
+      print("fcm response${response.statusCode}");
+      print("fcm response${response.data}");
     } catch (e) {
       print("error");
+
       log(e.toString());
     }
   }

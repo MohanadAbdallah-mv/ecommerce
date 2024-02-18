@@ -49,6 +49,7 @@ class AuthHandlerImplement extends AuthHandler {
             email: potentialuser.right.user!.email!,
             wishList: [],
             orders: [],
+            role: "user",
             phonenumber: potentialuser.right.user!.phoneNumber,
             isLogged: true,
             cart: Cart([], 0));
@@ -85,6 +86,7 @@ class AuthHandlerImplement extends AuthHandler {
             phonenumber: potentialuser.right.phoneNumber,
             wishList: [],
             orders: [],
+            role: "user",
             isLogged: true
             ,cart: Cart([], 0));
         log("we got user");
