@@ -12,6 +12,7 @@ import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/CustomTextField.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -50,14 +51,14 @@ class _LoginState extends State<Login> {
     return Consumer<AuthController>(
       builder: (context, auth, child) {
         return Scaffold(
-            appBar: AppBar(
+            appBar: AppBar(automaticallyImplyLeading: false,
               title: Padding(
                 padding: const EdgeInsets.only(left: 80),
                 child: Text(
                   "Shoppie",
                   style: GoogleFonts.sarina(
                       textStyle: TextStyle(
-                          color: AppTitleColor, fontWeight: FontWeight.w400)),
+                          color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 34.sp)),
                 ),
               ),
               elevation: 0.0,

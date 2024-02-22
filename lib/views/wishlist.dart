@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:ecommerece/models/product.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -45,7 +46,7 @@ class _WishListState extends State<WishList> {
               "Shoppie",
               style: GoogleFonts.sarina(
                   textStyle: TextStyle(
-                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 30)),
+                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 34.sp)),
             ),
           ),
           elevation: 0.0,

@@ -12,6 +12,7 @@ import 'package:ecommerece/new_architecture/repo/auth_logic.dart';
 import 'package:ecommerece/new_architecture/repo/cart_repo.dart';
 import 'package:ecommerece/new_architecture/repo/firestore_logic.dart';
 import 'package:ecommerece/services/Cache_Helper.dart';
+import 'package:ecommerece/services/NotificationHandler/notification_handler.dart';
 import 'package:ecommerece/views/admin_loadingCheck.dart';
 import 'package:ecommerece/views/admin_page.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
@@ -20,6 +21,7 @@ import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
 
@@ -30,29 +32,31 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Stripe.publishableKey = ApiKeys.publishableKey;
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-        create: (context) =>
-            FireStoreController(
-                firestorehandlerImplement: FirestorehandlerImplement(
-                    cacheData: CacheData(),
-                    firestoreImplement: FirestoreImplement(
-                        firebaseFirestore: FirebaseFirestore.instance)))),
-    ChangeNotifierProvider(
-        create: (context) =>
-            AuthController(
-                repo: AuthHandlerImplement(
-                    authImplement:
-                    AuthImplement(firebaseauth: FirebaseAuth.instance),
-                    cacheData: CacheData()))),
-    ChangeNotifierProvider(
-        create: (context) =>
-            CartController(
-                cartRepo: CartRepo(
-                    cacheData: CacheData(),
-                    cartStore:
-                    CartSource(firebaseFirestore: FirebaseFirestore.instance))))
-  ], child: MyApp()));
+  NotificationHandler.instance.init().then((_) {
+    runApp(MultiProvider(providers: [
+      ChangeNotifierProvider(
+          create: (context) =>
+              FireStoreController(
+                  firestorehandlerImplement: FirestorehandlerImplement(
+                      cacheData: CacheData(),
+                      firestoreImplement: FirestoreImplement(
+                          firebaseFirestore: FirebaseFirestore.instance)))),
+      ChangeNotifierProvider(
+          create: (context) =>
+              AuthController(
+                  repo: AuthHandlerImplement(
+                      authImplement:
+                      AuthImplement(firebaseauth: FirebaseAuth.instance),
+                      cacheData: CacheData()))),
+      ChangeNotifierProvider(
+          create: (context) =>
+              CartController(
+                  cartRepo: CartRepo(
+                      cacheData: CacheData(),
+                      cartStore:
+                      CartSource(firebaseFirestore: FirebaseFirestore.instance))))
+    ], child: MyApp()));
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -74,9 +78,14 @@ class MyApp extends StatelessWidget {
     //         .updateItemsList(user.right)
     //     : null;
     //print("//////////////////////////////////////////////////"+user.right.role);
-    return MaterialApp(
-        home: user.isRight? AdminCheckPage(user: user.right): Intro()
+    return ScreenUtilInit(
+      designSize: const Size(390,844),
+      builder: (context,child) {
+        return MaterialApp(debugShowCheckedModeBanner: false,
+            home: user.isRight? AdminCheckPage(user: user.right): Intro()
 
+        );
+      }
     );
   }
 }

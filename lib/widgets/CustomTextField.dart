@@ -1,5 +1,6 @@
 import 'package:ecommerece/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'CustomText.dart';
@@ -37,11 +38,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
       children: [
         widget.customheader!=null?widget.customheader!:CustomText(
           text: widget.headerText,
-          size: 16,
+          size: 16.sp,
           color: TextFieldColor,
         ),
         SizedBox(
-          height: 4,
+          height: 2.h,
         ),
         TextFormField(
             style:

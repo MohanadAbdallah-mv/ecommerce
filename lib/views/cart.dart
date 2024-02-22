@@ -4,6 +4,7 @@ import 'package:ecommerece/views/map_page.dart';
 import 'package:ecommerece/views/payment_page.dart';
 import 'package:ecommerece/widgets/Cart_Item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,7 @@ class _CartPageState extends State<CartPage> {
                   textStyle: TextStyle(
                       color: AppTitleColor,
                       fontWeight: FontWeight.w400,
-                      fontSize: 30)),
+                      fontSize: 34.sp)),
             ),
           ),
           elevation: 0.0,

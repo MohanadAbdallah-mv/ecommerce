@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/views/payment_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -53,7 +54,7 @@ class _MapPageState extends State<MapPage> {
                 textStyle: TextStyle(
                     color: AppTitleColor,
                     fontWeight: FontWeight.w400,
-                    fontSize: 30)),
+                    fontSize: 34.sp)),
           ),
         ),
         elevation: 0.0,

@@ -1,19 +1,19 @@
+import 'package:ecommerece/models/product.dart';
+import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/views/bottom_navigation.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
+import 'package:ecommerece/widgets/Product_card.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
-import 'package:ecommerece/models/product.dart';
-import 'package:ecommerece/models/user_model.dart';
 import '../new_architecture/controller/firestore_controller.dart';
-
-import 'package:ecommerece/widgets/Product_card.dart';
 class ProductDetailed extends StatefulWidget {
   Product product;
   MyUser user;
@@ -36,11 +36,7 @@ class _ProductDetailedState extends State<ProductDetailed> {
 //todo : implement either left and put it down to show error if it is left,null loading and right is data
     return myfuture.right;
   }
-// @override
-//   void didChangeDependencies() {
-//     // TODO: implement didChangeDependencies
-//     super.didChangeDependencies();
-//   }
+
   @override
   Widget build(BuildContext context) {
     if(Provider.of<FireStoreController>(context, listen: false).likedListIds.contains(widget.product.id)){
@@ -48,39 +44,18 @@ class _ProductDetailedState extends State<ProductDetailed> {
     };
     isDiscount=widget.product.discount_price!>0?true:false;
     return Scaffold(
-        appBar: AppBar(
-          // leading: GestureDetector(
-          //     onTap: () {
-          //       Provider.of<AuthController>(context, listen: false)
-          //           .logout(widget.user);
-          //       Navigator.pushAndRemoveUntil(
-          //           context,
-          //           MaterialPageRoute(builder: (context) => Intro()),
-          //           (route) => false);
-          //     },
-          //     child: Icon(
-          //       Icons.arrow_back_outlined,
-          //       color: Colors.black,
-          //     )),
+        appBar: AppBar(automaticallyImplyLeading: false,
           title: Center(
             child: Text(
               "Shoppie",
               style: GoogleFonts.sarina(
                   textStyle: TextStyle(
-                      color: AppTitleColor, fontWeight: FontWeight.w400)),
+                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 34.sp)),
             ),
           ),
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //     onTap: (index) {},
-        //     type: BottomNavigationBarType.fixed,
-        //     items: [
-        //       BottomNavigationBarItem(icon: Icon(Icons.home), label: "home"),
-        //       BottomNavigationBarItem(
-        //           icon: Icon(Icons.person), label: "profile")
-        //     ]),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(8.0),
@@ -255,7 +230,7 @@ class _ProductDetailedState extends State<ProductDetailed> {
                   height: 8,
                 ),
                 SizedBox(
-                  height: 244,
+                  height: 249,
                   child: FutureBuilder(
                       future: MyFutureSimilar(),
                       builder: (context, snapshot) {
@@ -277,21 +252,23 @@ class _ProductDetailedState extends State<ProductDetailed> {
                 SizedBox(
                   height: 40,
                 ),
-                Container(width: double.maxFinite,
+                Container(width: 390.w,
                   child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [isDiscount?SizedBox(height: 56,
+                    children: [isDiscount?
+                    SizedBox(height: 56,
                       child: Column(
                         children: [
                           CustomText(
                             text: "EGP ${widget.product.discount_price}",
                             color: AppTitleColor,
                             fontfamily: "ReadexPro",
-                            fontWeight: FontWeight.w400,size: 22,),SizedBox(height: 4,),
+                            fontWeight: FontWeight.w400,size: 16.sp,)
+                          ,SizedBox(height: 1,),
                           CustomText(
                             text: "EGP ${widget.product.price}",
                             color: TypingColor,
                             fontfamily: "ReadexPro",
-                            fontWeight: FontWeight.w400,size: 16,linethrough: true,)
+                            fontWeight: FontWeight.w400,size: 13.sp,linethrough: true,)
                         ],
                       ),
                     ):CustomText(
@@ -301,7 +278,7 @@ class _ProductDetailedState extends State<ProductDetailed> {
                       fontWeight: FontWeight.w400,size: 22,),SizedBox(width: 4,),Expanded(
                         child: CustomButton(
                         //width: 288,
-                        height: 50,
+                        height: 50.h,
                         child: CustomText(
                           text: "Add to Cart",
                           size: 12,

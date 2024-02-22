@@ -1,0 +1,25 @@
+https://stackoverflow.com/questions/52689049/flutter-navigate-to-a-new-screen-and-clear-all-the-previous-screens
+https://docs.flutter.dev/ui/animations
+https://stackoverflow.com/questions/50383901/firestore-supported-characters-for-custom-ids
+https://stackoverflow.com/questions/49804891/force-flutter-navigator-to-reload-state-when-popping
+
+https://stackoverflow.com/questions/59516408/flutter-app-stuck-at-running-gradle-task-assembledebug     this is not the solution link but it helped me to search for  other about things about gradle one of them was knowing how to cache gradle builds locally in order to save time
+more details about understanding how gradle works https://developer.android.com/build
+https://www.youtube.com/watch?v=ZcTP2StxLsc&ab_channel=SnippetCoder another way to implement stripe to the app/useful as flutter coding in general
+https://stripe.com/docs/webhooks didn't need it in this app, but would be useful for later projects
+https://console.cloud.google.com/google/maps-apis/quotas?project=#####
+
+https://stackoverflow.com/questions/60349741/what-is-the-use-of-rootnavigator-in-navigator-ofcontext-rootnavigator-true     brilliant
+
+https://medium.com/flutter-community/everything-about-the-bottomnavigationbar-in-flutter-e99e5470dddb   helped in understanding global bottom navigation bar and editing in the source code itself/Note: remember to include the package locally inside ur app
+
+
+Authentication validation didn't implement it but could be useful later on https://stackoverflow.com/questions/73877703/show-validation-at-pincodetextfield
+https://www.youtube.com/watch?v=oNoRw69ro2k&ab_channel=NativeNotify         //genius ,how it started fixing my notification for the admins
+https://www.youtube.com/watch?v=MK0-lXIATuo&ab_channel=CodingwithMukund     //how to extract the access token ,probably this should be done via backend if exist, otherwise use with caution as declared in googleapis_auth
+https://pub.dev/packages/googleapis_auth    //important for firebase admin private key decoding
+
+
+
+general notes about this app:
+*order datetime should be same format like the stripe payment dateformat/customer and description can be included with payment for stripe as well

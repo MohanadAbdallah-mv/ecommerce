@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:ecommerece/services/NotificationHandler/notification_handler.dart';
 import 'package:ecommerece/stripe_payment/stripe_keys.dart';
 import 'package:ecommerece/constants.dart';
 import 'package:ecommerece/models/cart.dart';
@@ -13,6 +14,7 @@ import 'package:ecommerece/views/map_page.dart';
 import 'package:ecommerece/widgets/CustomButton.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,41 +71,6 @@ class _paymentPageState extends State<paymentPage> {
     super.initState();
 //_getResultFromMapScreen(context);
   }
-  void sendPushMessage(String token, String body, String title) async {
-    Dio dio = Dio();
-    try{
-      await dio.post(
-        'https://fcm.googleapis.com/v1/projects/ecommerece-c1601/messages:send',
-        options: Options(
-          headers: <String, String>{
-            "Authorization": "Bearer ${ApiKeys.fcmServerKey}",
-            "Content-Type": "application/json"
-          },
-        ),
-        data: jsonEncode(
-          <String, dynamic>{
-            "priority": "high",
-            "data": <String, dynamic>{
-              "click_action": "FLUTTER_NOTIFICATION_CLICK",
-              "status": "done",
-              "body": body,
-              "title": title,
-            },
-            "message":{
-              "token": token,
-              "notification": <String, dynamic>{
-                "title": title,
-                "body": body,
-                "android_channel_id": "Shoppie"
-              }
-            },
-          },
-        ),
-      );
-    }catch(e){
-      log(e.toString());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +83,7 @@ class _paymentPageState extends State<paymentPage> {
                   textStyle: TextStyle(
                       color: AppTitleColor,
                       fontWeight: FontWeight.w400,
-                      fontSize: 30)),
+                      fontSize: 34.sp)),
             ),
           ),
           elevation: 0.0,
@@ -189,7 +156,8 @@ class _paymentPageState extends State<paymentPage> {
                                 widget.pos!, formattedDate,id),
                             widget.user)
                         .then((token) {
-                          sendPushMessage(token,"user ${widget.user.name} made his order and waiting for his delivery soon", "New Order");
+                          print("admin token is $token");
+                          NotificationHandler.instance.sendPushMessage(token, "user ${widget.user.name} made his order and waiting for his delivery soon", "New Order");
                       Fluttertoast.showToast(
                           msg:
                               "Successful Payment,Your Order Should Be Delivered Soon",

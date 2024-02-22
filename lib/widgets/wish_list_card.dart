@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -52,23 +53,23 @@ void initState() async{
     widget.isDiscount = product.discount_price! > 0 ? true : false;
     return Container(
       margin: EdgeInsets.only(top: 0),
-      height: 176,
+      height: 176.h,
       width: double.maxFinite,
       //color: Colors.red,
       child: Row(
         children: [
           Container(
            //color: Colors.blue,
-            width: 150,
-            height: 172,
+            width: 150.w,
+            height: 172.h,
             child: Stack(
               children: [
                 Positioned(
-                    left: 44,
-                    top: 36,
+                    left: 44.w,
+                    top: 36.h,
                     child: Container(
-                      width: 64,
-                      height: 100,
+                      width: 64.w,
+                      height: 100.h,
                       color: Colors.white,
                       child: Image(
                         image: NetworkImage(product.image!),
@@ -76,8 +77,8 @@ void initState() async{
                       ),
                     )),
                 Positioned(
-                    right: 8,
-                    top: 12,
+                    right: 8.w,
+                    top: 12.h,
                     child: GestureDetector(
                       onTap: () async{
                         await Provider.of<FireStoreController>(context, listen: false).likeItem(product, widget.user);
@@ -93,8 +94,8 @@ void initState() async{
                             ? "assets/svg/like button=liked.svg"
                             : "assets/svg/like button=defult.svg",
                         fit: BoxFit.values.last,
-                        width: 32,
-                        height: 32,
+                        width: 32.w,
+                        height: 32.h,
                       ),
                     )),
                 Positioned(
@@ -102,8 +103,8 @@ void initState() async{
                     right: 1,
                     child: Container(
                       alignment: Alignment.center,
-                      height: 28,
-                      width: 72,
+                      height: 28.h,
+                      width: 72.w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +113,7 @@ void initState() async{
                             text: product.stars.toString(),
                             align: Alignment.center,
                             color: primaryColor,
-                            size: 12,
+                            size: 12.sp,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
                           ),
@@ -128,31 +129,31 @@ void initState() async{
             ),
           ),
           Container(
-            height: 172,
+            height: 172.h,
             //color: Colors.red,
-            padding: EdgeInsets.only(left: 12, top: 20),
-            width: 240,
+            padding: EdgeInsets.only(left: 12.w, top: 20.h),
+            width: 240.w,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  height: product.name!.length >= 19 ? 44 : 24,
-                  width: 180,
+                  height: product.name!.length >= 19 ? 44.h : 24.h,
+                  width: 180.w,
                   text: product.name!,
                   textalign: TextAlign.left,
                    trim: product.name!.length >= 40 ? true : false,
                   color: AppTitleColor,
                   fontfamily: "ReadexPro",
                   fontWeight: FontWeight.w400,
-                  size: 16,
+                  size: 16.sp,
                 ),
                 CustomText(
-                  height: 24,
+                  height: 24.h,
                   text: product.Author_name!,
                   color: AuthorColor,
                   textalign: TextAlign.left,
-                  size: 15,
+                  size: 15.sp,
                 ),
 
                 widget.isDiscount
@@ -165,14 +166,14 @@ void initState() async{
                             color: AppTitleColor,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
-                            size: 15,
+                            size: 15.sp,
                           ),
                           CustomText(
                             text: "EGP ${product.price}",
                             color: TypingColor,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
-                            size: 12,
+                            size: 12.sp,
                             linethrough: true,
                           )
                         ],
@@ -184,7 +185,7 @@ void initState() async{
                             color: AppTitleColor,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
-                            size: 15,
+                            size: 15.sp,
                           ),
                         ],
                       ),
@@ -192,10 +193,10 @@ void initState() async{
                   children: [
                     Container(
 
-                      width: 192,
-                      height: 48,
+                      width: 192.w,
+                      height: 48.h,
                       //alignment: Alignment.bottomLeft,
-                      padding: EdgeInsets.only(left: 14, bottom: 8),
+                      padding: EdgeInsets.only(left: 14.w, bottom: 8),
                       child: ListView.builder(
                         reverse: true,
                         scrollDirection: Axis.vertical,
@@ -203,7 +204,7 @@ void initState() async{
                             product.sub_category!.length > 1 ? 2 : 1,
                         itemBuilder: (context, index) => CustomText(
                           align: Alignment.bottomLeft,
-                          height: 24,
+                          height: 24.h,
                           text: product.sub_category![index].toString(),
                           fontfamily: "ReadexPro",
                           fontWeight: FontWeight.w400,
@@ -223,8 +224,8 @@ void initState() async{
                       child: SvgPicture.asset(
                         "assets/svg/add_to_cart.svg",
                         fit: BoxFit.values.last,
-                        width: 20,
-                        height: 20,
+                        width: 20.w,
+                        height: 20.h,
                       ),
                     )
                   ],

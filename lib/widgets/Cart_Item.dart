@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -45,23 +46,23 @@ class _CartItemCardState extends State<CartItemCard> {
     widget.isDiscount = widget.product.discount_price! > 0 ? true : false;
     return Container(
       margin: EdgeInsets.only(top: 0),
-      height: 176,
-      width: double.maxFinite,
+      height: 172.h,
+      width: 390.w,
       //color: Colors.red,
       child: Row(
         children: [
           Container(
             //color: Colors.blue,
-            width: 150,
-            height: 172,
+            width: 150.w,
+            height: 172.h,
             child: Stack(
               children: [
                 Positioned(
-                    left: 44,
-                    top: 36,
+                    left: 43.w,
+                    top: 36.h,
                     child: Container(
-                      width: 64,
-                      height: 100,
+                      width: 64.w,
+                      height: 100.h,
                       color: Colors.white,
                       child: Image(
                         image: NetworkImage(widget.product.image!),
@@ -69,8 +70,8 @@ class _CartItemCardState extends State<CartItemCard> {
                       ),
                     )),
                 Positioned(
-                    right: 8,
-                    top: 12,
+                    right: 0,
+                    top: 0,
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -92,11 +93,11 @@ class _CartItemCardState extends State<CartItemCard> {
                     )),
                 Positioned(
                     bottom: 3,
-                    right: 1,
+                    right: 0,
                     child: Container(
                       alignment: Alignment.center,
-                      height: 28,
-                      width: 72,
+                      height: 28.h,
+                      width: 72.w,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -105,7 +106,7 @@ class _CartItemCardState extends State<CartItemCard> {
                             text: widget.product.stars.toString(),
                             align: Alignment.center,
                             color: primaryColor,
-                            size: 12,
+                            size: 12.sp,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
                           ),
@@ -121,17 +122,17 @@ class _CartItemCardState extends State<CartItemCard> {
             ),
           ),
           Container(
-            height: 172,
+            height: 172.h,
             //color: Colors.red,
-            padding: EdgeInsets.only(left: 12, top: 20),
-            width: 240,
+            padding: EdgeInsets.only(left: 12.w, top: 20.h),
+            width: 220.w,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomText(
-                  height: widget.product.name!.length >= 19 ? 44 : 24,
-                  width: 180,
+                  height: widget.product.name!.length >= 19 ? 44.h : 24.h,
+                  width: 180.w,
                   text: widget.product.name!,
                   textalign: TextAlign.left,
                   trim: widget.product.name!.length >= 40 ? true : false,
@@ -141,11 +142,11 @@ class _CartItemCardState extends State<CartItemCard> {
                   size: 16,
                 ),
                 CustomText(
-                  height: 24,
+                  height: 24.h,
                   text: widget.product.Author_name!,
                   color: AuthorColor,
                   textalign: TextAlign.left,
-                  size: 15,
+                  size: 15.sp,
                 ),
                 widget.isDiscount
                     ? Column(
@@ -157,14 +158,14 @@ class _CartItemCardState extends State<CartItemCard> {
                             color: AppTitleColor,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
-                            size: 15,
+                            size: 15.sp,
                           ),
                           CustomText(
                             text: "EGP ${widget.product.price}",
                             color: TypingColor,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
-                            size: 12,
+                            size: 12.sp,
                             linethrough: true,
                           )
                         ],
@@ -176,7 +177,7 @@ class _CartItemCardState extends State<CartItemCard> {
                             color: AppTitleColor,
                             fontfamily: "ReadexPro",
                             fontWeight: FontWeight.w400,
-                            size: 15,
+                            size: 15.sp,
                           ),
                         ],
                       ),
@@ -184,8 +185,8 @@ class _CartItemCardState extends State<CartItemCard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      width: 115,
-                      height: 48,
+                      width: 115.w,
+                      height: 48.h,
                       //alignment: Alignment.topRight,
                       //padding: EdgeInsets.only(right: , bottom: 8),
 
@@ -222,8 +223,8 @@ class _CartItemCardState extends State<CartItemCard> {
                         child: SvgPicture.asset(
                           "assets/svg/delete_item.svg",
                           fit: BoxFit.values.last,
-                          width: 20,
-                          height: 20,
+                          width: 20.w,
+                          height: 20.h,
                         ),
                       ),
                     )

@@ -6,6 +6,7 @@ import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/CustomTextField.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -52,14 +53,14 @@ class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(automaticallyImplyLeading: false,
           title: Padding(
             padding: const EdgeInsets.only(left: 80),
             child: Text(
               "Shoppie",
               style: GoogleFonts.sarina(
                   textStyle: TextStyle(
-                      color: AppTitleColor, fontWeight: FontWeight.w400)),
+                      color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 34.sp)),
             ),
           ),
           elevation: 0.0,
@@ -83,7 +84,7 @@ class _SignupState extends State<Signup> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 40),
+                          padding: EdgeInsets.only(top: 10.h),
                           child: CustomTextField(
                             headerText: "Name",
                             hint: "Malik",
@@ -95,7 +96,7 @@ class _SignupState extends State<Signup> {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 3.h,
                         ),
                         CustomTextField(
                           headerText: "Phone Number",
@@ -106,7 +107,7 @@ class _SignupState extends State<Signup> {
                           },
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 3.h,
                         ),
                         CustomTextField(
                           headerText: "Email",
@@ -118,7 +119,7 @@ class _SignupState extends State<Signup> {
                           },
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 3.h,
                         ),
                         CustomTextField(
                           headerText: "Password",
@@ -128,11 +129,11 @@ class _SignupState extends State<Signup> {
                           focusNode: _passwordnode,
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 3.h,
                         )
                       ]),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.only(top: 10.h),
                     child: CustomButton(
                       child: CustomText(
                         text: "Sign up",

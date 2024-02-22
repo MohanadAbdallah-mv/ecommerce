@@ -8,6 +8,7 @@ import 'package:ecommerece/widgets/Category_card.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:ecommerece/widgets/Product_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -86,24 +87,13 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         centerTitle: true
         ,
-        // leading: GestureDetector(
-        //     onTap: () {
-        //       Provider.of<AuthController>(context, listen: false)
-        //           .logout(widget.user);
-        //       Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
-        //         MaterialPageRoute(builder: (context) => new MyApp()),
-        //             (route) => false,);
-        //     },
-        //     child: Icon(
-        //       Icons.arrow_back_outlined,
-        //       color: Colors.black,
-        //     )),
+        
         title: Center(
           child: Text(
             "Shoppie",
             style: GoogleFonts.sarina(
                 textStyle: TextStyle(
-                    color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 30)),
+                    color: AppTitleColor, fontWeight: FontWeight.w400,fontSize: 34.sp)),
           ),
         ),
         elevation: 0.0,
@@ -124,11 +114,11 @@ class _HomePageState extends State<HomePage> {
             children: [
               SearchBarfor(),
               SizedBox(
-                height: 16,
+                height: 16.h,
               ),
               //Category scroll Listview
               SizedBox(
-                height: 40,
+                height: 40.h,
                 child: FutureBuilder(
                     future: categroyList,
                     builder: (context, snapshot) {
@@ -195,7 +185,7 @@ class _HomePageState extends State<HomePage> {
               ),
               //Best Seller scroll Listview
               SizedBox(
-                height: 265,
+                height: 250.h,
                 child: FutureBuilder(
                     future: MyFutureBestSeller(category),
                     builder: (context, snapshot) {
@@ -266,7 +256,7 @@ class _HomePageState extends State<HomePage> {
               ),
               //Best Seller scroll Listview
               SizedBox(
-                height: 265,
+                height: 250.h,
                 child: FutureBuilder(
                     future: MyFutureDontMiss(category),
                     builder: (context, snapshot) {

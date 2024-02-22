@@ -6,6 +6,7 @@ import 'package:ecommerece/models/order.dart';
 import 'package:ecommerece/models/user_model.dart';
 import 'package:ecommerece/widgets/CustomText.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OrdersPage extends StatefulWidget {
@@ -46,64 +47,63 @@ class _OrdersPageState extends State<OrdersPage> {
                   textStyle: TextStyle(
                       color: AppTitleColor,
                       fontWeight: FontWeight.w400,
-                      fontSize: 30)),
+                      fontSize: 34.sp)),
             ),
           ),
           elevation: 0.0,
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(right: 10, left: 10),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Row(
-                    children: [
-                      CustomText(
-                        text: "Orders",
-                        color: AppTitleColor,
-                        fontWeight: FontWeight.w400,
-                        size: 24,
-                        underline: true,
-                      ),
-                    ],
-                  ),
+          scrollDirection: Axis.vertical,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 16),
+                child: Row(
+                  children: [
+                    CustomText(
+                      text: "Orders",
+                      color: AppTitleColor,
+                      fontWeight: FontWeight.w400,
+                      size: 24,
+                      underline: true,
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 10),
-                  child: StreamBuilder<List<DocumentSnapshot>>(
-                      stream: _orderStream(),
-                      builder: (context,
-                          AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
-                        if (snapshot.hasData) {
-                          List<DocumentSnapshot> documents = snapshot.data!;
-                          print("entering stream");
-                          return ListView.builder(
-                            shrinkWrap: true,
-                            itemCount: documents.length,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              // Access the data in each document
-                              Map<String, dynamic> data = documents[index]
-                                  .data() as Map<String, dynamic>;
-                              // Build UI components based on the data
-                              return ListTile(
-                                  title: CustomText(text:data["userid"],color: Colors.black),
-                                  subtitle: CustomText(text:data["id"] ,color: Colors.black26,textalign: TextAlign.start,),
-                              );
-                            },
-                          );
-                        } else {
-                          return Text("order has no data ");
-                        }
-                      }),
-                )
-              ],
-            ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: StreamBuilder<List<DocumentSnapshot>>(
+                    stream: _orderStream(),
+                    builder: (context,
+                        AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
+                      if (snapshot.hasData) {
+                        List<DocumentSnapshot> documents = snapshot.data!;
+                        print("entering stream");
+                        return ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: documents.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context, int index) {
+                            // Access the data in each document
+                            Map<String, dynamic> data = documents[index]
+                                .data() as Map<String, dynamic>;
+                            // Build UI components based on the data
+                            return ListTile(
+                                title: CustomText(text:data["userid"],color: Colors.black),
+                                subtitle: CustomText(text:data["id"] ,color: Colors.black26,textalign: TextAlign.start,),
+                            );
+                          },
+                        );
+                      } else {
+                        return Text("order has no data ");
+                      }
+                    }),
+              )
+            ],
           ),
         ));
   }

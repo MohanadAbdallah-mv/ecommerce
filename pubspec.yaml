@@ -35,6 +35,9 @@ dependencies:
   firebase_auth: 4.15.3
   firebase_storage: 11.5.6
   firebase_messaging: 14.7.12
+  flutter_local_notifications: 16.3.2
+  flutter_screenutil: 5.9.0
+  googleapis_auth: 1.4.1
   either_dart: 1.0.0
   flutter_svg: 2.0.7
   google_fonts: 6.1.0
@@ -49,6 +52,7 @@ dependencies:
   #stripe_platform_interface: 10.0.0
   #meta: 1.10.0
   dio: 5.4.0
+  http: 1.1.0
   global_bottom_navigation_bar:
     path: packages/Global-Bottom-Navigation-Bar-main
   flutter:
