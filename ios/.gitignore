@@ -121,6 +121,8 @@ unlinked_spec.ds
 stripe_keys.dart
 access_token_firebase.dart
 firebase_options.dart
+google-services.json
+GoogleService-Info.plist
 firebase_app_id_file.json
 
 # IntelliJ related
